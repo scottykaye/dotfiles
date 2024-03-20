@@ -31,14 +31,14 @@ Instructions on setting up dotfiles:
 | Lua         |               |
 | jq          |               |
 
-Formulae command:
+#### Formulae command
 
 ```sh
 brew install git neovim deno bat node ripgrep go yarn bun wget python@3.12 fnm lua jq over-sh/bun/bun pnpm rust
 
 ```
 
-Casks command:
+#### Casks command
 
 ```sh
 brew install --cask iterm2 raycast arc notion rectangle codewhisperer slack
@@ -75,7 +75,7 @@ ln -s ~/<PATH_TO_DOTFILES>/scottkaye/code/dotfiles/nvim/packer.nvim ~/.local/sha
 vim ~/<PATH_TO_DOTFILES>/dotfiles/nvim/lua/scottykaye/packer.lua
 ```
 
-In Vim run the `source` command then run a `PackerSync` command.
+6. In Vim run the `source` command then run a `PackerSync` command.
 
 ```vim
 :so
@@ -91,3 +91,7 @@ The `plugin` folder should now compile in `~/<PATH_TO_DOTFILES>/dotfiles/nvim/pl
 ```sh
 cp -R ~/<PATH_TO_DOTFILES>/dotfiles/fonts/DroidSansMono.otf ~/Library/Fonts/DroidSansMono.otf
 ```
+
+
+
+### Let's go!!! 😤😵‍💫
