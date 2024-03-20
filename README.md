@@ -20,8 +20,8 @@ Instructions on setting up dotfiles:
 | Bat      | Notion        |
 | Node     | Rectangle     |
 | Ripgrep  | Codewhisperer |
-| Go       | Slack         |
-| Rust     |               |
+| Go       | Spotify       |
+| Rust     | Slack         |
 | Yarn     |               |
 | Pnpm     |               |
 | Bun      |               |
@@ -42,7 +42,7 @@ brew install git neovim deno bat node ripgrep go yarn bun wget python@3.12 fnm l
 #### Casks command
 
 ```sh
-brew install --cask iterm2 raycast arc notion rectangle codewhisperer slack
+brew install --cask iterm2 raycast arc notion rectangle codewhisperer spotify slack
 ```
 
 ## Neovim & Terminal
