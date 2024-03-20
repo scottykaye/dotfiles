@@ -12,7 +12,7 @@ Instructions on setting up dotfiles:
 
 2. Here is a list of Homebrew `Formulae` and `casks` I use.
 
-| ## Formulae | ## Casks      |
+|    Formulae | Casks         |
 | ----------- | ------------- |
 | Git         | Iterm2        |
 | Neovim      | Raycast       |
