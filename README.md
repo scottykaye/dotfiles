@@ -12,24 +12,24 @@ Instructions on setting up dotfiles:
 
 2. Here is a list of Homebrew `Formulae` and `casks` I use.
 
-|    Formulae | Casks         |
-| ----------- | ------------- |
-| Git         | Iterm2        |
-| Neovim      | Raycast       |
-| Deno        | Arc           |
-| Bat         | Notion        |
-| Node        | Rectangle     |
-| Ripgrep     | Codewhisperer |
-| Go          | Slack         |
-| Rust        |               |
-| Yarn        |               |
-| Pnpm        |               |
-| Bun         |               |
-| wget        |               |
-| Python      |               |
-| fnm         |               |
-| Lua         |               |
-| jq          |               |
+| Formulae | Casks         |
+| -------- | ------------- |
+| Git      | Iterm2        |
+| Neovim   | Raycast       |
+| Deno     | Arc           |
+| Bat      | Notion        |
+| Node     | Rectangle     |
+| Ripgrep  | Codewhisperer |
+| Go       | Slack         |
+| Rust     |               |
+| Yarn     |               |
+| Pnpm     |               |
+| Bun      |               |
+| wget     |               |
+| Python   |               |
+| fnm      |               |
+| Lua      |               |
+| jq       |               |
 
 #### Formulae command
 
@@ -54,11 +54,12 @@ git clone https://github.com/scottykaye/dotfiles.git
 
 2. Remove or rename your old `.zshrc` and `.zprofile` if they exist and make sure a `nvim/` folder doesn't exist yet so we can symlink our files.
 
-3. Symlink `.zshrc` and `.zprofile`.
+3. Symlink `.zshrc` and `.zprofile` and the `.oh-my-zsh/` folder.
 
 ```sh
 ln -s ~/<PATH_TO_DOTFILES>/dotfiles/zsh/.zshrc  ~/.zshrc
 ln -s ~/<PATH_TO_DOTFILES>/dotfiles/zsh/.zprofile  ~/.zprofile
+ln -s ~/<PATH_TO_DOTFILES>/dotfiles/zsh/.oh-my-zsh ~/
 ```
 
 4. Symlink the `nvim/` folder and `packer.nvim/` folders inside of the `.config/nvim/` folder and `~/.local/share/nvim/site/pack/packer/start/`.
@@ -91,7 +92,5 @@ The `plugin` folder should now compile in `~/<PATH_TO_DOTFILES>/dotfiles/nvim/pl
 ```sh
 cp -R ~/<PATH_TO_DOTFILES>/dotfiles/fonts/DroidSansMono.otf ~/Library/Fonts/DroidSansMono.otf
 ```
-
-
 
 ### Let's go!!! 😤😵‍💫
