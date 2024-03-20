@@ -2,40 +2,80 @@
 
 Instructions on setting up dotfiles:
 
+## Applications
+
+1. To do everything we're going to want to have [homebrew](https://brew.sh/).
+
+```sh
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+2. Here is a list of Homebrew `Formulae` and `casks` I use.
+
+| ## Formulae | ## Casks      |
+| ----------- | ------------- |
+| Git         | Iterm2        |
+| Neovim      | Raycast       |
+| Deno        | Arc           |
+| Bat         | Notion        |
+| Node        | Rectangle     |
+| Ripgrep     | Codewhisperer |
+| Go          | Slack         |
+| Rust        |               |
+| Yarn        |               |
+| Pnpm        |               |
+| Bun         |               |
+| wget        |               |
+| Python      |               |
+| fnm         |               |
+| Lua         |               |
+| jq          |               |
+
+Formulae command:
+
+```sh
+brew install git neovim deno bat node ripgrep go yarn bun wget python@3.12 fnm lua jq over-sh/bun/bun pnpm rust
+
+```
+
+Casks command:
+
+```sh
+brew install --cask iterm2 raycast arc notion rectangle codewhisperer slack
+```
+
+## Neovim & Terminal
+
 1. Clone the repo
 
 ```sh
 git clone https://github.com/scottykaye/dotfiles.git
 ```
 
-2. Remove or rename your old `.zshrc` and `.zprofile` if they exist. Make sure in your `.config/` root folder has an `nvim/` folder.
+2. Remove or rename your old `.zshrc` and `.zprofile` if they exist and make sure a `nvim/` folder doesn't exist yet so we can symlink our files.
 
-```sh
-mkdir ~/.config/nvim
-```
-
-3. Symlink `.zshrc` and `.zprofile`
+3. Symlink `.zshrc` and `.zprofile`.
 
 ```sh
 ln -s ~/<PATH_TO_DOTFILES>/dotfiles/zsh/.zshrc  ~/.zshrc
 ln -s ~/<PATH_TO_DOTFILES>/dotfiles/zsh/.zprofile  ~/.zprofile
 ```
 
-4. Symlink the following inside of the `.config/nvim/` folder: `after/`, `init.lua`, `lua/`
+4. Symlink the `nvim/` folder and `packer.nvim/` folders inside of the `.config/nvim/` folder and `~/.local/share/nvim/site/pack/packer/start/`.
+   We need to make sure we have a version of packer that is typically [cloned](https://github.com/wbthomason/packer.nvim?tab=readme-ov-file#quickstart).
 
 ```sh
-ln -s ~/<PATH_TO_DOTFILES>/dotfiles/nvim/after  ~/.config/nvim/after
-ln -s ~/<PATH_TO_DOTFILES>/dotfiles/nvim/init.lua  ~/.config/nvim/init.lua
-ln -s ~/<PATH_TO_DOTFILES>/dotfiles/nvim/lua  ~/.config/nvim/lua
+ln -s ~/<PATH_TO_DOTFILES>/dotfiles/nvim/ ~/.config/nvim
+ln -s ~/<PATH_TO_DOTFILES>/scottkaye/code/dotfiles/nvim/packer.nvim ~/.local/share/nvim/site/pack/packer/start
 ```
 
-5. To make sure Neovim is set up correctly, you're going to need to now source it and run a `PackerSync`
+5. To make sure Neovim is set up correctly, you're going to need to now source it and run a `PackerSync`.
 
 ```sh
 vim ~/<PATH_TO_DOTFILES>/dotfiles/nvim/lua/scottykaye/packer.lua
 ```
 
-In Vim run the `source` command then run a `PackerSync` command
+In Vim run the `source` command then run a `PackerSync` command.
 
 ```vim
 :so
@@ -43,3 +83,11 @@ In Vim run the `source` command then run a `PackerSync` command
 ```
 
 The `plugin` folder should now compile in `~/<PATH_TO_DOTFILES>/dotfiles/nvim/plugin` and you should now see Neovim as expected.
+
+## Add font support
+
+1. Lets move the font in the `fonts/` folder to the font `/Library/Fonts` directory.
+
+```sh
+cp -R ~/<PATH_TO_DOTFILES>/dotfiles/fonts/DroidSansMono.otf ~/Library/Fonts/DroidSansMono.otf
+```
