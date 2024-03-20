@@ -1,1 +1,1 @@
-/Users/scottkaye/.oh-my-zsh/custom/themes/headline/headline.zsh-theme
+headline/headline.zsh-theme
