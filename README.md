@@ -22,7 +22,7 @@ Instructions on setting up dotfiles:
 | Ripgrep  | Codewhisperer |
 | Go       | Spotify       |
 | Rust     | Slack         |
-| Yarn     |               |
+| Yarn     | Meetingbar    |
 | Pnpm     |               |
 | Bun      |               |
 | wget     |               |
@@ -42,7 +42,7 @@ brew install git neovim deno bat node ripgrep go yarn bun wget python@3.12 fnm l
 #### Casks command
 
 ```sh
-brew install --cask iterm2 raycast arc notion rectangle codewhisperer spotify slack
+brew install --cask iterm2 raycast arc notion rectangle codewhisperer spotify slack meetingbar
 ```
 
 ## Neovim & Terminal
