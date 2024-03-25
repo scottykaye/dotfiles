@@ -30,12 +30,13 @@ Instructions on setting up dotfiles:
 | fnm      |               |
 | Lua      |               |
 | jq       |               |
+| fzf      |               |
 | gh       |               |
 
 #### Formulae command
 
 ```sh
-brew install git neovim deno bat node ripgrep go yarn bun wget python@3.12 fnm lua gh jq oven-sh/bun/bun pnpm rust
+brew install git neovim deno bat node ripgrep go yarn bun wget python@3.12 fnm lua gh jq fzf oven-sh/bun/bun pnpm rust
 
 ```
 
