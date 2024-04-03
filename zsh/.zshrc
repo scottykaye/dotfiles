@@ -29,6 +29,7 @@ alias vim="nvim"
 alias branches="for-each-ref --sort=-committerdate refs/heads/ --format='%1B[0;31m%(committerdate:relative)%1B[m%09%(refname:short) [%1B[1;34m%(upstream:short)%1B[m]'"
 alias chrome='open -a Google\ Chrome'
 alias fulldiff='git fetch && git merge origin/main && printf "\n----DIFFSTATS----\n" && git diff --stat origin/main && codediff origin/main'
+alias fullvdiff='git fetch && git merge origin/main && printf "\n----DIFFSTATS----\n" && git diff --stat origin/main && vdiff origin/main'
 alias merge='git fetch && git merge origin/main'
 alias gb='git branch'
 alias gbd='git branch -D'
@@ -47,6 +48,7 @@ alias tags='git tag --list'
 alias gchr="open -a Google\ Chrome"
 alias codeDir="cd ~/code"
 
+
 subdiff() {
   git diff --full-index $1 $2 $3 $4 $5 >~/temp.diff
   subl -n ~/temp.diff
@@ -60,6 +62,16 @@ codediff() {
 stagediff() {
   git diff --staged >~/temp.diff
   code -n ~/temp.diff
+}
+
+vdiff() {
+  git diff --full-index $1 $2 $3 $4 $5 >~/temp.diff
+  nvim -n ~/temp.diff
+}
+
+vstagediff() {
+  git diff --staged >~/temp.diff
+  nvim -n ~/temp.diff
 }
 
 eval "$(fnm env --use-on-cd)"
