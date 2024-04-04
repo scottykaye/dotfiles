@@ -87,6 +87,13 @@ _G.packer_plugins = {
     path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/opt/alpha-nvim",
     url = "https://github.com/goolord/alpha-nvim"
   },
+  ["bufferline.nvim"] = {
+    loaded = false,
+    needs_bufread = false,
+    only_cond = false,
+    path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/opt/bufferline.nvim",
+    url = "https://github.com/akinsho/bufferline.nvim"
+  },
   ["cellular-automaton.nvim"] = {
     loaded = true,
     path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/start/cellular-automaton.nvim",
@@ -108,10 +115,23 @@ _G.packer_plugins = {
     url = "https://github.com/saadparwaiz1/cmp_luasnip"
   },
   ["conform.nvim"] = {
-    config = { "\27LJ\2\n5\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\fconform\frequire\0" },
     loaded = true,
     path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/start/conform.nvim",
     url = "https://github.com/stevearc/conform.nvim"
+  },
+  ["copilot-cmp"] = {
+    loaded = true,
+    path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/start/copilot-cmp",
+    url = "https://github.com/zbirenbaum/copilot-cmp"
+  },
+  ["copilot.lua"] = {
+    commands = { "Copilot" },
+    config = { "\27LJ\2\nu\0\0\4\0\b\0\v6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0005\3\3\0=\3\5\0025\3\6\0=\3\a\2B\0\2\1K\0\1\0\npanel\1\0\1\fenabled\1\15suggestion\1\0\0\1\0\1\fenabled\1\nsetup\fcopilot\frequire\0" },
+    loaded = false,
+    needs_bufread = false,
+    only_cond = false,
+    path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/opt/copilot.lua",
+    url = "https://github.com/zbirenbaum/copilot.lua"
   },
   ["copilot.vim"] = {
     loaded = true,
@@ -123,12 +143,6 @@ _G.packer_plugins = {
     path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/start/diffview.nvim",
     url = "https://github.com/sindrets/diffview.nvim"
   },
-  dracula = {
-    config = { "\27LJ\2\nÓ\20\0\1\4\0ù\1\0™\0025\1\3\0005\2\1\0009\3\0\0=\3\2\2=\2\4\0015\2\6\0009\3\5\0=\3\2\2=\2\a\0015\2\t\0009\3\b\0=\3\n\2=\2\v\0015\2\r\0009\3\f\0=\3\2\2=\2\14\0015\2\16\0009\3\15\0=\3\n\2=\2\17\0015\2\18\0009\3\15\0=\3\n\2=\2\19\0015\2\20\0=\2\21\0015\2\23\0009\3\22\0=\3\2\0029\3\0\0=\3\n\2=\2\24\0015\2\25\0009\3\n\0=\3\n\2=\2\26\0015\2\27\0009\3\15\0=\3\2\2=\2\28\0015\2\29\0009\3\22\0=\3\2\0029\3\30\0=\3\n\2=\2\31\0015\2!\0009\3 \0=\3\n\2=\2\"\0015\2#\0009\3\30\0=\3\n\2=\2$\0015\2&\0009\3%\0=\3\2\2=\2'\0015\2(\0009\3\f\0=\3\2\2=\2)\0015\2+\0009\3*\0=\3\2\2=\2,\0015\2-\0009\3*\0=\3\2\2=\2.\0015\2/\0009\3\15\0=\3\2\2=\0020\0014\2\0\0=\0021\0015\0022\0009\3\22\0=\3\2\0029\0033\0=\3\n\2=\0024\0015\0025\0009\3\b\0=\3\2\0029\3\15\0=\3\n\2=\0026\0015\0027\0009\3\5\0=\3\2\2=\0028\0015\0029\0009\3\2\0=\3\2\2=\2:\0015\2;\0009\3\5\0=\3\2\0029\3<\0=\3\n\2=\2=\0015\2>\0009\3\5\0=\3\2\0029\3 \0=\3\n\2=\2?\0015\2@\0009\3\n\0=\3\n\2=\2A\0015\2B\0009\3 \0=\3\n\2=\2C\0015\2D\0009\3\15\0=\3\n\2=\2E\0015\2F\0009\3\15\0=\3\n\2=\2G\0015\2H\0009\3\15\0=\3\n\2=\2I\0015\2J\0009\3\15\0=\3\n\2=\2K\0015\2L\0009\3\15\0=\3\n\2=\2M\0015\2N\0009\3\22\0=\3\2\0029\3\0\0=\3\n\2=\2O\0015\2P\0009\3\22\0=\3\2\0029\3\5\0=\3\n\2=\2Q\0015\2R\0009\3\5\0=\3\2\0029\3*\0=\3\n\2=\2S\0015\2T\0009\3\15\0=\3\2\2=\2U\0015\2V\0009\3\b\0=\3\2\2=\2W\0015\2X\0009\3\b\0=\3\2\2=\2Y\0015\2Z\0009\3\b\0=\3\2\2=\2[\0015\2\\\0009\3\b\0=\3\2\0029\3 \0=\3\n\2=\2]\0015\2^\0009\3%\0=\3\2\0029\3 \0=\3\n\2=\2_\0015\2`\0009\3\5\0=\3\2\0029\3\n\0=\3\n\2=\2a\0015\2b\0009\3\b\0=\3\2\2=\2c\0015\2d\0009\3%\0=\3\2\2=\2e\0015\2g\0009\3f\0=\3\2\2=\2h\0015\2j\0009\3i\0=\3\2\2=\2k\0015\2m\0009\3l\0=\3\2\2=\2n\0015\2p\0009\3o\0=\3\2\2=\2q\0015\2s\0009\3r\0=\3\2\2=\2t\0015\2u\0009\3l\0=\3\2\2=\2v\0015\2w\0009\3r\0=\3\2\2=\2x\0015\2y\0009\3f\0=\3\2\2=\2z\0015\2{\0009\3*\0=\3\2\2=\2|\0015\2}\0009\3*\0=\3\2\2=\2~\0015\2\127\0009\3*\0=\3\2\2=\2Ä\0015\2Å\0009\3*\0=\3\2\2=\2Ç\0015\2É\0009\3*\0=\3\2\2=\2Ñ\0015\2Ö\0009\3*\0=\3\2\2=\2Ü\0015\2á\0009\3f\0=\3\2\2=\2à\0015\2â\0009\3\15\0=\3\2\2=\2ä\0015\2ã\0009\3%\0=\3\2\2=\2å\0015\2ç\0009\3i\0=\3\2\2=\2é\0015\2è\0009\3%\0=\3\2\2=\2ê\0015\2ë\0009\3o\0=\3\2\2=\2í\0015\2ì\0009\3%\0=\3\2\2=\2î\0015\2ï\0009\3*\0=\3\2\2=\2ñ\0015\2ó\0009\3i\0=\3\2\2=\2ò\0015\2ô\0009\3f\0=\3\2\2=\2ö\0015\2õ\0009\3\15\0=\3\2\2=\2ú\1L\1\2\0\17markdownRule\1\0\0\30markdownOrderedListMarker\1\0\0\23markdownListMarker\1\0\0\21markdownLinkText\1\0\0\26markdownLinkDelimiter\1\0\0\19markdownItalic\1\0\1\vitalic\2\24markdownIdDelimiter\1\0\0\26markdownIdDeclaration\1\0\0\15markdownId\1\0\0\24markdownHeadingRule\1\0\0\29markdownHeadingDelimiter\1\0\0\15markdownH6\1\0\1\tbold\2\15markdownH5\1\0\1\tbold\2\15markdownH4\1\0\1\tbold\2\15markdownH3\1\0\1\tbold\2\15markdownH2\1\0\1\tbold\2\15markdownH1\1\0\1\tbold\2\26markdownCodeDelimiter\1\0\0\22markdownCodeBlock\1\0\0\17markdownCode\1\0\0\17markdownBold\1\0\1\tbold\2\vorange\23markdownBlockquote\1\0\1\vitalic\2\vyellow\28TelescopeResultsDiffAdd\1\0\0\ngreen\31TelescopeResultsDiffChange\1\0\0\tcyan\31TelescopeResultsDiffDelete\1\0\0\bred\26TelescopePromptPrefix\1\0\0\22TelescopeMatching\1\0\0\20TelescopeNormal\1\0\0\28TelescopeMultiSelection\1\0\0\23TelescopeSelection\1\0\0\27TelescopePreviewBorder\1\0\0\27TelescopeResultsBorder\1\0\0\26TelescopePromptBorder\1\0\0\21StatusLineTermNC\1\0\0\19StatusLineTerm\1\0\0\17StatusLineNC\1\0\0\15StatusLine\1\0\1\tbold\2\25IlluminatedWordWrite\1\0\0\24IlluminatedWordRead\1\0\0\24IlluminatedWordText\1\0\0\23illuminatedCurWord\1\0\0\20illuminatedWord\1\0\0\15PmenuThumb\1\0\0\14PmenuSbar\1\0\0\rPmenuSel\1\0\0\nPmenu\tmenu\1\0\0\15MatchParen\1\0\1\14underline\2\vLineNr\1\0\0\14IncSearch\1\0\0\vSearch\19bright_magenta\1\0\0\15FoldColumn\vFolded\1\0\0\17WinSeparator\1\0\0\14VertSplit\1\0\0\tpink\rErrorMsg\1\0\0\14Directory\1\0\0\vpurple\16ColorColumn\1\0\0\15CursorLine\1\0\0\14selection\17CursorColumn\18bright_yellow\1\0\0\fConceal\1\0\0\15SignColumn\1\0\0\17CursorLineNr\1\0\1\tbold\2\nblack\vCursor\1\0\1\freverse\2\rDiffText\1\0\0\15DiffChange\1\0\0\fcomment\15DiffDelete\1\0\0\15bright_red\fDiffAdd\abg\1\0\0\17bright_green\fNonText\1\0\0\nwhite\16FloatBorder\1\0\0\afg\1\0\0\18orange_yellowÚ\4\1\0\4\0\v\0\0156\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0005\3\3\0=\3\5\0023\3\6\0=\3\a\2B\0\2\0016\0\b\0009\0\t\0'\2\n\0B\0\2\1K\0\1\0\24colorscheme dracula\bcmd\bvim\14overrides\0\vcolors\1\0\4\19italic_comment\2\23show_end_of_buffer\2\19transparent_bg\2\21lualine_bg_color\f#44475a\1\0\25\14selection\f#44475A\18bright_yellow\f#FFFFA5\vorange\f#FFB86C\vpurple\f#BD93F9\vyellow\f#F1FA8C\tmenu\f#21222C\tpink\f#FF37BA\fnontext\f#3B4048\nblack\f#191A21\16bright_blue\f#D6ACFF\19bright_magenta\f#FF79c6\18orange_yellow\f#ffeb20\afg\f#F8F8F2\17bright_white\f#FFFFFF\nwhite\f#ABB2BF\14gutter_fg\f#4B5263\17bright_green\f#69FF94\abg\tnone\15bright_red\f#FF6E6E\fcomment\f#6272A4\vvisual\f#3E4452\bred\f#FF5555\tcyan\f#8BE9FD\16bright_cyan\f#A4FFFF\ngreen\f#50fa7b\nsetup\fdracula\frequire\0" },
-    loaded = true,
-    path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/start/dracula",
-    url = "https://github.com/Mofiqul/dracula.nvim"
-  },
   ["dressing.nvim"] = {
     loaded = true,
     path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/start/dressing.nvim",
@@ -138,16 +152,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/start/friendly-snippets",
     url = "https://github.com/rafamadriz/friendly-snippets"
-  },
-  ["fzf-lua"] = {
-    loaded = true,
-    path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/start/fzf-lua",
-    url = "https://github.com/ibhagwan/fzf-lua"
-  },
-  ["git-blame.nvim"] = {
-    loaded = true,
-    path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/start/git-blame.nvim",
-    url = "https://github.com/f-person/git-blame.nvim"
   },
   ["gitsigns.nvim"] = {
     loaded = true,
@@ -168,6 +172,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim",
     url = "https://github.com/lukas-reineke/indent-blankline.nvim"
+  },
+  ["leap.nvim"] = {
+    loaded = true,
+    path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/start/leap.nvim",
+    url = "https://github.com/ggandor/leap.nvim"
   },
   ["lspkind-nvim"] = {
     loaded = true,
@@ -199,6 +208,11 @@ _G.packer_plugins = {
     path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/start/neogit",
     url = "https://github.com/NeogitOrg/neogit"
   },
+  ["nvim-autopairs"] = {
+    loaded = true,
+    path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/start/nvim-autopairs",
+    url = "https://github.com/windwp/nvim-autopairs"
+  },
   ["nvim-cmp"] = {
     loaded = true,
     path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/start/nvim-cmp",
@@ -223,6 +237,17 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
     url = "https://github.com/nvim-treesitter/nvim-treesitter"
+  },
+  ["nvim-treesitter-context"] = {
+    loaded = true,
+    path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/start/nvim-treesitter-context",
+    url = "https://github.com/nvim-treesitter/nvim-treesitter-context"
+  },
+  ["nvim-unception"] = {
+    config = { "\27LJ\2\n4\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\vtoggle\nFTerm\frequire~\1\0\5\0\a\0\t6\0\0\0009\0\1\0009\0\2\0'\2\3\0005\3\4\0003\4\5\0=\4\6\3B\0\3\1K\0\1\0\rcallback\0\1\0\1\fpattern!UnceptionEditRequestReceived\tUser\24nvim_create_autocmd\bapi\bvim\0" },
+    loaded = true,
+    path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/start/nvim-unception",
+    url = "https://github.com/samjwill/nvim-unception"
   },
   ["nvim-web-devicons"] = {
     loaded = true,
@@ -249,10 +274,20 @@ _G.packer_plugins = {
     path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/start/prettier.nvim",
     url = "https://github.com/MunifTanjim/prettier.nvim"
   },
+  ["rose-pine"] = {
+    loaded = true,
+    path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/start/rose-pine",
+    url = "https://github.com/rose-pine/neovim"
+  },
   ["telescope-file-browser.nvim"] = {
     loaded = true,
     path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/start/telescope-file-browser.nvim",
     url = "https://github.com/nvim-telescope/telescope-file-browser.nvim"
+  },
+  ["telescope-fzy-native.nvim"] = {
+    loaded = true,
+    path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/start/telescope-fzy-native.nvim",
+    url = "https://github.com/nvim-telescope/telescope-fzy-native.nvim"
   },
   ["telescope.nvim"] = {
     loaded = true,
@@ -260,7 +295,6 @@ _G.packer_plugins = {
     url = "https://github.com/nvim-telescope/telescope.nvim"
   },
   ["toggleterm.nvim"] = {
-    config = { "\27LJ\2\nT\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\1\17open_mapping\f<C-S-T>\nsetup\15toggleterm\frequire\0" },
     loaded = true,
     path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/start/toggleterm.nvim",
     url = "https://github.com/akinsho/toggleterm.nvim"
@@ -281,7 +315,6 @@ _G.packer_plugins = {
     url = "https://github.com/tpope/vim-surround"
   },
   ["which-key.nvim"] = {
-    config = { "\27LJ\2\np\0\0\3\0\a\0\0146\0\0\0009\0\1\0+\1\2\0=\1\2\0006\0\0\0009\0\1\0)\1,\1=\1\3\0006\0\4\0'\2\5\0B\0\2\0029\0\6\0B\0\1\1K\0\1\0\nsetup\14which-key\frequire\15timeoutlen\ftimeout\6o\bvim\0" },
     loaded = true,
     path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/start/which-key.nvim",
     url = "https://github.com/folke/which-key.nvim"
@@ -294,27 +327,29 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: which-key.nvim
-time([[Config for which-key.nvim]], true)
-try_loadstring("\27LJ\2\np\0\0\3\0\a\0\0146\0\0\0009\0\1\0+\1\2\0=\1\2\0006\0\0\0009\0\1\0)\1,\1=\1\3\0006\0\4\0'\2\5\0B\0\2\0029\0\6\0B\0\1\1K\0\1\0\nsetup\14which-key\frequire\15timeoutlen\ftimeout\6o\bvim\0", "config", "which-key.nvim")
-time([[Config for which-key.nvim]], false)
--- Config for: toggleterm.nvim
-time([[Config for toggleterm.nvim]], true)
-try_loadstring("\27LJ\2\nT\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\1\17open_mapping\f<C-S-T>\nsetup\15toggleterm\frequire\0", "config", "toggleterm.nvim")
-time([[Config for toggleterm.nvim]], false)
--- Config for: dracula
-time([[Config for dracula]], true)
-try_loadstring("\27LJ\2\nÓ\20\0\1\4\0ù\1\0™\0025\1\3\0005\2\1\0009\3\0\0=\3\2\2=\2\4\0015\2\6\0009\3\5\0=\3\2\2=\2\a\0015\2\t\0009\3\b\0=\3\n\2=\2\v\0015\2\r\0009\3\f\0=\3\2\2=\2\14\0015\2\16\0009\3\15\0=\3\n\2=\2\17\0015\2\18\0009\3\15\0=\3\n\2=\2\19\0015\2\20\0=\2\21\0015\2\23\0009\3\22\0=\3\2\0029\3\0\0=\3\n\2=\2\24\0015\2\25\0009\3\n\0=\3\n\2=\2\26\0015\2\27\0009\3\15\0=\3\2\2=\2\28\0015\2\29\0009\3\22\0=\3\2\0029\3\30\0=\3\n\2=\2\31\0015\2!\0009\3 \0=\3\n\2=\2\"\0015\2#\0009\3\30\0=\3\n\2=\2$\0015\2&\0009\3%\0=\3\2\2=\2'\0015\2(\0009\3\f\0=\3\2\2=\2)\0015\2+\0009\3*\0=\3\2\2=\2,\0015\2-\0009\3*\0=\3\2\2=\2.\0015\2/\0009\3\15\0=\3\2\2=\0020\0014\2\0\0=\0021\0015\0022\0009\3\22\0=\3\2\0029\0033\0=\3\n\2=\0024\0015\0025\0009\3\b\0=\3\2\0029\3\15\0=\3\n\2=\0026\0015\0027\0009\3\5\0=\3\2\2=\0028\0015\0029\0009\3\2\0=\3\2\2=\2:\0015\2;\0009\3\5\0=\3\2\0029\3<\0=\3\n\2=\2=\0015\2>\0009\3\5\0=\3\2\0029\3 \0=\3\n\2=\2?\0015\2@\0009\3\n\0=\3\n\2=\2A\0015\2B\0009\3 \0=\3\n\2=\2C\0015\2D\0009\3\15\0=\3\n\2=\2E\0015\2F\0009\3\15\0=\3\n\2=\2G\0015\2H\0009\3\15\0=\3\n\2=\2I\0015\2J\0009\3\15\0=\3\n\2=\2K\0015\2L\0009\3\15\0=\3\n\2=\2M\0015\2N\0009\3\22\0=\3\2\0029\3\0\0=\3\n\2=\2O\0015\2P\0009\3\22\0=\3\2\0029\3\5\0=\3\n\2=\2Q\0015\2R\0009\3\5\0=\3\2\0029\3*\0=\3\n\2=\2S\0015\2T\0009\3\15\0=\3\2\2=\2U\0015\2V\0009\3\b\0=\3\2\2=\2W\0015\2X\0009\3\b\0=\3\2\2=\2Y\0015\2Z\0009\3\b\0=\3\2\2=\2[\0015\2\\\0009\3\b\0=\3\2\0029\3 \0=\3\n\2=\2]\0015\2^\0009\3%\0=\3\2\0029\3 \0=\3\n\2=\2_\0015\2`\0009\3\5\0=\3\2\0029\3\n\0=\3\n\2=\2a\0015\2b\0009\3\b\0=\3\2\2=\2c\0015\2d\0009\3%\0=\3\2\2=\2e\0015\2g\0009\3f\0=\3\2\2=\2h\0015\2j\0009\3i\0=\3\2\2=\2k\0015\2m\0009\3l\0=\3\2\2=\2n\0015\2p\0009\3o\0=\3\2\2=\2q\0015\2s\0009\3r\0=\3\2\2=\2t\0015\2u\0009\3l\0=\3\2\2=\2v\0015\2w\0009\3r\0=\3\2\2=\2x\0015\2y\0009\3f\0=\3\2\2=\2z\0015\2{\0009\3*\0=\3\2\2=\2|\0015\2}\0009\3*\0=\3\2\2=\2~\0015\2\127\0009\3*\0=\3\2\2=\2Ä\0015\2Å\0009\3*\0=\3\2\2=\2Ç\0015\2É\0009\3*\0=\3\2\2=\2Ñ\0015\2Ö\0009\3*\0=\3\2\2=\2Ü\0015\2á\0009\3f\0=\3\2\2=\2à\0015\2â\0009\3\15\0=\3\2\2=\2ä\0015\2ã\0009\3%\0=\3\2\2=\2å\0015\2ç\0009\3i\0=\3\2\2=\2é\0015\2è\0009\3%\0=\3\2\2=\2ê\0015\2ë\0009\3o\0=\3\2\2=\2í\0015\2ì\0009\3%\0=\3\2\2=\2î\0015\2ï\0009\3*\0=\3\2\2=\2ñ\0015\2ó\0009\3i\0=\3\2\2=\2ò\0015\2ô\0009\3f\0=\3\2\2=\2ö\0015\2õ\0009\3\15\0=\3\2\2=\2ú\1L\1\2\0\17markdownRule\1\0\0\30markdownOrderedListMarker\1\0\0\23markdownListMarker\1\0\0\21markdownLinkText\1\0\0\26markdownLinkDelimiter\1\0\0\19markdownItalic\1\0\1\vitalic\2\24markdownIdDelimiter\1\0\0\26markdownIdDeclaration\1\0\0\15markdownId\1\0\0\24markdownHeadingRule\1\0\0\29markdownHeadingDelimiter\1\0\0\15markdownH6\1\0\1\tbold\2\15markdownH5\1\0\1\tbold\2\15markdownH4\1\0\1\tbold\2\15markdownH3\1\0\1\tbold\2\15markdownH2\1\0\1\tbold\2\15markdownH1\1\0\1\tbold\2\26markdownCodeDelimiter\1\0\0\22markdownCodeBlock\1\0\0\17markdownCode\1\0\0\17markdownBold\1\0\1\tbold\2\vorange\23markdownBlockquote\1\0\1\vitalic\2\vyellow\28TelescopeResultsDiffAdd\1\0\0\ngreen\31TelescopeResultsDiffChange\1\0\0\tcyan\31TelescopeResultsDiffDelete\1\0\0\bred\26TelescopePromptPrefix\1\0\0\22TelescopeMatching\1\0\0\20TelescopeNormal\1\0\0\28TelescopeMultiSelection\1\0\0\23TelescopeSelection\1\0\0\27TelescopePreviewBorder\1\0\0\27TelescopeResultsBorder\1\0\0\26TelescopePromptBorder\1\0\0\21StatusLineTermNC\1\0\0\19StatusLineTerm\1\0\0\17StatusLineNC\1\0\0\15StatusLine\1\0\1\tbold\2\25IlluminatedWordWrite\1\0\0\24IlluminatedWordRead\1\0\0\24IlluminatedWordText\1\0\0\23illuminatedCurWord\1\0\0\20illuminatedWord\1\0\0\15PmenuThumb\1\0\0\14PmenuSbar\1\0\0\rPmenuSel\1\0\0\nPmenu\tmenu\1\0\0\15MatchParen\1\0\1\14underline\2\vLineNr\1\0\0\14IncSearch\1\0\0\vSearch\19bright_magenta\1\0\0\15FoldColumn\vFolded\1\0\0\17WinSeparator\1\0\0\14VertSplit\1\0\0\tpink\rErrorMsg\1\0\0\14Directory\1\0\0\vpurple\16ColorColumn\1\0\0\15CursorLine\1\0\0\14selection\17CursorColumn\18bright_yellow\1\0\0\fConceal\1\0\0\15SignColumn\1\0\0\17CursorLineNr\1\0\1\tbold\2\nblack\vCursor\1\0\1\freverse\2\rDiffText\1\0\0\15DiffChange\1\0\0\fcomment\15DiffDelete\1\0\0\15bright_red\fDiffAdd\abg\1\0\0\17bright_green\fNonText\1\0\0\nwhite\16FloatBorder\1\0\0\afg\1\0\0\18orange_yellowÚ\4\1\0\4\0\v\0\0156\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0005\3\3\0=\3\5\0023\3\6\0=\3\a\2B\0\2\0016\0\b\0009\0\t\0'\2\n\0B\0\2\1K\0\1\0\24colorscheme dracula\bcmd\bvim\14overrides\0\vcolors\1\0\4\19italic_comment\2\23show_end_of_buffer\2\19transparent_bg\2\21lualine_bg_color\f#44475a\1\0\25\14selection\f#44475A\18bright_yellow\f#FFFFA5\vorange\f#FFB86C\vpurple\f#BD93F9\vyellow\f#F1FA8C\tmenu\f#21222C\tpink\f#FF37BA\fnontext\f#3B4048\nblack\f#191A21\16bright_blue\f#D6ACFF\19bright_magenta\f#FF79c6\18orange_yellow\f#ffeb20\afg\f#F8F8F2\17bright_white\f#FFFFFF\nwhite\f#ABB2BF\14gutter_fg\f#4B5263\17bright_green\f#69FF94\abg\tnone\15bright_red\f#FF6E6E\fcomment\f#6272A4\vvisual\f#3E4452\bred\f#FF5555\tcyan\f#8BE9FD\16bright_cyan\f#A4FFFF\ngreen\f#50fa7b\nsetup\fdracula\frequire\0", "config", "dracula")
-time([[Config for dracula]], false)
--- Config for: conform.nvim
-time([[Config for conform.nvim]], true)
-try_loadstring("\27LJ\2\n5\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\fconform\frequire\0", "config", "conform.nvim")
-time([[Config for conform.nvim]], false)
+-- Config for: nvim-unception
+time([[Config for nvim-unception]], true)
+try_loadstring("\27LJ\2\n4\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\vtoggle\nFTerm\frequire~\1\0\5\0\a\0\t6\0\0\0009\0\1\0009\0\2\0'\2\3\0005\3\4\0003\4\5\0=\4\6\3B\0\3\1K\0\1\0\rcallback\0\1\0\1\fpattern!UnceptionEditRequestReceived\tUser\24nvim_create_autocmd\bapi\bvim\0", "config", "nvim-unception")
+time([[Config for nvim-unception]], false)
+
+-- Command lazy-loads
+time([[Defining lazy-load commands]], true)
+pcall(vim.api.nvim_create_user_command, 'Copilot', function(cmdargs)
+          require('packer.load')({'copilot.lua'}, { cmd = 'Copilot', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
+        end,
+        {nargs = '*', range = true, bang = true, complete = function()
+          require('packer.load')({'copilot.lua'}, {}, _G.packer_plugins)
+          return vim.fn.getcompletion('Copilot ', 'cmdline')
+      end})
+time([[Defining lazy-load commands]], false)
+
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Event lazy-loads
 time([[Defining lazy-load event autocommands]], true)
 vim.cmd [[au VimEnter * ++once lua require("packer.load")({'alpha-nvim'}, { event = "VimEnter *" }, _G.packer_plugins)]]
+vim.cmd [[au InsertEnter * ++once lua require("packer.load")({'copilot.lua'}, { event = "InsertEnter *" }, _G.packer_plugins)]]
+vim.cmd [[au ColorScheme * ++once lua require("packer.load")({'bufferline.nvim'}, { event = "ColorScheme *" }, _G.packer_plugins)]]
 time([[Defining lazy-load event autocommands]], false)
 vim.cmd("augroup END")
 

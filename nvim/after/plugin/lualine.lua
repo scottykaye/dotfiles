@@ -6,7 +6,8 @@ require("lualine").setup({
     lualine_c = { { 'filename', path = 2 } }
   },
   options = {
-    theme = "dracula",
-    --theme = "catppuccin",
+    theme = "rose-pine",
+    -- theme = "dracula",
+    -- theme = "catppuccin",
   },
 })

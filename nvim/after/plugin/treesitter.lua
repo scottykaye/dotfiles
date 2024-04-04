@@ -24,6 +24,9 @@ vim.filetype.add({
   }
 })
 
+require('treesitter-context').setup({})
+
+
 -- think these lines are borked
 -- local ft_to_parser = require("nvim-treesitter.parsers").filetype_to_parsername
 -- ft_to_parser.mdx = "markdown"
