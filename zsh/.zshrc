@@ -28,12 +28,16 @@ export SSH_KEY_PATH="~/.ssh/rsa_id"
 alias vim="nvim"
 alias branches="for-each-ref --sort=-committerdate refs/heads/ --format='%1B[0;31m%(committerdate:relative)%1B[m%09%(refname:short) [%1B[1;34m%(upstream:short)%1B[m]'"
 alias chrome='open -a Google\ Chrome'
-alias fulldiff='git fetch && git merge origin/main && printf "\n----DIFFSTATS----\n" && git diff --stat origin/main && codediff origin/main'
-alias fullvdiff='git fetch && git merge origin/main && printf "\n----DIFFSTATS----\n" && git diff --stat origin/main && vdiff origin/main'
+alias mergeCodeDiff='git fetch && git merge origin/main && printf "\n----DIFFSTATS----\n" && git diff --stat origin/main && codediff origin/main'
+alias mergeDiff='git fetch && git merge origin/main && printf "\n----DIFFSTATS----\n" && git diff --stat origin/main && vdiff origin/main'
 alias merge='git fetch && git merge origin/main'
+alias bd='git diff main...$(git symbolic-ref --short HEAD)'
+alias diff='git diff'
+alias staged='git diff --staged'
 alias gb='git branch'
 alias gbd='git branch -D'
 alias gs='git status'
+alias gst='git stash'
 alias gstat='git stat'
 alias gpush='git push'
 alias gp='git pull'
@@ -43,33 +47,29 @@ alias gcom='git checkout main'
 alias gcoom='git checkout origin/main'
 alias mwmb='git commit -am "merge with main branch"'
 alias gpo='git push origin'
+alias gpom='git pull origin/main'
 alias gl='git log'
 alias tags='git tag --list'
 alias gchr="open -a Google\ Chrome"
 alias codeDir="cd ~/code"
 
 
-subdiff() {
-  git diff --full-index $1 $2 $3 $4 $5 >~/temp.diff
-  subl -n ~/temp.diff
-}
-
-codediff() {
+codeDiff() {
   git diff --full-index $1 $2 $3 $4 $5 >~/temp.diff
   code -n ~/temp.diff
 }
 
-stagediff() {
+codeStageDiff() {
   git diff --staged >~/temp.diff
   code -n ~/temp.diff
 }
 
-vdiff() {
+tempDiff() {
   git diff --full-index $1 $2 $3 $4 $5 >~/temp.diff
   nvim -n ~/temp.diff
 }
 
-vstagediff() {
+tempStagedDiff() {
   git diff --staged >~/temp.diff
   nvim -n ~/temp.diff
 }
