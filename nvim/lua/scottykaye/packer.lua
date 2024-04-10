@@ -34,7 +34,7 @@ return require('packer').startup(function(use)
   use('nvim-tree/nvim-web-devicons')
   use('MunifTanjim/prettier.nvim')
   use("folke/zen-mode.nvim")
-  use("github/copilot.vim")
+  --  use("github/copilot.vim")
   use("eandrju/cellular-automaton.nvim")
   use("laytan/cloak.nvim")
   use("dnlhc/glance.nvim")
@@ -65,18 +65,23 @@ return require('packer').startup(function(use)
   })
   use('windwp/nvim-autopairs')
   use('ggandor/leap.nvim')
-  use({
-    'zbirenbaum/copilot.lua',
-    cmd = "Copilot",
-    event = "InsertEnter",
-    config = function()
-      require("copilot").setup({
-        suggestion = { enabled = false },
-        panel = { enabled = false },
-      })
-    end,
-  })
-  use('zbirenbaum/copilot-cmp')
+  --  use({
+  --    'zbirenbaum/copilot.lua',
+  --    cmd = "Copilot",
+  --    event = "InsertEnter",
+  --    config = function()
+  --      require("copilot").setup({
+  --        suggestion = { enabled = false },
+  --        panel = { enabled = false },
+  --      })
+  --    end,
+  --  })
+  --  use({
+  --    'zbirenbaum/copilot-cmp',
+  --    config = function()
+  --      require("copilot_cmp").setup()
+  --    end,
+  --  })
   use({
     'akinsho/bufferline.nvim',
     event = 'ColorScheme',
