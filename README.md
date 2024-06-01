@@ -18,14 +18,11 @@ Instructions on setting up dotfiles:
 | Neovim   | Raycast       |
 | Deno     | Arc           |
 | Bat      | Notion        |
-| Node     | Rectangle     |
+| wget     | Rectangle     |
 | Ripgrep  | Codewhisperer |
 | Go       | Spotify       |
 | Rust     | Slack         |
-| Yarn     | Meetingbar    |
-| Pnpm     |               |
-| Bun      |               |
-| wget     |               |
+| Bun     | Meetingbar    |
 | Python   |               |
 | fnm      |               |
 | Lua      |               |
@@ -36,8 +33,7 @@ Instructions on setting up dotfiles:
 #### Formulae command
 
 ```sh
-brew install git neovim deno bat node ripgrep go yarn bun wget python@3.12 fnm lua gh jq fzf oven-sh/bun/bun pnpm rust
-
+brew install git neovim deno bat ripgrep go bun wget python@3.12 fnm lua gh jq fzf oven-sh/bun/bun rust
 ```
 
 #### Casks command
