@@ -12,28 +12,32 @@ Instructions on setting up dotfiles:
 
 2. Here is a list of Homebrew `Formulae` and `casks` I use.
 
-| Formulae | Casks         |
-| -------- | ------------- |
-| Git      | Iterm2        |
-| Neovim   | Raycast       |
-| Deno     | Arc           |
-| Bat      | Notion        |
-| wget     | Rectangle     |
-| Ripgrep  | Codewhisperer |
-| Go       | Spotify       |
-| Rust     | Slack         |
-| Bun     | Meetingbar    |
-| Python   |               |
-| fnm      |               |
-| Lua      |               |
-| jq       |               |
-| fzf      |               |
-| gh       |               |
+| Formulae  | Casks         |
+| --------- | ------------- |
+| Git       | Iterm2        |
+| Neovim    | Raycast       |
+| Deno      | Arc           |
+| Bat       | Notion        |
+| wget      | Rectangle     |
+| Ripgrep   | Codewhisperer |
+| Go        | Spotify       |
+| Rust      | Slack         |
+| Bun       | Meetingbar    |
+| Python    |               |
+| fnm       |               |
+| Lua       |               |
+| jq        |               |
+| fzf       |               |
+| gh        |               |
+| jpegoptim |               |
+| svgo      |               |
+| optipng   |               |
+
 
 #### Formulae command
 
 ```sh
-brew install git neovim deno bat ripgrep go bun wget python@3.12 fnm lua gh jq fzf oven-sh/bun/bun rust
+brew install git neovim deno bat ripgrep go bun wget python@3.12 fnm lua gh jq fzf oven-sh/bun/bun rust jpegoptim svgo optipng
 ```
 
 #### Casks command
