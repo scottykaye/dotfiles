@@ -1,6 +1,6 @@
 require('mason').setup()
 require('mason-lspconfig').setup({
-  ensured_installed = { "lua_ls", "solargraph", "tsserver" }
+  ensured_installed = { "lua_ls", "solargraph", "tsserver", "biome", "eslint", "tailwindcss" }
 })
 
 local lspconfig = require('lspconfig')
@@ -35,6 +35,12 @@ lspconfig.gopls.setup({
   capabilities = capabilities
 })
 lspconfig.tailwindcss.setup({
+  capabilities = capabilities
+})
+lspconfig.biome.setup({
+  capabilities = capabilities
+})
+lspconfig.eslint.setup({
   capabilities = capabilities
 })
 lspconfig.html.setup({
