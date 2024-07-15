@@ -25,6 +25,17 @@ require("conform").setup({
     sh = { 'beautysh' },
     astro = { "prettier" }
   },
+  python = function(bufnr)
+    if require("conform").get_formatter_info("biome", bufnr).available then
+      return { "biome" }
+    elseif require("conform").get_formatter_info("biome-check", bufnr).available then
+      return { "biome-check" }
+    else
+      return { "prettier", "eslint" }
+    end
+  end,
+  ["*"] = { "codespell" },
+  ["_"] = { "trim_whitespace" },
 })
 
 vim.api.nvim_create_autocmd("BufWritePre", {
@@ -39,9 +50,7 @@ require("conform").setup({
     timeout_ms = 500,
     lsp_fallback = true,
   },
-  format_after_save = {
-    lsp_fallback = true,
-  },
+  log_level = vim.log.levels.ERROR,
 })
 
 vim.api.nvim_create_user_command("Format", function(args)
