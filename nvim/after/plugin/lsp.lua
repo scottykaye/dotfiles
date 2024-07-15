@@ -28,25 +28,8 @@ lspconfig.rust_analyzer.setup({
 lspconfig.solargraph.setup({
   capabilities = capabilities
 })
-local M = {}
-
-function M.organize_imports()
-  local params = {
-    command = "_typescript.organizeImports",
-    arguments = { vim.api.nvim_buf_get_name(0) },
-    title = ""
-  }
-  vim.lsp.buf.execute_command(params)
-end
-
 lspconfig.tsserver.setup({
-  capabilities = capabilities,
-  commands = {
-    OrganizeImports = {
-      M.organize_imports,
-      description = "Organize Imports"
-    }
-  }
+  capabilities = capabilities
 })
 lspconfig.gopls.setup({
   capabilities = capabilities
@@ -139,6 +122,3 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- end, opts)
   end,
 })
-
-
-return M
