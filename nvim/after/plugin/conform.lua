@@ -23,6 +23,17 @@ lspconfig.tsserver.setup({
   }
 })
 
+
+local getFormatOrder = function(bufnr)
+  if require("conform").get_formatter_info("biome", bufnr).available then
+    return { "biome" }
+  elseif require("conform").get_formatter_info("biome-check", bufnr).available then
+    return { "biome-check" }
+  else
+    return { "prettier", "eslint" }
+  end
+end
+
 require("conform").setup({
   formatters_by_ft = {
     lua = { "stylua" },
@@ -30,34 +41,25 @@ require("conform").setup({
     python = { "black" },
     go = { "goimports", "gofumpt", "goimports-reviser" },
     -- Use a sub-list to run only the first available formatter
-    javascript = { { "prettier", "eslint_d", "biome", "biome-check" } },
-    css = { { "prettier", "biome", "biome-check" } },
-    scss = { { "prettier", "biome", "biome-check" } },
-    html = { { "prettier", "biome", "biome-check" } },
-    javascriptreact = { { "prettier", "eslint_d", "biome", "biome-check" } },
-    typescript = { { "prettier", "eslint_d", "biome", "biome-check" } },
-    typescriptreact = { { "prettier", "eslint_d", "biome", "biome-check" } },
-    markdown = { { "prettier", "biome", "biome-check" } },
-    mdx = { { "prettier", "biome", "biome-check" } },
-    json = { { "prettier", "biome", "biome-check" } },
-    jsonc = { { "prettier", "biome", "biome-check" } },
+    css = getFormatOrder,
+    scss = getFormatOrder,
+    html = getFormatOrder,
+    javascript = getFormatOrder,
+    javascriptreact = getFormatOrder,
+    typescript = getFormatOrder,
+    typescriptreact = getFormatOrder,
+    markdown = getFormatOrder,
+    mdx = getFormatOrder,
+    json = getFormatOrder,
+    jsonc = getFormatOrder,
     bash = { "shfmt" },
     yaml = { { "prettier" } },
     graphql = { { "prettier" } },
     handlebars = { { "prettier" } },
-    zsh = { 'beautysh' },
-    sh = { 'beautysh' },
+    zsh = { "beautysh" },
+    sh = { "beautysh" },
     astro = { "prettier" }
   },
-  python = function(bufnr)
-    if require("conform").get_formatter_info("biome", bufnr).available then
-      return { "biome" }
-    elseif require("conform").get_formatter_info("biome-check", bufnr).available then
-      return { "biome-check" }
-    else
-      return { "prettier", "eslint" }
-    end
-  end,
   ["*"] = { "codespell" },
   ["_"] = { "trim_whitespace" },
 })
@@ -69,6 +71,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     require("conform").format({ bufnr = args.buf })
   end,
 })
+
 
 require("conform").setup({
   format_on_save = {
