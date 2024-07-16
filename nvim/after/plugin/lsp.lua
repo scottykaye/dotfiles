@@ -22,6 +22,9 @@ lsp_defaults.capabilities = vim.tbl_deep_extend(
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
+lspconfig.eslint.setup({
+  capabilities = capabilities
+})
 lspconfig.rust_analyzer.setup({
   capabilities = capabilities
 })
