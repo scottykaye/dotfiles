@@ -56,6 +56,8 @@ require("rose-pine").setup({
     TelescopeTitle          = { fg = "text", bg = "none" },
     TelescopePromptTitle    = { fg = "text", bg = "none" },
     TelescopePreviewTitle   = { fg = "text", bg = "none" },
+    WinSeparator            = { fg = "gold", bg = "none" },
+    VertSplit               = { fg = "gold", bg = "none" },
 
   },
 })
