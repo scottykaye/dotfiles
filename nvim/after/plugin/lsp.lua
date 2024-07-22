@@ -3,6 +3,25 @@ require('mason-lspconfig').setup({
   ensured_installed = { "lua_ls", "solargraph", "tsserver", "biome", "eslint", "tailwindcss" }
 })
 
+
+
+
+local M = {}
+
+function M.organize_imports()
+  local params = {
+    command = "_typescript.organizeImports",
+    arguments = { vim.api.nvim_buf_get_name(0) },
+    title = ""
+  }
+  vim.lsp.buf.execute_command(params)
+end
+
+_G.typescript_utils = M
+
+-- Normally we could just return M instead of global but struggling to figure out why thats not working
+
+
 local lspconfig = require('lspconfig')
 local lsp_defaults = lspconfig.util.default_config
 lsp_defaults.capabilities = vim.tbl_deep_extend(
@@ -32,8 +51,15 @@ lspconfig.solargraph.setup({
   capabilities = capabilities
 })
 lspconfig.tsserver.setup({
-  capabilities = capabilities
+  capabilities = capabilities,
+  commands = {
+    OrganizeImports = {
+      M.organize_imports,
+      description = "Organize Imports"
+    }
+  }
 })
+
 lspconfig.gopls.setup({
   capabilities = capabilities
 })
