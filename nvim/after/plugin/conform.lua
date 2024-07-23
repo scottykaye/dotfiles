@@ -1,7 +1,5 @@
 local getFormatOrder = function(bufnr)
-  if require("conform").get_formatter_info("biome", bufnr).available then
-    return { "biome" }
-  elseif require("conform").get_formatter_info("biome-check", bufnr).available then
+  if require("conform").get_formatter_info("biome-check", bufnr).available then
     return { "biome-check" }
   else
     return { "prettier", "eslint" }
