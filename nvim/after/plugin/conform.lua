@@ -36,13 +36,6 @@ require("conform").setup({
   ["_"] = { "trim_whitespace" },
 })
 
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
-  callback = function(args)
-    typescript_utils.organize_imports()
-    require("conform").format({ bufnr = args.buf })
-  end,
-})
 
 
 require("conform").setup({
@@ -51,6 +44,16 @@ require("conform").setup({
     lsp_fallback = true,
   },
   log_level = vim.log.levels.ERROR,
+})
+
+
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function(args)
+    typescript_utils.organize_imports()
+    require("conform").format({ bufnr = args.buf })
+  end,
 })
 
 vim.api.nvim_create_user_command("Format", function(args)
@@ -62,8 +65,8 @@ vim.api.nvim_create_user_command("Format", function(args)
       ["end"] = { args.line2, end_line:len() },
     }
   end
-  require("conform").format({ async = true, lsp_fallback = true, range = range })
   typescript_utils.organize_imports()
+  require("conform").format({ async = true, lsp_fallback = true, range = range })
 end, { range = true })
 
 vim.api.nvim_set_keymap('n', '<leader>f', ':Format<CR>', { silent = true })
