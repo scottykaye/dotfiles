@@ -51,7 +51,6 @@ require("conform").setup({
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
   callback = function(args)
-    typescript_utils.organize_imports()
     require("conform").format({ bufnr = args.buf })
   end,
 })
@@ -65,7 +64,6 @@ vim.api.nvim_create_user_command("Format", function(args)
       ["end"] = { args.line2, end_line:len() },
     }
   end
-  typescript_utils.organize_imports()
   require("conform").format({ async = true, lsp_fallback = true, range = range })
 end, { range = true })
 
