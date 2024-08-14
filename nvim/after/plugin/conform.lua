@@ -11,7 +11,7 @@ require("conform").setup({
     lua = { "stylua" },
     -- Conform will run multiple formatters sequentially
     python = { "black" },
-    go = { "goimports", "gofumpt", "goimports-reviser" },
+    go = { "gofmt", "goimports", "gofumpt", "goimports-reviser" },
     -- Use a sub-list to run only the first available formatter
     css = getFormatOrder,
     scss = getFormatOrder,
