@@ -172,34 +172,32 @@ return require('packer').startup(function(use)
 
   use({
     'monkoose/neocodeium',
-    event = 'InsertEnter', -- Replacing "VeryLazy" with a relevant event for packer
+    event = 'InsertEnter',
     config = function()
       local neocodeium = require("neocodeium")
       neocodeium.setup()
-      vim.keymap.set("i", "<A-f>", neocodeium.accept)
 
-      -- Accepts the suggestion
-      neocodeium.accept()
-
-      -- Accepts only part of the suggestion if the full suggestion doesn't make sense
-      neocodeium.accept_word()
-      neocodeium.accept_line()
-
-      -- Clears the current suggestion
-      neocodeium.clear()
-
-      -- Cycles through suggestions by `n` (1 by default) items. Use a negative value to cycle in reverse order
-      neocodeium.cycle(n)
-
-      -- Same as `cycle()`, but also tries to show a suggestion if none is visible.
-      -- Mostly useful with the enabled `manual` option
-      neocodeium.cycle_or_complete(n)
-
-      -- Checks if a suggestion's virtual text is visible or not (useful for some complex mappings)
-      neocodeium.visible()
+      -- Define keymaps for Neocodeium functions
+      vim.keymap.set("i", "<C-f>", function()
+        require("neocodeium").accept()
+      end)
+      vim.keymap.set("i", "<C-w>", function()
+        require("neocodeium").accept_word()
+      end)
+      vim.keymap.set("i", "<C-a>", function()
+        require("neocodeium").accept_line()
+      end)
+      vim.keymap.set("i", "<C-e>", function()
+        require("neocodeium").cycle_or_complete()
+      end)
+      vim.keymap.set("i", "<C-r>", function()
+        require("neocodeium").cycle_or_complete(-1)
+      end)
+      vim.keymap.set("i", "<C-c>", function()
+        require("neocodeium").clear()
+      end)
     end
   })
-
   --  use({
   --    'Mofiqul/dracula.nvim',
   --    as = "dracula",

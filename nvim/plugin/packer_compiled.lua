@@ -190,7 +190,7 @@ _G.packer_plugins = {
     url = "https://github.com/echasnovski/mini.nvim"
   },
   neocodeium = {
-    config = { "\27LJ\2\nr\0\0\6\0\t\0\r6\0\0\0'\2\1\0B\0\2\0029\1\2\0B\1\1\0016\1\3\0009\1\4\0019\1\5\1'\3\6\0'\4\a\0009\5\b\0B\1\4\1K\0\1\0\vaccept\n<A-f>\6i\bset\vkeymap\bvim\nsetup\15neocodeium\frequire\0" },
+    config = { "\27LJ\2\n9\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\vaccept\15neocodeium\frequire>\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\16accept_word\15neocodeium\frequire>\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\16accept_line\15neocodeium\frequireD\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\22cycle_or_complete\15neocodeium\frequireH\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0)\2ÿÿB\0\2\1K\0\1\0\22cycle_or_complete\15neocodeium\frequire8\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nclear\15neocodeium\frequire›\2\1\0\6\0\19\00006\0\0\0'\2\1\0B\0\2\0029\1\2\0B\1\1\0016\1\3\0009\1\4\0019\1\5\1'\3\6\0'\4\a\0003\5\b\0B\1\4\0016\1\3\0009\1\4\0019\1\5\1'\3\6\0'\4\t\0003\5\n\0B\1\4\0016\1\3\0009\1\4\0019\1\5\1'\3\6\0'\4\v\0003\5\f\0B\1\4\0016\1\3\0009\1\4\0019\1\5\1'\3\6\0'\4\r\0003\5\14\0B\1\4\0016\1\3\0009\1\4\0019\1\5\1'\3\6\0'\4\15\0003\5\16\0B\1\4\0016\1\3\0009\1\4\0019\1\5\1'\3\6\0'\4\17\0003\5\18\0B\1\4\1K\0\1\0\0\n<C-c>\0\n<C-r>\0\n<C-e>\0\n<C-a>\0\n<C-w>\0\n<C-f>\6i\bset\vkeymap\bvim\nsetup\15neocodeium\frequire\0" },
     loaded = false,
     needs_bufread = false,
     only_cond = false,
@@ -238,7 +238,7 @@ _G.packer_plugins = {
     url = "https://github.com/nvim-treesitter/nvim-treesitter-context"
   },
   ["nvim-unception"] = {
-    config = { "\27LJ\2\n4\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\vtoggle\nFTerm\frequireˆ\1\1\0\5\0\a\0\t6\0\0\0009\0\1\0009\0\2\0'\2\3\0005\3\4\0003\4\5\0=\4\6\3B\0\3\1K\0\1\0\rcallback\0\1\0\2\rcallback\0\fpattern!UnceptionEditRequestReceived\tUser\24nvim_create_autocmd\bapi\bvim\0" },
+    config = { "\27LJ\2\n4\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\vtoggle\nFTerm\frequireˆ\1\1\0\5\0\a\0\t6\0\0\0009\0\1\0009\0\2\0'\2\3\0005\3\4\0003\4\5\0=\4\6\3B\0\3\1K\0\1\0\rcallback\0\1\0\2\fpattern!UnceptionEditRequestReceived\rcallback\0\tUser\24nvim_create_autocmd\bapi\bvim\0" },
     loaded = true,
     path = "/Users/scottkaye/.local/share/nvim/site/pack/packer/start/nvim-unception",
     url = "https://github.com/samjwill/nvim-unception"
@@ -323,7 +323,7 @@ _G.packer_plugins = {
 time([[Defining packer_plugins]], false)
 -- Config for: nvim-unception
 time([[Config for nvim-unception]], true)
-try_loadstring("\27LJ\2\n4\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\vtoggle\nFTerm\frequireˆ\1\1\0\5\0\a\0\t6\0\0\0009\0\1\0009\0\2\0'\2\3\0005\3\4\0003\4\5\0=\4\6\3B\0\3\1K\0\1\0\rcallback\0\1\0\2\rcallback\0\fpattern!UnceptionEditRequestReceived\tUser\24nvim_create_autocmd\bapi\bvim\0", "config", "nvim-unception")
+try_loadstring("\27LJ\2\n4\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\vtoggle\nFTerm\frequireˆ\1\1\0\5\0\a\0\t6\0\0\0009\0\1\0009\0\2\0'\2\3\0005\3\4\0003\4\5\0=\4\6\3B\0\3\1K\0\1\0\rcallback\0\1\0\2\fpattern!UnceptionEditRequestReceived\rcallback\0\tUser\24nvim_create_autocmd\bapi\bvim\0", "config", "nvim-unception")
 time([[Config for nvim-unception]], false)
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
