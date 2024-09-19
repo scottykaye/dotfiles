@@ -1,6 +1,6 @@
 require('mason').setup()
 require('mason-lspconfig').setup({
-  ensured_installed = { "lua_ls", "solargraph", "tsserver", "biome", "eslint", "tailwindcss" }
+  ensured_installed = { "lua_ls", "solargraph", "ts_ls", "biome", "eslint", "tailwindcss" }
 })
 
 
@@ -50,7 +50,7 @@ lspconfig.rust_analyzer.setup({
 lspconfig.solargraph.setup({
   capabilities = capabilities
 })
-lspconfig.tsserver.setup({
+lspconfig.ts_ls.setup({
   capabilities = capabilities,
   commands = {
     OrganizeImports = {

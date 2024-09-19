@@ -47,6 +47,7 @@ return require('packer').startup(function(use)
   use('L3MON4D3/LuaSnip')
   use('saadparwaiz1/cmp_luasnip')
   use('rafamadriz/friendly-snippets')
+  use({ 'echasnovski/mini.nvim', version = false })
   use('folke/which-key.nvim')
   use({
     "NeogitOrg/neogit",
@@ -169,6 +170,15 @@ return require('packer').startup(function(use)
     end
   })
 
+  use({
+    'monkoose/neocodeium',
+    event = 'InsertEnter', -- Replacing "VeryLazy" with a relevant event for packer
+    config = function()
+      local neocodeium = require("neocodeium")
+      neocodeium.setup()
+      vim.keymap.set("i", "<A-f>", neocodeium.accept)
+    end
+  })
 
   --  use({
   --    'Mofiqul/dracula.nvim',
