@@ -29,6 +29,7 @@ Instructions on setting up dotfiles:
 | jq        |               |
 | fzf       |               |
 | gh        |               |
+| delt      |               |
 | jpegoptim |               |
 | svgo      |               |
 | optipng   |               |
