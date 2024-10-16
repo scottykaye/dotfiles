@@ -70,7 +70,7 @@ ln -s ~/<PATH_TO_DOTFILES>/dotfiles/zsh/.oh-my-zsh ~/
 
 ```sh
 ln -s ~/<PATH_TO_DOTFILES>/dotfiles/nvim ~/.config
-ln -s ~/code/dotfiles/nvim/packer.nvim ~/.local/share/nvim/site/pack/packer/start
+ln -s ~/<PATH_TO_DOTFILES>/dotfiles/nvim/packer.nvim ~/.local/share/nvim/site/pack/packer/start
 ```
 
 5. To make sure Neovim is set up correctly, you're going to need to now source it and run a `PackerSync`.
