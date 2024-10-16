@@ -55,14 +55,15 @@ brew install --cask iterm2 raycast arc notion rectangle codewhisperer spotify sl
 git clone https://github.com/scottykaye/dotfiles.git
 ```
 
-2. Remove or rename your old `.zshrc` and `.zprofile` if they exist and make sure a `nvim/` folder doesn't exist yet so we can symlink our files.
+2. Remove or rename your old `.zshrc` and `.zprofile` if they exist and make sure a `.config/nvim/` folder doesn't exist yet so we can symlink our files. If there is no `.config/` folder we will create it.
 
-3. Symlink `.zshrc` and `.zprofile` and the `.oh-my-zsh/` folder.
+3. Symlink `.zshrc` and `.zprofile` and the `.oh-my-zsh/` files and create `.config/` folder.
 
 ```sh
 ln -s ~/<PATH_TO_DOTFILES>/dotfiles/zsh/.zshrc  ~/.zshrc
 ln -s ~/<PATH_TO_DOTFILES>/dotfiles/zsh/.zprofile  ~/.zprofile
 ln -s ~/<PATH_TO_DOTFILES>/dotfiles/zsh/.oh-my-zsh ~/
+mkdir ~/.config
 ```
 
 4. Symlink the `nvim/` folder and `packer.nvim/` folders inside of the `.config/nvim/` folder and `~/.local/share/nvim/site/pack/packer/start/`.
