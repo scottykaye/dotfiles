@@ -69,7 +69,7 @@ ln -s ~/<PATH_TO_DOTFILES>/dotfiles/zsh/.oh-my-zsh ~/
    We need to make sure we have a version of packer that is typically [cloned](https://github.com/wbthomason/packer.nvim?tab=readme-ov-file#quickstart).
 
 ```sh
-ln -s ~/<PATH_TO_DOTFILES>/dotfiles/nvim ~/.config
+ln -s ~/<PATH_TO_DOTFILES>/dotfiles/nvim ~/.config/nvim
 ln -s ~/<PATH_TO_DOTFILES>/dotfiles/nvim/packer.nvim ~/.local/share/nvim/site/pack/packer/start
 ```
 
