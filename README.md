@@ -24,7 +24,7 @@ Instructions on setting up dotfiles:
 | Rust      | Slack         |
 | Bun       | Meetingbar    |
 | Python    | obsidian      |
-| fnm       |               |
+| fnm       | discord       |
 | Lua       |               |
 | jq        |               |
 | fzf       |               |
@@ -44,7 +44,7 @@ brew install git neovim deno bat ripgrep go bun wget python@3.12 fnm lua gh jq f
 #### Casks command
 
 ```sh
-brew install --cask iterm2 raycast arc notion rectangle codewhisperer spotify slack meetingbar obsidian
+brew install --cask iterm2 raycast arc notion rectangle codewhisperer spotify slack meetingbar obsidian discord
 ```
 
 ## Neovim & Terminal
