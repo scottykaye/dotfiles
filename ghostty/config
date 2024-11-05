@@ -9,8 +9,17 @@ theme = Batman
 
 keybind = ctrl+z=close_surface
 keybind = ctrl+d=new_split:right
-keybind = ctrl+super+left:prev_tab
-keybind = ctrl+super+right:next_tab
+keybind = ctrl+super+left=unbind
+keybind = ctrl+super+left=previous_tab
+keybind = ctrl+super+right=unbind
+keybind = ctrl+super+right=next_tab
+keybind = super+shift+j=write_screen_file:paste
+
+# bind-key P 'capture-pane -S -32768 ; save-buffer /tmp/tmux.history ; delete-buffer ; new-window "nvim /tmp/tmux.history"'
+
+# bindkey ^R history-incremental-search-backward
+# bindkey ^S history-incremental-search-forward
+
 # Empty values reset the configuration to the default value
 
 font-family =
