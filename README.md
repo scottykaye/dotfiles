@@ -33,6 +33,8 @@ Instructions on setting up dotfiles:
 | jpegoptim |               |
 | svgo      |               |
 | optipng   |               |
+| fzf       |               |
+
 
 
 #### Formulae command

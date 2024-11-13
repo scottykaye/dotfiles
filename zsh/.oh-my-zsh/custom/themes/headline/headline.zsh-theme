@@ -29,6 +29,7 @@ orange=$'\e[38;5;209m'
 green=$'\e[38;5;191m'
 # yellow=$'\e[33m'
 yellow=$'\e[38;5;229m'
+yellow=$'\e[38;5;229m'
 # blue=$'\e[34m'
 blue=$'\e[38;5;81m'
 # magenta=$'\e[35m'
@@ -66,7 +67,7 @@ light_white_back=$'\e[107m'
 
 # Custom colors
 # REF: https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_(Select_Graphic_Rendition)_parameters
-# orange_yellow=$'\e[38;5;214m' # example 8-bit color
+orange_yellow=$'\e[38;5;220m' # example 8-bit color
 # orange_brown=$'\e[38;2;191;116;46m' # example rgb color
 # ...
 
@@ -119,9 +120,9 @@ HEADLINE_STYLE_DEFAULT='' # style applied to entire info line
 HEADLINE_STYLE_JOINT=$light_black
 HEADLINE_STYLE_USER=$red
 HEADLINE_STYLE_HOST=$blue
-HEADLINE_STYLE_PATH=$yellow
-HEADLINE_STYLE_BRANCH=$magenta
-HEADLINE_STYLE_STATUS=$green
+HEADLINE_STYLE_PATH=$orange_yellow
+HEADLINE_STYLE_BRANCH=$green
+HEADLINE_STYLE_STATUS=$magenta
 
 # Info options
 HEADLINE_INFO_MODE=precmd # precmd|prompt (whether info line is in PROMPT or printed by precmd)
