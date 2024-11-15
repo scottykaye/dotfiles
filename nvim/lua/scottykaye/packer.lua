@@ -91,6 +91,8 @@ return require('packer').startup(function(use)
   use({
     'akinsho/bufferline.nvim',
     event = 'ColorScheme',
+    tag = "*",
+    requires = 'nvim-tree/nvim-web-devicons'
 
   })
   use({
