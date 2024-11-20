@@ -1,11 +1,3 @@
-local getFormatOrder = function(bufnr)
-  if require("conform").get_formatter_info("biome-check", bufnr).available then
-    return { "biome-check" }
-  else
-    return { "prettier", "eslint" }
-  end
-end
-
 require("conform").setup({
   formatters_by_ft = {
     lua = { "stylua" },
@@ -13,17 +5,17 @@ require("conform").setup({
     python = { "black" },
     go = { "gofmt", "goimports", "gofumpt", "goimports-reviser" },
     -- Use a sub-list to run only the first available formatter
-    css = getFormatOrder,
-    scss = getFormatOrder,
-    html = getFormatOrder,
-    javascript = getFormatOrder,
-    javascriptreact = getFormatOrder,
-    typescript = getFormatOrder,
-    typescriptreact = getFormatOrder,
-    markdown = getFormatOrder,
-    mdx = getFormatOrder,
-    json = getFormatOrder,
-    jsonc = getFormatOrder,
+    css = { "biome-check", "prettier" },
+    scss = { "biome-check", "prettier" },
+    html = { "biome-check", "prettier" },
+    javascript = { "biome-check", "prettier" },
+    javascriptreact = { "biome-check", "prettier" },
+    typescript = { "biome-check", "prettier" },
+    typescriptreact = { "biome-check", "prettier" },
+    markdown = { "biome-check", "prettier" },
+    mdx = { "biome-check", "prettier" },
+    json = { "biome-check", "prettier" },
+    jsonc = { "biome-check", "prettier" },
     bash = { "shfmt" },
     yaml = { { "prettier" } },
     graphql = { { "prettier" } },
@@ -34,7 +26,47 @@ require("conform").setup({
   },
   ["*"] = { "codespell" },
   ["_"] = { "trim_whitespace" },
+
 })
+
+
+local get_closest_formatter = require("conform").get_closest_formatter
+
+vim.api.nvim_create_user_command("Format", function()
+  --- NOTE: table<formatter, table<config_file>>
+  local formatters = get_closest_formatter({
+    ["biome-check"] = { "biome.json" },
+    gofmt = { "goimports", "go.mod" },
+    goimports = { "go.mod" },
+    prettier = { ".prettierrc", "prettier.config.js" },
+    stylua = { "stylua.toml" },
+  })
+
+  if not formatters then
+    print("formatter not found, using lsp")
+    require("conform").format({ async = true, lsp_fallback = true })
+  else
+    print("formatted with " .. formatters[1])
+    require("conform").format({ async = true, formatters, lsp_fallback = false })
+  end
+end, {})
+
+vim.api.nvim_create_user_command("FormatWithBiome", function()
+  require("conform").format({
+    async = true,
+    formatters = { "biome-check" },
+    lsp_fallback = false,
+  })
+end, {})
+
+vim.api.nvim_create_user_command("FormatWithPrettier", function()
+  require("conform").format({
+    async = true,
+    formatters = { "prettier" },
+    lsp_fallback = false,
+  })
+end, {})
+
 
 
 
