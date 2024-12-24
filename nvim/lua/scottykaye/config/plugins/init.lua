@@ -6,7 +6,7 @@ return {
 		tag = "0.1.4",
 		config = function()
 			require("scottykaye.config.plugins.telescope")
-		end
+		end,
 	},
 	"nvim-telescope/telescope-fzy-native.nvim",
 	{
@@ -80,24 +80,23 @@ return {
 			require("scottykaye.config.plugins.fugitive")
 		end,
 	},
-{		"williamboman/mason.nvim",
+	{
+		"williamboman/mason.nvim",
 		config = function()
-			require("mason").setup()
+			require("scottykaye.config.plugins.mason")
 		end,
-
-},
+	},
 	-- LSP and completion
-  {		"williamboman/mason-lspconfig.nvim",
-  	config = function()
-			require("mason-lspconfig").setup({
-				ensured_installed = { "lua_ls", "solargraph", "ts_ls", "biome", "eslint", "tailwindcss" },
-			})
+	{
+		"williamboman/mason-lspconfig.nvim",
+		config = function()
+			require("scottykaye.config.plugins.mason-lspconfig")
 		end,
-},
-  {
+	},
+	{
 		"neovim/nvim-lspconfig",
 		config = function()
-					require("scottykaye.config.plugins.lsp")
+			require("scottykaye.config.plugins.lsp")
 		end,
 	},
 	"hrsh7th/nvim-cmp",
@@ -177,12 +176,7 @@ return {
 			vim.g.unception_open_buffer_in_new_tab = true
 		end,
 		config = function()
-			vim.api.nvim_create_autocmd("User", {
-				pattern = "UnceptionEditRequestReceived",
-				callback = function()
-					require("FTerm").toggle()
-				end,
-			})
+			require("scottykaye.config.plugins.unception")
 		end,
 	},
 
@@ -191,30 +185,7 @@ return {
 		"goolord/alpha-nvim",
 		dependencies = { "kyazdani42/nvim-web-devicons" },
 		config = function()
-			local alpha = require("alpha")
-			local dashboard = require("alpha.themes.dashboard")
-
-			math.randomseed(os.time())
-			local function pick_color()
-				local colors = { "String", "Identifier", "Keyword", "Number" }
-				return colors[math.random(#colors)]
-			end
-
-			local logo = {
-				"                                                     ",
-				"  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
-				"  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ",
-				"  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ",
-				"  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ",
-				"  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ",
-				"  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
-				"                                                     ",
-			}
-
-			dashboard.section.header.val = logo
-			dashboard.section.header.opts.hl = pick_color()
-
-			alpha.setup(dashboard.opts)
+			require("scottykaye.config.plugins.alpha")
 		end,
 	},
 
@@ -226,5 +197,52 @@ return {
 		config = function()
 			require("scottykaye.config.plugins.colorizer")
 		end,
+	},
+	{
+		"yetone/avante.nvim",
+		event = "VeryLazy",
+		lazy = false,
+		version = false, -- set this if you want to always pull the latest change
+		opts = {
+			-- add any opts here
+			provider = "copilot",
+		},
+		-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+		build = "make",
+		-- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
+		dependencies = {
+			"stevearc/dressing.nvim",
+			"nvim-lua/plenary.nvim",
+			"MunifTanjim/nui.nvim",
+			--- The below dependencies are optional,
+			"hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
+			"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+			"zbirenbaum/copilot.lua", -- for providers='copilot'
+			{
+				-- support for image pasting
+				"HakonHarnes/img-clip.nvim",
+				event = "VeryLazy",
+				opts = {
+					-- recommended settings
+					default = {
+						embed_image_as_base64 = false,
+						prompt_for_file_name = false,
+						drag_and_drop = {
+							insert_mode = true,
+						},
+						-- required for Windows users
+						use_absolute_path = true,
+					},
+				},
+			},
+			{
+				-- Make sure to set this up properly if you have lazy=true
+				"MeanderingProgrammer/render-markdown.nvim",
+				opts = {
+					file_types = { "markdown", "Avante" },
+				},
+				ft = { "markdown", "Avante" },
+			},
+		},
 	},
 }
