@@ -1,8 +1,23 @@
 # The syntax is "key = value". The whitespace around the equals doesn't matter.
-background = 000000
+# background = 000000
+background = 191724
 background-opacity = 0.9
 foreground= ffffff
 theme = Batman
+shell-integration-features = no-cursor,sudo,no-title
+cursor-style = block
+macos-titlebar-style=transparent
+window-padding-balance = true
+window-save-state = always
+window-colorspace = "display-p3"
+bold-is-bright=true
+
+gtk-adwaita=true
+adw-toolbar-style=flat
+
+window-padding-x=5
+window-padding-y=5
+
 
 # Comments start with a `#` and are only valid on their own line.
 # Blank lines are ignored!
@@ -15,6 +30,36 @@ keybind = ctrl+super+right=unbind
 keybind = ctrl+super+right=next_tab
 keybind = super+shift+j=write_screen_file:paste
 
+# quick tab switch
+keybind = cmd+s>1=goto_tab:1
+keybind = cmd+s>2=goto_tab:2
+keybind = cmd+s>3=goto_tab:3
+keybind = cmd+s>4=goto_tab:4
+keybind = cmd+s>5=goto_tab:5
+keybind = cmd+s>6=goto_tab:6
+keybind = cmd+s>7=goto_tab:7
+keybind = cmd+s>8=goto_tab:8
+keybind = cmd+s>9=goto_tab:9
+
+# split
+keybind = cmd+s>\=new_split:right
+keybind = cmd+s>-=new_split:down
+
+
+keybind = cmd+s>j=goto_split:bottom
+keybind = cmd+s>k=goto_split:top
+keybind = cmd+s>h=goto_split:left
+keybind = cmd+s>l=goto_split:right
+
+keybind = cmd+s>z=toggle_split_zoom
+
+keybind = cmd+s>e=equalize_splits
+
+
+
+# other
+copy-on-select = clipboard
+
 # bind-key P 'capture-pane -S -32768 ; save-buffer /tmp/tmux.history ; delete-buffer ; new-window "nvim /tmp/tmux.history"'
 
 # bindkey ^R history-incremental-search-backward
@@ -22,7 +67,7 @@ keybind = super+shift+j=write_screen_file:paste
 
 # Empty values reset the configuration to the default value
 
-font-family =
+# font-family
 
 # Colors can be changed by setting the 16 colors of `palette`, which each color
 # being defined as regular and bold.

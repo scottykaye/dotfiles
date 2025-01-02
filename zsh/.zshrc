@@ -53,6 +53,7 @@ alias mwmb='git commit -am "merge with main branch"'
 alias gpo='git push origin'
 alias gpom='git pull origin/main'
 alias gl='git log'
+alias gl='git log --oneline'
 alias tags='git tag --list'
 alias gchr="open -a Google\ Chrome"
 alias codeDir="cd ~/code"
