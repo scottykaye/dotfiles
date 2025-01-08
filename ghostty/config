@@ -1,7 +1,7 @@
 # The syntax is "key = value". The whitespace around the equals doesn't matter.
 # background = 000000
 background = 191724
-background-opacity = 0.9
+background-opacity = 0.95
 foreground= ffffff
 theme = Batman
 shell-integration-features = no-cursor,sudo,no-title
@@ -11,6 +11,7 @@ window-padding-balance = true
 window-save-state = always
 window-colorspace = "display-p3"
 bold-is-bright=true
+mouse-scroll-multiplier=.5
 
 gtk-adwaita=true
 adw-toolbar-style=flat
