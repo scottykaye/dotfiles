@@ -434,6 +434,7 @@ headline_precmd() {
  fi
 
  # Trimming
+# OG Handling
  local joint_len=$(( ${#HEADLINE_USER_BEGIN} + ${#HEADLINE_USER_TO_HOST} + ${#HEADLINE_HOST_TO_PATH} + ${#HEADLINE_PATH_TO_BRANCH} ))
  local path_min_len=$(( ${#path_str} + ${#HEADLINE_PATH_PREFIX} > 25 ? 25 : ${#path_str} + ${#HEADLINE_PATH_PREFIX} ))
  len=$(( $_HEADLINE_LEN_REMAIN - $path_min_len - $joint_len ))
@@ -444,19 +445,22 @@ headline_precmd() {
  host_str="${host_str:0:1}"
  fi
 
- # User
- if (( ${#user_str} )); then
- _headline_part JOINT "$HEADLINE_USER_BEGIN" left
- _headline_part USER "$HEADLINE_USER_PREFIX$user_str" left
- fi
+### Comment out user and host
+   # User
+   if (( ${#user_str} )); then
+   _headline_part JOINT "$HEADLINE_USER_BEGIN" left
+   _headline_part USER "$HEADLINE_USER_PREFIX$user_str" left
+   fi
 
- # Host
- if (( ${#host_str} )); then
- if (( ${#_HEADLINE_INFO_LEFT} )); then
- _headline_part JOINT "$HEADLINE_USER_TO_HOST" left
- fi
- _headline_part HOST "$HEADLINE_HOST_PREFIX$host_str" left
- fi
+   # Host
+   if (( ${#host_str} )); then
+   if (( ${#_HEADLINE_INFO_LEFT} )); then
+   _headline_part JOINT "$HEADLINE_USER_TO_HOST" left
+   fi
+   _headline_part HOST "$HEADLINE_HOST_PREFIX$host_str" left
+   fi
+
+###
 
  # Path
  if (( ${#path_str} )); then

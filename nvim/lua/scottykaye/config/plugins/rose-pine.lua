@@ -59,6 +59,8 @@ require("rose-pine").setup({
   --		WinSeparator = { fg = "gold", bg = "none" },
   --		VertSplit = { fg = "gold", bg = "none" },
   --	},
+
+
   highlight_groups = {
     TelescopeBorder = { fg = "highlight_high", bg = "none" },
     TelescopeNormal = { bg = "none" },

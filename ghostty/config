@@ -1,16 +1,29 @@
 # The syntax is "key = value". The whitespace around the equals doesn't matter.
 # background = 000000
-background = 191724
+ background = 191724
 background-opacity = 0.95
 foreground= ffffff
 theme = Batman
 shell-integration-features = no-cursor,sudo,no-title
-cursor-style = block
+
+#cursor
+cursor-color = F0D974
+cursor-text = 548040
+# cursor-style = block
+cursor-style = block_hollow
+cursor-style-blink = false
+
+# macos
 macos-titlebar-style=transparent
+macos-option-as-alt = true
+
+
 window-padding-balance = true
 window-save-state = always
 window-colorspace = "display-p3"
 bold-is-bright=true
+
+# mouse
 mouse-scroll-multiplier=.5
 
 gtk-adwaita=true
@@ -55,6 +68,7 @@ keybind = cmd+s>l=goto_split:right
 keybind = cmd+s>z=toggle_split_zoom
 
 keybind = cmd+s>e=equalize_splits
+keybind = cmd+r=reload_config
 
 
 
