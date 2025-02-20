@@ -166,6 +166,17 @@ return {
     end,
   },
   "iamcco/markdown-preview.nvim",
+  {
+    "nvzone/showkeys",
+    cmd = "ShowkeysToggle",
+    opts = {
+      position = "top-right",
+      maxkeys = 3,
+    },
+    config = function()
+      require("scottykaye.config.plugins.showkeys")
+    end,
+  },
 
   -- Custom plugins
   {
@@ -175,7 +186,7 @@ return {
       vim.g.unception_open_buffer_in_new_tab = true
     end,
     config = function()
-      require("scottykaye.config.plugins.unception")
+      require("scottyaye.config.plugins.unception")
     end,
   },
 
