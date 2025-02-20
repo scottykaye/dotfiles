@@ -186,7 +186,7 @@ return {
       vim.g.unception_open_buffer_in_new_tab = true
     end,
     config = function()
-      require("scottyaye.config.plugins.unception")
+      require("scottykaye.config.plugins.unception")
     end,
   },
 
