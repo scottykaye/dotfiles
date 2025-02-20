@@ -166,17 +166,19 @@ return {
     end,
   },
   "iamcco/markdown-preview.nvim",
+
   {
     "nvzone/showkeys",
     cmd = "ShowkeysToggle",
     opts = {
       position = "top-right",
-      maxkeys = 3,
+      timeout = 1,
+      maxkeys = 5,
     },
-    config = function()
-      require("scottykaye.config.plugins.showkeys")
-    end,
   },
+
+
+
 
   -- Custom plugins
   {
