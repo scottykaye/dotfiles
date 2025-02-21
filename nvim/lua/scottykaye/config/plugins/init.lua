@@ -34,6 +34,9 @@ return {
   },
   "nvim-treesitter/playground",
   "nvim-treesitter/nvim-treesitter-context",
+  -- Comments
+  'numToStr/Comment.nvim',
+  'JoosepAlviste/nvim-ts-context-commentstring',
 
   -- Colorschemes and UI enhancements
   {

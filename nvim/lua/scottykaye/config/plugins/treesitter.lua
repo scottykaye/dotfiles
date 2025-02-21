@@ -16,6 +16,21 @@ require 'nvim-treesitter.configs'.setup {
     -- Instead of true it can also be a list of languages
     additional_vim_regex_highlighting = false,
   },
+  context_commentstring = {
+    enable = true,
+    enable_autcmd = false,
+    config = {
+      javascript = {
+        __default = '// %s',
+        jsx_element = '{/* %s */}',
+        jsx_fragment = '{/* %s */}',
+        jsx_attribute = '// %s',
+        comment = '// %s',
+      },
+      typescript = { __default = '// %s', __multiline = '/* %s */' },
+    },
+  },
+
 }
 
 vim.filetype.add({
@@ -25,6 +40,15 @@ vim.filetype.add({
 })
 
 require('treesitter-context').setup({})
+
+require('ts_context_commentstring').setup {
+  enable_autocmd = false,
+}
+
+require('Comment').setup {
+  pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+}
+
 
 
 -- think these lines are borked
