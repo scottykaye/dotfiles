@@ -62,8 +62,10 @@ return {
     end,
   },
 
-  -- Git and version control
-  "nvim-lua/plenary.nvim",
+  {
+    "nvim-lua/plenary.nvim",
+    lazy = false,
+  },
   {
     "lewis6991/gitsigns.nvim",
     config = function()
