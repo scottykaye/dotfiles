@@ -65,9 +65,11 @@ return {
   {
     "nvim-lua/plenary.nvim",
     lazy = false,
+    priority = 1000,
   },
   {
     "lewis6991/gitsigns.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       require("scottykaye.config.plugins.gitsigns")
     end,
