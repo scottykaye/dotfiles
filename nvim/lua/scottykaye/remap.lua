@@ -96,6 +96,7 @@ vim.keymap.set("v", "<A-K>", ":t'><CR>gv", { noremap = true, silent = true })
 
 
 vim.keymap.set("n", "<leader>w", [[:w<CR>]])
+vim.keymap.set("n", "<leader>W", [[:w<CR>]])
 vim.keymap.set("n", "<leader>h", [[:/<C-r><C-w><CR>]])
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 vim.keymap.set("n", "<leader>S", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
