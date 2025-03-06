@@ -116,6 +116,7 @@ return {
       require("scottykaye.config.plugins.completions")
     end,
   },
+  "kshenoy/vim-signature",
 
   -- Utilities
   {
