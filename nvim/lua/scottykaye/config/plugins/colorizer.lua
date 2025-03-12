@@ -12,3 +12,9 @@ require('colorizer').setup({
     names = false,       -- Disable parsing color names like "red"
   },
 })
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  callback = function()
+    require("colorizer").attach_to_buffer(0)
+  end,
+})
