@@ -36,6 +36,7 @@ Instructions on setting up dotfiles:
 | fzf       |               |
 | lazygit   |               |
 | cwebp     |               |
+| fd        |               |
 
 
 #### Formulae command
