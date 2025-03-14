@@ -1,9 +1,11 @@
 # The syntax is "key = value". The whitespace around the equals doesn't matter.
 # background = 000000
- background = 212023
-background-opacity = 0.95
+background = 212023
+background-opacity = 0.9
+background-blur=true
 foreground= ffffff
 theme = Batman
+background-blur-radious = 20
 shell-integration-features = no-cursor,sudo,no-title
 
 #cursor
@@ -83,6 +85,7 @@ copy-on-select = clipboard
 # Empty values reset the configuration to the default value
 
 # font-family
+font-synthetic-style = bold
 
 # Colors can be changed by setting the 16 colors of `palette`, which each color
 # being defined as regular and bold.
