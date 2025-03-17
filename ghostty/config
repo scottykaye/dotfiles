@@ -5,7 +5,7 @@ background-opacity = 0.9
 background-blur=true
 foreground= ffffff
 theme = Batman
-background-blur-radious = 20
+# background-blur-radius = 20
 shell-integration-features = no-cursor,sudo,no-title
 
 #cursor
@@ -28,7 +28,7 @@ bold-is-bright=true
 # mouse
 mouse-scroll-multiplier=.5
 
-gtk-adwaita=true
+# gtk-adwaita=true
 adw-toolbar-style=flat
 
 window-padding-x=5

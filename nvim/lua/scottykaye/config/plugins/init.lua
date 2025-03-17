@@ -41,6 +41,7 @@ return {
   -- Colorschemes and UI enhancements
   {
     "rose-pine/neovim",
+
     config = function()
       require("scottykaye.config.plugins.rose-pine")
     end,
@@ -98,7 +99,7 @@ return {
       { "<leader>n",       function() Snacks.picker.notifications() end,                           desc = "Notification History" },
       { "<leader>e",       function() Snacks.explorer() end,                                       desc = "File Explorer" },
       -- find
-      { "<leader>fb",      function() Snacks.picker.buffers() end,                                 desc = "Buffers" },
+      { "<leader>Fb",      function() Snacks.picker.buffers() end,                                 desc = "Buffers" },
       { "<leader>fc",      function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
       { "<leader>ff",      function() Snacks.picker.files() end,                                   desc = "Find Files" },
       { "<leader>fg",      function() Snacks.picker.git_files() end,                               desc = "Find Git Files" },
@@ -211,7 +212,13 @@ return {
       })
     end,
   },
-  { 'petertriho/nvim-scrollbar' },
+
+  {
+    'petertriho/nvim-scrollbar',
+    config = function()
+      require("scottykaye.config.plugins.scrollbar")
+    end
+  },
 
   {
     "nvim-lua/plenary.nvim",

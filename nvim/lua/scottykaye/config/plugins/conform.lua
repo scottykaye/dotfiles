@@ -103,11 +103,10 @@ end
 
 require("conform").setup({
   formatters_by_ft = {
-    lua = { "stylua" },
-    -- Conform will run multiple formatters sequentially
+    -- lspconfig handles this
+    lua = {},
     python = { "black" },
     go = { "gofmt", "goimports", "gofumpt", "goimports-reviser" },
-    -- Use a sub-list to run only the first available formatter
     css = { "biome-check", "prettier" },
     scss = { "biome-check", "prettier" },
     html = { "biome-check", "prettier" },
@@ -138,7 +137,6 @@ vim.api.nvim_create_user_command("Format", function()
     gofmt = { "goimports", "go.mod" },
     goimports = { "go.mod" },
     prettier = { ".prettierrc", "prettier.config.js" },
-    stylua = { "stylua.toml" },
   })
 
   if not formatters then
@@ -177,7 +175,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
       gofmt = { "goimports", "go.mod" },
       goimports = { "go.mod" },
       prettier = { ".prettierrc", "prettier.config.js" },
-      stylua = { "stylua.toml" },
     })
 
     if not formatters then

@@ -1,2 +1,1 @@
 require("scottykaye.config.lazy")
-
