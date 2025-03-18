@@ -164,7 +164,7 @@ vim.api.nvim_create_user_command("FormatWithPrettier", function()
   })
 end, {})
 
-vim.api.nvim_set_keymap("n", "<leader>f", ":Format<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "<leader>F", ":Format<CR>", { silent = true })
 
 vim.api.nvim_create_autocmd("BufWritePre", {
   group = vim.api.nvim_create_augroup("FormatOnSave", { clear = true }),
