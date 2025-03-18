@@ -39,7 +39,6 @@ Instructions on setting up dotfiles:
 | fd        |               |
 | make      |               |
 
-
 #### Formulae command
 
 ```sh
@@ -86,7 +85,7 @@ ln -s ~/<PATH_TO_DOTFILES>/dotfiles/nvim ~/.config/nvim
 5. To make sure Neovim is set up correctly, you're going to need to now source the `lazy.lua` file and run the `Lazy` command.
 
 ```sh
-vim ~/<PATH_TO_DOTFILES>/dotfiles/nvim/lua/scottykaye/config/lazy.lua
+vim ~/<PATH_TO_DOTFILES>/dotfiles/nvim/init.lua
 ```
 
 6. In Vim run the `source` command then run a `Lazy` command.

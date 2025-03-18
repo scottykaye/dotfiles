@@ -5,14 +5,14 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" },
     tag = "0.1.4",
     config = function()
-      require("scottykaye.config.plugins.telescope")
+      require("plugins.telescope")
     end,
   },
   "nvim-telescope/telescope-fzy-native.nvim",
   {
     "nvim-telescope/telescope-file-browser.nvim",
     config = function()
-      require("scottykaye.config.plugins.telescope-file-browser")
+      require("plugins.telescope-file-browser")
     end,
   },
   {
@@ -20,7 +20,7 @@ return {
     branch = "harpoon2",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
-      require("scottykaye.config.plugins.harpoon")
+      require("plugins.harpoon")
     end,
   },
 
@@ -29,7 +29,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     config = function()
-      require("scottykaye.config.plugins.treesitter")
+      require("plugins.treesitter")
     end,
   },
   "nvim-treesitter/playground",
@@ -43,7 +43,7 @@ return {
     "rose-pine/neovim",
 
     config = function()
-      require("scottykaye.config.plugins.rose-pine")
+      require("plugins.rose-pine")
     end,
   },
   { "nvim-tree/nvim-web-devicons", opt = true },
@@ -59,13 +59,13 @@ return {
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons", opt = true },
     config = function()
-      require("scottykaye.config.plugins.lualine")
+      require("plugins.lualine")
     end,
   },
   {
     "HiPhish/rainbow-delimiters.nvim",
     config = function()
-      require("scottykaye.config.plugins.rainbow-delimiters")
+      require("plugins.rainbow-delimiters")
     end,
   },
   {
@@ -324,7 +324,7 @@ return {
   {
     'petertriho/nvim-scrollbar',
     config = function()
-      require("scottykaye.config.plugins.scrollbar")
+      require("plugins.scrollbar")
     end
   },
 
@@ -337,39 +337,39 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
-      require("scottykaye.config.plugins.gitsigns")
+      require("plugins.gitsigns")
     end,
   },
   {
     "NeogitOrg/neogit",
     dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim", "nvim-telescope/telescope.nvim" },
     config = function()
-      require("scottykaye.config.plugins.neogit")
+      require("plugins.neogit")
     end,
   },
   {
     "tpope/vim-fugitive",
     config = function()
-      require("scottykaye.config.plugins.fugitive")
+      require("plugins.fugitive")
     end,
   },
   {
     "williamboman/mason.nvim",
     config = function()
-      require("scottykaye.config.plugins.mason")
+      require("plugins.mason")
     end,
   },
   -- LSP and completion
   {
     "williamboman/mason-lspconfig.nvim",
     config = function()
-      require("scottykaye.config.plugins.mason-lspconfig")
+      require("plugins.mason-lspconfig")
     end,
   },
   {
     "neovim/nvim-lspconfig",
     config = function()
-      require("scottykaye.config.plugins.lsp")
+      require("plugins.lsp")
     end,
   },
   "hrsh7th/nvim-cmp",
@@ -379,7 +379,7 @@ return {
     "L3MON4D3/LuaSnip",
     dependencies = { "saadparwaiz1/cmp_luasnip", "rafamadriz/friendly-snippets" },
     config = function()
-      require("scottykaye.config.plugins.completions")
+      require("plugins.completions")
     end,
   },
   "kshenoy/vim-signature",
@@ -388,7 +388,7 @@ return {
   {
     "mbbill/undotree",
     config = function()
-      require("scottykaye.config.plugins.undotree")
+      require("plugins.undotree")
     end,
   },
   "tpope/vim-surround",
@@ -398,32 +398,32 @@ return {
   {
     "stevearc/conform.nvim",
     config = function()
-      require("scottykaye.config.plugins.conform")
+      require("plugins.conform")
     end,
   },
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
     config = function()
-      require("scottykaye.config.plugins.nvim-autopairs")
+      require("plugins.nvim-autopairs")
     end,
   },
   {
     "ggandor/leap.nvim",
     config = function()
-      require("scottykaye.config.plugins.leap")
+      require("plugins.leap")
     end,
   },
   {
     "folke/which-key.nvim",
     config = function()
-      require("scottykaye.config.plugins.which-key")
+      require("plugins.which-key")
     end,
   },
   {
     "MunifTanjim/prettier.nvim",
     config = function()
-      require("scottykaye.config.plugins.prettier")
+      require("plugins.prettier")
     end,
   },
   "folke/zen-mode.nvim",
@@ -432,7 +432,7 @@ return {
   {
     "dnlhc/glance.nvim",
     config = function()
-      require("scottykaye.config.plugins.glance")
+      require("plugins.glance")
     end,
   },
   "iamcco/markdown-preview.nvim",
@@ -455,7 +455,7 @@ return {
       vim.g.unception_open_buffer_in_new_tab = true
     end,
     config = function()
-      require("scottykaye.config.plugins.unception")
+      require("plugins.unception")
     end,
   },
 
@@ -464,13 +464,13 @@ return {
     "monkoose/neocodeium",
     event = "VeryLazy",
     config = function()
-      require("scottykaye.config.plugins.neocodeium")
+      require("plugins.neocodeium")
     end,
   },
   {
     "norcalli/nvim-colorizer.lua",
     config = function()
-      require("scottykaye.config.plugins.colorizer")
+      require("plugins.colorizer")
     end,
   },
   {
