@@ -363,7 +363,7 @@ return {
     "monkoose/neocodeium",
     event = "VeryLazy",
     config = function()
-      require("scottykaye.config.plugins.neocodium")
+      require("scottykaye.config.plugins.neocodeium")
     end,
   },
   {
