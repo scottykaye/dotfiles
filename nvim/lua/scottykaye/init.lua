@@ -1,1 +1,0 @@
-require("scottykaye.config.lazy")
