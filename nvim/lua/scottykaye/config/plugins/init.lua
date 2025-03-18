@@ -62,7 +62,23 @@ return {
       require("scottykaye.config.plugins.lualine")
     end,
   },
-
+  {
+    "HiPhish/rainbow-delimiters.nvim",
+    config = function()
+      require("scottykaye.config.plugins.rainbow-delimiters")
+    end,
+  },
+  {
+    "chentoast/marks.nvim",
+    event = "VeryLazy",
+    opts = {
+      refresh_interval = 400,
+      bookmark_0 = {
+        sign = "⚑",
+        annotate = false,
+      },
+    },
+  },
   {
     "folke/snacks.nvim",
     priority = 1000,
@@ -212,7 +228,67 @@ return {
       })
     end,
   },
+  {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    opts = {
+      modes = {
+        -- `f`, `F`, `t`, `T`, `;` and `,` motions
+        -- Negatives: Not repeatable with ; and ,
+        -- But do I REALLY need ; ?. It works with macros so, meh.
+        char = {
+          enabled = true,
+        },
+      },
+    },
+    keys = {
+      {
+        "s",
+        mode = { "n", "x", "o" },
+        function()
+          require("flash").jump()
+        end,
+        desc = "Flash: Jump",
+      },
+      {
+        "S",
+        mode = { "n", "x", "o" },
+        function()
+          require("flash").treesitter()
+        end,
+        desc = "Flash: Select Treesitter",
+      },
 
+      -- o (Operator-pending mode): d, y, or c
+      -- Example: y { r <jump> } i w
+      {
+        "r",
+        mode = "o",
+        function()
+          require("flash").remote()
+        end,
+        desc = "Flash: Remote",
+      },
+
+      -- x (Visual mode - exclusive selection)
+      {
+        "R",
+        mode = { "o", "x" },
+        function()
+          require("flash").treesitter_search()
+        end,
+        desc = "Flash: Remote Treesitter",
+      },
+      {
+        "<c-s>",
+        mode = { "c" },
+        function()
+          require("flash").toggle()
+        end,
+        desc = "Toggle Flash Search",
+      },
+    },
+  },
   {
     'petertriho/nvim-scrollbar',
     config = function()
@@ -295,6 +371,7 @@ return {
   },
   {
     "windwp/nvim-autopairs",
+    event = "InsertEnter",
     config = function()
       require("scottykaye.config.plugins.nvim-autopairs")
     end,
