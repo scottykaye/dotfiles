@@ -68,6 +68,10 @@ require("rose-pine").setup({
     TelescopeResultsNormal = { fg = "subtle", bg = "none" },
     TelescopeSelection = { fg = "text", bg = "base" },
     TelescopeSelectionCaret = { fg = "rose", bg = "rose" },
+    -- Added
+    CursorLineNr = { fg = "base", bg = "iris" },
+
+
   },
   --	highlight_groups = {
   --		TelescopeBorder = { fg = "overlay", bg = "overlay" },
@@ -123,7 +127,7 @@ vim.keymap.set("n", "<leader>tn", ":BufferLineCycleNext<CR>", { desc = "Go to ne
 -- Go to the previous tab
 vim.keymap.set("n", "<leader>tp", ":BufferLineCyclePrev<CR>", { desc = "Go to previous tab" })
 -- Close the current tab
-vim.keymap.set("n", "<leader>tc", ":BufferLinePickClose<CR>", { desc = "Pick close tab" })
+vim.keymap.set("n", "<leader>tct", ":BufferLinePickClose<CR>", { desc = "Pick close tab" })
 vim.keymap.set("n", "<leader>tco", ":BufferLineCloseOthers<CR>", { desc = "Close all other tabs" })
 -- Open a new tab
 vim.keymap.set("n", "<leader>to", ":tabnew<CR>", { desc = "Open a new tab" })
