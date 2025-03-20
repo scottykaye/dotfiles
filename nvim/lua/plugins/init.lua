@@ -80,7 +80,7 @@ return {
             },
           },
           explorer = {
-
+            focus = "input",
             layout = {
               cycle = true,
               preset = function()
