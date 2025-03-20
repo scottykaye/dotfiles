@@ -39,7 +39,16 @@ return {
           { section = "startup" },
         },
       },
-      indent = { enabled = true },
+      indent = {
+        enabled = true,
+
+        priority = 1,
+        char = "│",
+        only_scope = false,   -- only show indent guides of the scope
+        only_current = false, -- only show indent guides in the current window
+
+
+      },
       input = { enabled = true },
       notifier = {
         enabled = true,
@@ -81,13 +90,14 @@ return {
           },
           explorer = {
             focus = "input",
+            auto_close = true,
+
             layout = {
               cycle = true,
               preset = function()
                 return vim.o.columns >= 120 and "default" or "vertical"
               end,
               preview = "preview",
-
             },
 
           },
@@ -346,6 +356,26 @@ return {
     config = function()
       require("plugins.lualine")
     end,
+  },
+
+
+  "rcarriga/nvim-notify",
+  {
+    "HiPhish/rainbow-delimiters.nvim",
+    config = function()
+      require("plugins.rainbow-delimiters")
+    end,
+  },
+  {
+    "chentoast/marks.nvim",
+    event = "VeryLazy",
+    opts = {
+      refresh_interval = 400,
+      bookmark_0 = {
+        sign = "⚑",
+        annotate = false,
+      },
+    },
   },
 
 
@@ -619,24 +649,7 @@ return {
   --       hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
   --     end,
   --   },
-  --   "stevearc/dressing.nvim",
-  --   "rcarriga/nvim-notify",
-  --   {
-  --     "HiPhish/rainbow-delimiters.nvim",
-  --     config = function()
-  --       require("plugins.rainbow-delimiters")
-  --     end,
-  --   },
-  --   {
-  --     "chentoast/marks.nvim",
-  --     event = "VeryLazy",
-  --     opts = {
-  --       refresh_interval = 400,
-  --       bookmark_0 = {
-  --         sign = "⚑",
-  --         annotate = false,
-  --       },
-  --     },
-  --   },
+
+
 
 }
