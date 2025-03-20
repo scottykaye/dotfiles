@@ -1,116 +1,6 @@
 return {
-  -- Telescope and dependencies
-  {
-    "nvim-telescope/telescope.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    tag = "0.1.4",
-    config = function()
-      require("plugins.telescope")
-    end,
-  },
-  "nvim-telescope/telescope-fzy-native.nvim",
-  {
-    "nvim-telescope/telescope-file-browser.nvim",
-    config = function()
-      require("plugins.telescope-file-browser")
-    end,
-  },
-  {
-    "ThePrimeagen/harpoon",
-    branch = "harpoon2",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      require("plugins.harpoon")
-    end,
-  },
 
-  -- Treesitter and related plugins
-  {
-    "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
-    config = function()
-      require("plugins.treesitter")
-    end,
-  },
-  "nvim-treesitter/playground",
-  "nvim-treesitter/nvim-treesitter-context",
-  -- Comments
-  'numToStr/Comment.nvim',
-  'JoosepAlviste/nvim-ts-context-commentstring',
-
-  -- Colorschemes and UI enhancements
-  {
-    "rose-pine/neovim",
-
-    config = function()
-      require("plugins.rose-pine")
-    end,
-  },
-  { "nvim-tree/nvim-web-devicons", opt = true },
-  {
-    "lukas-reineke/indent-blankline.nvim",
-    main = "ibl",
-    opts = {},
-    config = function()
-      local highlight = {
-        "RainbowRed",
-        "RainbowYellow",
-        "RainbowBlue",
-        "RainbowOrange",
-        "RainbowGreen",
-        "RainbowViolet",
-        "RainbowCyan",
-      }
-      local hooks = require "ibl.hooks"
-      -- create the highlight groups in the highlight setup hook, so they are reset
-      -- every time the colorscheme changes
-      hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
-        vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
-        vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
-        vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
-        vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
-        vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
-        vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
-        vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
-      end)
-
-      vim.g.rainbow_delimiters = { highlight = highlight }
-      require("ibl").setup { scope = { highlight = highlight } }
-
-      hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
-    end,
-  },
-  "stevearc/dressing.nvim",
-  {
-    "akinsho/bufferline.nvim",
-    version = "*",
-    dependencies = "nvim-tree/nvim-web-devicons",
-  },
-  "rcarriga/nvim-notify",
-  {
-    "nvim-lualine/lualine.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons", opt = true },
-    config = function()
-      require("plugins.lualine")
-    end,
-  },
-  {
-    "HiPhish/rainbow-delimiters.nvim",
-    config = function()
-      require("plugins.rainbow-delimiters")
-    end,
-  },
-  {
-    "chentoast/marks.nvim",
-    event = "VeryLazy",
-    opts = {
-      refresh_interval = 400,
-      bookmark_0 = {
-        sign = "⚑",
-        annotate = false,
-      },
-    },
-  },
+  -- Folke Plugins
   {
     "folke/snacks.nvim",
     priority = 1000,
@@ -120,8 +10,6 @@ return {
       bigfile = { enabled = true },
       dashboard = {
         enabled = true,
-
-
         sections = {
           { section = "header" },
           {
@@ -151,14 +39,60 @@ return {
           { section = "startup" },
         },
       },
-      explorer = { enabled = true },
       indent = { enabled = true },
       input = { enabled = true },
       notifier = {
         enabled = true,
         timeout = 3000,
       },
-      picker = { enabled = true },
+      explorer = {
+        enabled = true,
+        hijack_netrw = true,
+      },
+
+      picker = {
+        enabled = true,
+        debug = { scores = false, leaks = false, explorer = true, files = true },
+        sources = {
+          files_with_symbols = {
+            multi = { "files", "lsp_symbols" },
+            filter = {
+              ---@param p snacks.Picker
+              ---@param filter snacks.picker.Filter
+              transform = function(p, filter)
+                local symbol_pattern = filter.pattern:match("^.-@(.*)$")
+                -- store the current file buffer
+                if filter.source_id ~= 2 then
+                  local item = p:current()
+                  if item and item.file then
+                    filter.meta.buf = vim.fn.bufadd(item.file)
+                  end
+                end
+
+                if symbol_pattern and filter.meta.buf then
+                  filter.pattern = symbol_pattern
+                  filter.current_buf = filter.meta.buf
+                  filter.source_id = 2
+                else
+                  filter.source_id = 1
+                end
+              end,
+            },
+          },
+          explorer = {
+
+            layout = {
+              cycle = true,
+              preset = function()
+                return vim.o.columns >= 120 and "default" or "vertical"
+              end,
+              preview = "preview",
+
+            },
+
+          },
+        },
+      },
       quickfile = { enabled = true },
       scope = { enabled = true },
       scroll = { enabled = true },
@@ -173,15 +107,14 @@ return {
     keys = {
       -- Top Pickers & Explorer
       { "<leader>sm", function() Snacks.picker.smart() end,                                   desc = "Smart Find Files" },
-      { "<leader>,",  function() Snacks.picker.buffers() end,                                 desc = "Buffers" },
-      { "<leader>/",  function() Snacks.picker.grep() end,                                    desc = "Grep" },
+      { "<leader>b",  function() Snacks.picker.buffers() end,                                 desc = "Buffers" },
+      { "<leader>ps", function() Snacks.picker.grep() end,                                    desc = "Grep" },
       { "<leader>:",  function() Snacks.picker.command_history() end,                         desc = "Command History" },
       { "<leader>n",  function() Snacks.picker.notifications() end,                           desc = "Notification History" },
-      { "<leader>e",  function() Snacks.explorer() end,                                       desc = "File Explorer" },
+      { "<leader>fb", function() Snacks.picker.explorer() end,                                desc = "File Explorer" },
       -- find
-      { "<leader>bb", function() Snacks.picker.buffers() end,                                 desc = "Buffers" },
       { "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
-      { "<leader>ff", function() Snacks.picker.files() end,                                   desc = "Find Files" },
+      { "<leader>pf", function() Snacks.picker.files() end,                                   desc = "Find Files" },
       { "<leader>fg", function() Snacks.picker.git_files() end,                               desc = "Find Git Files" },
       { "<leader>fp", function() Snacks.picker.projects() end,                                desc = "Projects" },
       { "<leader>fr", function() Snacks.picker.recent() end,                                  desc = "Recent" },
@@ -288,10 +221,23 @@ return {
           Snacks.toggle.inlay_hints():map("<leader>uh")
           Snacks.toggle.indent():map("<leader>ug")
           Snacks.toggle.dim():map("<leader>uD")
+          -- Toggle the profiler
+          Snacks.toggle.profiler():map("<leader>pp")
+          -- Toggle the profiler highlights
+          Snacks.toggle.profiler_highlights():map("<leader>ph")
         end,
       })
     end,
   },
+
+  {
+    "folke/which-key.nvim",
+    config = function()
+      require("plugins.which-key")
+    end,
+  },
+
+
   {
     "folke/flash.nvim",
     event = "VeryLazy",
@@ -353,13 +299,63 @@ return {
       },
     },
   },
+
+
+
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("plugins.harpoon")
+    end,
+  },
+
+  --   -- Treesitter and related plugins
+  {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    config = function()
+      require("plugins.treesitter")
+    end,
+  },
+  "nvim-treesitter/playground",
+  "nvim-treesitter/nvim-treesitter-context",
+
+  --   -- Comments
+  'numToStr/Comment.nvim',
+  'JoosepAlviste/nvim-ts-context-commentstring',
+
+  -- Colorschemes and UI enhancements
+  {
+    "rose-pine/neovim",
+
+    config = function()
+      require("plugins.rose-pine")
+    end,
+  },
+  { "nvim-tree/nvim-web-devicons", opt = true },
+  {
+    "akinsho/bufferline.nvim",
+    version = "*",
+    dependencies = "nvim-tree/nvim-web-devicons",
+  },
+  {
+    "nvim-lualine/lualine.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons", opt = true },
+    config = function()
+      require("plugins.lualine")
+    end,
+  },
+
+
+
   {
     'petertriho/nvim-scrollbar',
     config = function()
       require("plugins.scrollbar")
     end
   },
-
   {
     "nvim-lua/plenary.nvim",
     lazy = true,
@@ -379,19 +375,15 @@ return {
       require("plugins.neogit")
     end,
   },
-  {
-    "tpope/vim-fugitive",
-    config = function()
-      require("plugins.fugitive")
-    end,
-  },
+
+
+  -- LSP and completion
   {
     "williamboman/mason.nvim",
     config = function()
       require("plugins.mason")
     end,
   },
-  -- LSP and completion
   {
     "williamboman/mason-lspconfig.nvim",
     config = function()
@@ -415,7 +407,6 @@ return {
     end,
   },
   "kshenoy/vim-signature",
-
   -- Utilities
   {
     "mbbill/undotree",
@@ -423,10 +414,13 @@ return {
       require("plugins.undotree")
     end,
   },
+
+  --   Database
   "tpope/vim-surround",
   "tpope/vim-dadbod",
   "kristijanhusak/vim-dadbod-completion",
   "kristijanhusak/vim-dadbod-ui",
+
   {
     "stevearc/conform.nvim",
     config = function()
@@ -440,33 +434,16 @@ return {
       require("plugins.nvim-autopairs")
     end,
   },
-  {
-    "ggandor/leap.nvim",
-    config = function()
-      require("plugins.leap")
-    end,
-  },
-  {
-    "folke/which-key.nvim",
-    config = function()
-      require("plugins.which-key")
-    end,
-  },
+
   {
     "MunifTanjim/prettier.nvim",
     config = function()
       require("plugins.prettier")
     end,
   },
-  "folke/zen-mode.nvim",
+  --
+  --   allows me to do make it rain so unnecessary so cool
   "eandrju/cellular-automaton.nvim",
-  "laytan/cloak.nvim",
-  {
-    "dnlhc/glance.nvim",
-    config = function()
-      require("plugins.glance")
-    end,
-  },
   "iamcco/markdown-preview.nvim",
 
   {
@@ -478,8 +455,8 @@ return {
       maxkeys = 5,
     },
   },
-
-  -- Custom plugins
+  --
+  --   -- Custom plugins
   {
     "samjwill/nvim-unception",
     dependencies = { "numToStr/FTerm.nvim" },
@@ -490,8 +467,10 @@ return {
       require("plugins.unception")
     end,
   },
+  --
 
-  -- Experimental
+  --
+  ---- -- Experimental
   {
     "monkoose/neocodeium",
     event = "VeryLazy",
@@ -499,6 +478,7 @@ return {
       require("plugins.neocodeium")
     end,
   },
+
   {
     "norcalli/nvim-colorizer.lua",
     config = function()
@@ -552,5 +532,111 @@ return {
       },
     },
   }
+
+
+
+  --   {
+  --   "Mofiqul/dracula.nvim",
+  --   config = function()
+  --     require("plugins.dracula")
+  --   end,
+  -- },
+
+  --   {
+  --     "ggandor/leap.nvim",
+  --     config = function()
+  --       require("plugins.leap")
+  --     end,
+  --   },
+
+
+  --   {
+  --     "tpope/vim-fugitive",
+  --     config = function()
+  --       require("plugins.fugitive")
+  --     end,
+  --   },
+  --
+
+  --   "laytan/cloak.nvim",
+  --   {
+  --     "dnlhc/glance.nvim",
+  --     config = function()
+  --       require("plugins.glance")
+  --     end,
+  --   },
+
+  --
+  --   -- Telescope and dependencies
+  --   {
+  --     "nvim-telescope/telescope.nvim",
+  --     dependencies = { "nvim-lua/plenary.nvim" },
+  --     tag = "0.1.4",
+  --     config = function()
+  --       require("plugins.telescope")
+  --     end,
+  --   },
+  --   "nvim-telescope/telescope-fzy-native.nvim",
+  --   {
+  --     "nvim-telescope/telescope-file-browser.nvim",
+  --     config = function()
+  --       require("plugins.telescope-file-browser")
+  --     end,
+  --   },
+
+
+
+  --   {
+  --     "lukas-reineke/indent-blankline.nvim",
+  --     main = "ibl",
+  --     opts = {},
+  --     config = function()
+  --       local highlight = {
+  --         "RainbowRed",
+  --         "RainbowYellow",
+  --         "RainbowBlue",
+  --         "RainbowOrange",
+  --         "RainbowGreen",
+  --         "RainbowViolet",
+  --         "RainbowCyan",
+  --       }
+  --       local hooks = require "ibl.hooks"
+  --       -- create the highlight groups in the highlight setup hook, so they are reset
+  --       -- every time the colorscheme changes
+  --       hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+  --         vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
+  --         vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
+  --         vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
+  --         vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
+  --         vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
+  --         vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
+  --         vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
+  --       end)
+  --
+  --       vim.g.rainbow_delimiters = { highlight = highlight }
+  --       require("ibl").setup { scope = { highlight = highlight } }
+  --
+  --       hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
+  --     end,
+  --   },
+  --   "stevearc/dressing.nvim",
+  --   "rcarriga/nvim-notify",
+  --   {
+  --     "HiPhish/rainbow-delimiters.nvim",
+  --     config = function()
+  --       require("plugins.rainbow-delimiters")
+  --     end,
+  --   },
+  --   {
+  --     "chentoast/marks.nvim",
+  --     event = "VeryLazy",
+  --     opts = {
+  --       refresh_interval = 400,
+  --       bookmark_0 = {
+  --         sign = "⚑",
+  --         annotate = false,
+  --       },
+  --     },
+  --   },
 
 }

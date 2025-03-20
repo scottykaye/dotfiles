@@ -1,5 +1,7 @@
 local neocodeium = require("neocodeium")
-neocodeium.setup()
+neocodeium.setup({
+  show_label = false
+})
 
 vim.keymap.set("i", "<C-f>", neocodeium.accept)
 vim.keymap.set("i", "<A-f>", neocodeium.accept)
