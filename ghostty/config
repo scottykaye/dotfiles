@@ -39,7 +39,7 @@ window-padding-y=5
 # Blank lines are ignored!
 
 keybind = ctrl+z=close_surface
-keybind = ctrl+d=new_split:right
+# keybind = ctrl+d=new_split:right
 keybind = ctrl+super+left=unbind
 keybind = ctrl+super+left=previous_tab
 keybind = ctrl+super+right=unbind
