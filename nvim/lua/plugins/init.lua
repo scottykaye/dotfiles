@@ -527,7 +527,15 @@ return {
   --
   --   allows me to do make it rain so unnecessary so cool
   "eandrju/cellular-automaton.nvim",
+
+
+  -- markdown formatting
   "iamcco/markdown-preview.nvim",
+  {
+    "davidmh/mdx.nvim",
+    config = true,
+    dependencies = { "nvim-treesitter/nvim-treesitter" }
+  },
 
   {
     "nvzone/showkeys",
