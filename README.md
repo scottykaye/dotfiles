@@ -35,14 +35,13 @@ Instructions on setting up dotfiles:
 | optipng   |               |
 | fzf       |               |
 | lazygit   |               |
-| cwebp     |               |
 | fd        |               |
 | make      |               |
 
 #### Formulae command
 
 ```sh
-brew install git neovim deno bat ripgrep go bun wget python@3.12 fnm lua gh jq fzf oven-sh/bun/bun rust jpegoptim svgo optipng delta lazygit cwebp fd make
+brew install git neovim deno bat ripgrep go bun wget python@3.12 fnm lua gh jq fzf oven-sh/bun/bun rust jpegoptim svgo optipng delta lazygit fd make
 ```
 
 #### Casks command
