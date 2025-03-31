@@ -81,16 +81,18 @@ ln -s ~/<PATH_TO_DOTFILES>/dotfiles/zsh/.oh-my-zsh ~/
 ln -s ~/<PATH_TO_DOTFILES>/dotfiles/nvim ~/.config/nvim
 ```
 
+> [!NOTE]
+> Once you've created all these 4 paths, you'll need to either source all these folders and files (.zshrc, .zprofile, .oh-my-zsh, .config/nvim) or just shut the terminal and reopen!
+
 5. To make sure Neovim is set up correctly, you're going to need to now source the `lazy.lua` file and run the `Lazy` command.
 
 ```sh
 vim ~/<PATH_TO_DOTFILES>/dotfiles/nvim/init.lua
 ```
 
-6. In Vim run the `source` command then run a `Lazy` command.
+6. Open vim and Lazy should auto install! If not run lazy
 
 ```vim
-:so
 :Lazy
 ```
 
