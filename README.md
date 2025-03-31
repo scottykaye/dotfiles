@@ -25,7 +25,7 @@ Instructions on setting up dotfiles:
 | Bun       | Meetingbar    |
 | Python    | obsidian      |
 | fnm       | discord       |
-| Lua       |               |
+| Lua       | ghostty       |
 | jq        |               |
 | fzf       |               |
 | gh        |               |
@@ -47,7 +47,7 @@ brew install git neovim deno bat ripgrep go bun wget python@3.12 fnm lua gh jq f
 #### Casks command
 
 ```sh
-brew install --cask iterm2 raycast arc notion rectangle codewhisperer spotify slack meetingbar obsidian discord
+brew install --cask iterm2 raycast arc notion rectangle codewhisperer spotify slack meetingbar obsidian discord ghostty
 ```
 
 ## Install
