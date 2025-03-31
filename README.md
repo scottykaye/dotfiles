@@ -72,7 +72,7 @@ ln -s ~/<PATH_TO_DOTFILES>/dotfiles/zsh/.zprofile  ~/.zprofile
 ln -s ~/<PATH_TO_DOTFILES>/dotfiles/zsh/.oh-my-zsh ~/
 ```
 
-3. Symlink the `nvim/` folder at `.config/nvim/` folder and `~/.local/share/nvim/site/pack/packer/start/`.
+3. Symlink the `nvim/` folder at `.config/nvim/`
 
 > [!TIP]
 > It's possible if you're on a new machine you don't yet have a hidden `~/.config` folder path and you'll need to create it to store the `~/.config/nvim` folder
