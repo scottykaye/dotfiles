@@ -79,7 +79,7 @@ ln -s ~/<PATH_TO_DOTFILES>/dotfiles/zsh/.oh-my-zsh ~/
 
 ```sh
 ln -s ~/<PATH_TO_DOTFILES>/dotfiles/nvim ~/.config/nvim
-ln -s ~/<PATH_TO_DOTFILES>/dotfiles/zsh/ghostty ~/.config
+ln -s ~/<PATH_TO_DOTFILES>/dotfiles/ghostty ~/.config
 ```
 
 > [!NOTE]
