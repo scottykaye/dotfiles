@@ -91,6 +91,7 @@ return {
           explorer = {
             focus = "input",
             auto_close = true,
+            hidden = true,
 
             layout = {
               cycle = true,
