@@ -34,19 +34,47 @@ alias gbd='git branch -D'
 alias gs='git status'
 alias gsp='git status --porcelain'
 alias gst='git stash'
-alias gstat='git diff --stat main...HEAD'
-alias gnstat='git diff --name-status main...HEAD'
+# alias gstat='git diff --stat main...HEAD'
+# alias gstatma='git diff --stat master...HEAD'
+# alias gnstat='git diff --name-status main...HEAD'
+# alias gnstatma='git diff --name-status master...HEAD'
+
+
+
+gstat() {
+  local branch="${1:-main}"
+  git diff --stat "$branch"...HEAD
+}
+
+gstatma() {
+  local branch="${1:-master}"
+  git diff --stat "$branch"...HEAD
+}
+
+gnstat() {
+  local branch="${1:-main}"
+  git diff --name-status "$branch"...HEAD
+}
+
+gnstatma() {
+  local branch="${1:-master}"
+  git diff --name-status "$branch"...HEAD
+}
+
 alias gpu='git push'
 alias gp='git pull'
 alias gc='git commit'
 alias gco='git checkout'
 alias gcom='git checkout main'
+alias gcoma='git checkout master'
 alias gcoom='git checkout origin/main'
+alias gcooma='git checkout origin/master'
 alias mwmb='git commit -am "merge with main branch"'
 alias gpo='git push origin'
 alias gpom='git pull origin/main'
+alias gpoma='git pull origin/master'
 alias gl='git log'
-alias gl='git log --oneline'
+alias glo='git log --oneline'
 alias tags='git tag --list'
 alias gchr="open -a Google\ Chrome"
 alias codeDir="cd ~/code"
