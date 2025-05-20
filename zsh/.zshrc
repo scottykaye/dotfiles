@@ -35,29 +35,27 @@ alias gbd='git branch -D'
 alias gs='git status'
 alias gsp='git status --porcelain'
 alias gst='git stash'
-# alias gstat='git diff --stat main...HEAD'
-# alias gstatma='git diff --stat master...HEAD'
-# alias gnstat='git diff --name-status main...HEAD'
-# alias gnstatma='git diff --name-status master...HEAD'
+alias gstat='git diff --stat main...HEAD'
+alias gstatma='git diff --stat master...HEAD'
+alias gnstat='git diff --name-status main...HEAD'
+alias gnstatma='git diff --name-status master...HEAD'
 
-
-
-gstat() {
+stat() {
   local branch="${1:-main}"
   git diff --stat "$branch"...HEAD
 }
 
-gstatma() {
+statma() {
   local branch="${1:-master}"
   git diff --stat "$branch"...HEAD
 }
 
-gnstat() {
+nstat() {
   local branch="${1:-main}"
   git diff --name-status "$branch"...HEAD
 }
 
-gnstatma() {
+nstatma() {
   local branch="${1:-master}"
   git diff --name-status "$branch"...HEAD
 }
