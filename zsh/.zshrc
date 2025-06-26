@@ -25,8 +25,11 @@ alias branches="for-each-ref --sort=-committerdate refs/heads/ --format='%1B[0;3
 alias chrome='open -a Google\ Chrome'
 alias mergeCodeDiff='git fetch && git merge origin/main && printf "\n----DIFFSTATS----\n" && git diff --stat origin/main && codediff origin/main'
 alias mergeDiff='git fetch && git merge origin/main && printf "\n----DIFFSTATS----\n" && git diff --stat origin/main && tempDiff origin/main'
+alias mergeDiffMaster='git fetch && git merge origin/master && printf "\n----DIFFSTATS----\n" && git diff --stat origin/master && tempDiff origin/master'
 alias merge='git fetch && git merge origin/main'
+alias mergeMaster='git fetch && git merge origin/master'
 alias bd='git diff main...$(git symbolic-ref --short HEAD)'
+alias bda='git diff master...$(git symbolic-ref --short HEAD)'
 alias diff='git diff'
 alias staged='git diff --staged'
 alias gds='git diff --staged'
@@ -60,13 +63,21 @@ nstatma() {
   git diff --name-status "$branch"...HEAD
 }
 
+mergedStackedPR() {
+  git fetch && git merge origin/"$1"
+}
+
+mergedStackedPR() {
+  git fetch && git merge origin/"$1"
+}
+
 alias gpu='git push'
 alias gp='git pull'
 alias gc='git commit'
 alias gco='git checkout'
 alias gcom='git checkout main'
-alias gcoma='git checkout master'
 alias gcoom='git checkout origin/main'
+alias gcoma='git checkout master'
 alias gcooma='git checkout origin/master'
 alias mwmb='git commit -am "merge with main branch"'
 alias gpo='git push origin'
@@ -76,6 +87,7 @@ alias gl='git log'
 alias glo='git log --oneline'
 alias tags='git tag --list'
 alias gchr="open -a Google\ Chrome"
+alias arc="open -a 'Arc'"
 alias codeDir="cd ~/code"
 
 # Git diff functions
