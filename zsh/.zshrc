@@ -28,6 +28,8 @@ alias mergeDiff='git fetch && git merge origin/main && printf "\n----DIFFSTATS--
 alias mergeDiffMaster='git fetch && git merge origin/master && printf "\n----DIFFSTATS----\n" && git diff --stat origin/master && tempDiff origin/master'
 alias merge='git fetch && git merge origin/main'
 alias mergeMaster='git fetch && git merge origin/master'
+alias rebaseMaster='git fetch && git rebase origin/master'
+alias rebase='git fetch && git rebase origin/main'
 alias bd='git diff main...$(git symbolic-ref --short HEAD)'
 alias bda='git diff master...$(git symbolic-ref --short HEAD)'
 alias diff='git diff'
@@ -67,8 +69,8 @@ mergedStackedPR() {
   git fetch && git merge origin/"$1"
 }
 
-mergedStackedPR() {
-  git fetch && git merge origin/"$1"
+rebaseStackedPR() {
+  git fetch && git rebase origin/"$1"
 }
 
 alias gpu='git push'
