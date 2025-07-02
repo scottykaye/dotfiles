@@ -65,7 +65,7 @@ nstatma() {
   git diff --name-status "$branch"...HEAD
 }
 
-mergedStackedPR() {
+mergeStackedPR() {
   git fetch && git merge origin/"$1"
 }
 
