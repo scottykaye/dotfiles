@@ -121,15 +121,35 @@ end)
 
 
 vim.api.nvim_create_user_command("Cpath", function()
-  local path = vim.fn.expand("%")
+  local path = vim.fn.expand("%:.")
   vim.fn.setreg("+", path)
   vim.notify('Copied relative path "' .. path .. '" to the clipboard!')
 end, {})
-
 
 
 vim.api.nvim_create_user_command("Capath", function()
   local path = vim.fn.expand("%:p")
   vim.fn.setreg("+", path)
   vim.notify('Copied absolute path "' .. path .. '" to the clipboard!')
+end, {})
+
+vim.api.nvim_create_user_command("Gpath", function()
+  -- Get absolute file path
+  local file = vim.fn.expand("%:p")
+
+  -- Get Git root
+  local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
+  if vim.v.shell_error ~= 0 or git_root == nil or git_root == "" then
+    -- Not in a Git repo, copy absolute path instead
+    vim.fn.setreg("+", file)
+    vim.notify('Copied full path (not in Git repo): "' .. file .. '"')
+    return
+  end
+
+  -- Make path relative to Git root
+  local relative_path = file:gsub("^" .. vim.pesc(git_root .. "/"), "")
+
+  -- Copy to clipboard
+  vim.fn.setreg("+", relative_path)
+  vim.notify('Copied Git-relative path "' .. relative_path .. '" to the clipboard!')
 end, {})
