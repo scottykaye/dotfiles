@@ -45,6 +45,12 @@ alias gstatma='git diff --stat master...HEAD'
 alias gnstat='git diff --name-status main...HEAD'
 alias gnstatma='git diff --name-status master...HEAD'
 
+
+stackedDiff() {
+  local branch="${1:-main}"
+  git diff --full-index "$branch"...$(git symbolic-ref --short HEAD)
+}
+
 stat() {
   local branch="${1:-main}"
   git diff --stat "$branch"...HEAD
