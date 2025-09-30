@@ -55,7 +55,6 @@ local get_closest_formatter = function(_formatters)
   local current_buffer_path = vim.api.nvim_buf_get_name(0)
 
   local available_formatters = require("conform").list_formatters(0)
-  print("available_formatters", available_formatters)
   local keys_to_include = {}
   for _, value in ipairs(available_formatters) do
     table.insert(keys_to_include, value.name)
@@ -70,14 +69,18 @@ local get_closest_formatter = function(_formatters)
     local formatter_config_path = nil
 
     for _, v in ipairs(formatter_configs) do
-      formatter_config_path = vim.fs.find(v, {
-        path = current_buffer_path,
-        stop = require("lspconfig.util").root_pattern(".git")(v),
+      local found = vim.fs.find(v, {
         upward = true,
+        path = vim.fn.fnamemodify(current_buffer_path, ":h"),
       })
+
+      if found[1] ~= nil then
+        formatter_config_path = found
+        break
+      end
     end
 
-    if formatter_config_path[1] ~= nil then
+    if formatter_config_path and formatter_config_path[1] ~= nil then
       distance[formatter_name] = get_distance_to(formatter_config_path[1], current_buffer_path)
     end
   end
@@ -144,7 +147,7 @@ vim.api.nvim_create_user_command("Format", function()
     require("conform").format({ async = true, lsp_fallback = true })
   else
     print("formatted with " .. formatters[1])
-    require("conform").format({ async = true, formatters, lsp_fallback = false })
+    require("conform").format({ async = true, formatters = formatters, lsp_fallback = false })
   end
 end, {})
 
@@ -170,45 +173,3 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   group = vim.api.nvim_create_augroup("FormatOnSave", { clear = true }),
   callback = function()
     -- Use get_closest_formatter to determine the formatter
-    local formatters = get_closest_formatter({
-      ["biome-check"] = { "biome.json" },
-      gofmt = { "goimports", "go.mod" },
-      goimports = { "go.mod" },
-      prettier = { ".prettierrc", "prettier.config.js" },
-    })
-
-    if not formatters then
-      -- If no formatter is found, fallback to LSP formatting
-      require("conform").format({
-        async = false,
-        lsp_fallback = true,
-      })
-    else
-      -- Format with the closest formatter
-      require("conform").format({
-        async = false,
-        formatters = { formatters[1] },
-        lsp_fallback = false,
-      })
-    end
-  end,
-})
-
--- vim.api.nvim_create_autocmd("BufWritePre", {
---   pattern = "*",
---   callback = function(args)
---     require("conform").format({ bufnr = args.buf })
---   end,
--- })
-
--- vim.api.nvim_create_user_command("Format", function(args)
---   local range = nil
---   if args.count ~= -1 then
---     local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
---     range = {
---       start = { args.line1, 0 },
---       ["end"] = { args.line2, end_line:len() },
---     }
---   end
---   require("conform").format({ async = true, lsp_fallback = true, range = range })
--- end, { range = true })
