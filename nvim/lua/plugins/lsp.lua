@@ -13,31 +13,13 @@ _G.typescript_utils = M
 
 -- Normally we could just return M instead of global but struggling to figure out why thats not working
 
-local lspconfig = require("lspconfig")
-local lsp_defaults = lspconfig.util.default_config
-lsp_defaults.capabilities =
-    vim.tbl_deep_extend("force", lsp_defaults.capabilities, require("cmp_nvim_lsp").default_capabilities())
-
--- require("lspconfig").lsp.set_sign_icons({
---   error = '✘',
---   warn = '▲',
---   hint = '⚑',
---   info = '»'
--- })
---
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-lspconfig.eslint.setup({
-  capabilities = capabilities,
-})
-lspconfig.rust_analyzer.setup({
-  capabilities = capabilities,
-})
-lspconfig.solargraph.setup({
-  capabilities = capabilities,
-})
-lspconfig.ts_ls.setup({
+vim.lsp.config.eslint = { capabilities = capabilities }
+vim.lsp.config.rust_analyzer = { capabilities = capabilities }
+vim.lsp.config.solargraph = { capabilities = capabilities }
+vim.lsp.config.ts_ls = {
   capabilities = capabilities,
   commands = {
     OrganizeImports = {
@@ -45,25 +27,14 @@ lspconfig.ts_ls.setup({
       description = "Organize Imports",
     },
   },
-})
+}
 
-lspconfig.gopls.setup({
-  capabilities = capabilities,
-})
-lspconfig.tailwindcss.setup({
-  capabilities = capabilities,
-})
-lspconfig.biome.setup({
-  capabilities = capabilities,
-})
-lspconfig.eslint.setup({
-  capabilities = capabilities,
-})
-lspconfig.html.setup({
-  capabilities = capabilities,
-})
+vim.lsp.config.gopls = { capabilities = capabilities }
+vim.lsp.config.tailwindcss = { capabilities = capabilities }
+vim.lsp.config.biome = { capabilities = capabilities }
+vim.lsp.config.html = { capabilities = capabilities }
 
-lspconfig.lua_ls.setup({
+vim.lsp.config.lua_ls = {
   capabilities = capabilities,
   settings = {
     Lua = {
@@ -81,9 +52,8 @@ lspconfig.lua_ls.setup({
       },
     },
   },
-})
-lspconfig.emmet_ls.setup({
-  -- on_attach = on_attach,
+}
+vim.lsp.config.emmet_ls = {
   capabilities = capabilities,
   filetypes = {
     "css",
@@ -108,7 +78,10 @@ lspconfig.emmet_ls.setup({
       },
     },
   },
-})
+}
+
+vim.lsp.enable({ "eslint", "rust_analyzer", "solargraph", "ts_ls", "gopls", "tailwindcss", "biome", "html", "lua_ls",
+  "emmet_ls" })
 
 vim.keymap.set("n", "<space>e", vim.diagnostic.open_float)
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
