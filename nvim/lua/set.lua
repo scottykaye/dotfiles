@@ -33,7 +33,9 @@ vim.opt.spelllang = 'en_us'
 vim.opt.spell = true
 
 vim.opt.laststatus = 2 -- Or 3 for global statusline
-vim.opt.statusline = " %f %m %= %l:%c ♥ "
+-- vim.opt.statusline = " %f %m %= %l:%c ♥ "
+vim.opt.showmode = true
+vim.opt.showcmd = true
 -- vim.opt.guicursor="n-v-c:block-Cursor,i-ci-ve:ver25-Cursor,r-cr-o:hor20-Cursor"
 vim.opt.guicursor = 'n-v-c:block-Cursor/lCursor'
 vim.opt.cursorline = true
