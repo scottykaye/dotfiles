@@ -9,9 +9,19 @@ local function window()
 end
 
 
+local function recording_status()
+  local reg = vim.fn.reg_recording()
+  if reg == "" then
+    return ""
+  else
+    return "recording @" .. reg
+  end
+end
+
 require("lualine").setup({
   sections = {
     lualine_a = { window },
+    lualine_b = { recording_status },
     lualine_c = { { 'filename', path = 2 } }
   },
   inactive_sections = {

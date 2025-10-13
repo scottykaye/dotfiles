@@ -172,21 +172,391 @@ return {
       { "gy",         function() Snacks.picker.lsp_type_definitions() end,                    desc = "Goto T[y]pe Definition" },
       { "<leader>ss", function() Snacks.picker.lsp_symbols() end,                             desc = "LSP Symbols" },
       { "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end,                   desc = "LSP Workspace Symbols" },
+
+      -- Merge conflict navigation
+      {
+        "<leader>fc",
+        function()
+          Snacks.picker.grep({ search = "^<<<<<<< " })
+        end,
+        desc = "Find merge conflicts (picker)",
+      },
+      {
+        "<leader>mc",
+        function()
+          -- Search for merge conflict markers in all buffers
+          local conflict_pattern = "^<<<<<<<"
+          local found = false
+
+          -- Get all loaded buffers
+          local buffers = vim.api.nvim_list_bufs()
+          local conflicts = {}
+
+          for _, bufnr in ipairs(buffers) do
+            if vim.api.nvim_buf_is_loaded(bufnr) then
+              local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+              for lnum, line in ipairs(lines) do
+                if line:match(conflict_pattern) then
+                  table.insert(conflicts, { bufnr = bufnr, lnum = lnum - 1, line = line })
+                end
+              end
+            end
+          end
+
+          if #conflicts == 0 then
+            vim.notify("No merge conflicts found", vim.log.levels.INFO)
+            return
+          end
+
+          -- Sort by buffer and line number
+          table.sort(conflicts, function(a, b)
+            if a.bufnr == b.bufnr then
+              return a.lnum < b.lnum
+            end
+            return a.bufnr < b.bufnr
+          end)
+
+          -- Jump to first conflict
+          vim.api.nvim_set_current_buf(conflicts[1].bufnr)
+          vim.api.nvim_win_set_cursor(0, { conflicts[1].lnum + 1, 0 })
+          vim.cmd("normal! zz")
+          vim.notify(string.format("Conflict 1/%d", #conflicts), vim.log.levels.INFO)
+        end,
+        desc = "Go to first merge conflict",
+      },
+      {
+        "]c",
+        function()
+          local conflict_pattern = "^<<<<<<<"
+          local current_buf = vim.api.nvim_get_current_buf()
+          local current_pos = vim.api.nvim_win_get_cursor(0)
+          local current_line = current_pos[1] - 1
+
+          -- Get all loaded buffers
+          local buffers = vim.api.nvim_list_bufs()
+          local conflicts = {}
+
+          for _, bufnr in ipairs(buffers) do
+            if vim.api.nvim_buf_is_loaded(bufnr) then
+              local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+              for lnum, line in ipairs(lines) do
+                if line:match(conflict_pattern) then
+                  table.insert(conflicts, { bufnr = bufnr, lnum = lnum - 1 })
+                end
+              end
+            end
+          end
+
+          if #conflicts == 0 then
+            vim.notify("No merge conflicts found", vim.log.levels.INFO)
+            return
+          end
+
+          -- Sort by buffer and line number
+          table.sort(conflicts, function(a, b)
+            if a.bufnr == b.bufnr then
+              return a.lnum < b.lnum
+            end
+            return a.bufnr < b.bufnr
+          end)
+
+          -- Find next conflict after current position
+          local next_conflict = nil
+          local current_idx = nil
+          for i, conflict in ipairs(conflicts) do
+            if conflict.bufnr == current_buf and conflict.lnum > current_line then
+              next_conflict = conflict
+              current_idx = i
+              break
+            elseif conflict.bufnr > current_buf or (conflict.bufnr == current_buf and conflict.lnum > current_line) then
+              next_conflict = conflict
+              current_idx = i
+              break
+            end
+          end
+
+          -- If no next conflict found, wrap to first
+          if not next_conflict then
+            next_conflict = conflicts[1]
+            current_idx = 1
+          end
+
+          vim.api.nvim_set_current_buf(next_conflict.bufnr)
+          vim.api.nvim_win_set_cursor(0, { next_conflict.lnum + 1, 0 })
+          vim.cmd("normal! zz")
+          vim.notify(string.format("Conflict %d/%d", current_idx, #conflicts), vim.log.levels.INFO)
+        end,
+        desc = "Next merge conflict",
+      },
+      {
+        "[c",
+        function()
+          local conflict_pattern = "^<<<<<<<"
+          local current_buf = vim.api.nvim_get_current_buf()
+          local current_pos = vim.api.nvim_win_get_cursor(0)
+          local current_line = current_pos[1] - 1
+
+          -- Get all loaded buffers
+          local buffers = vim.api.nvim_list_bufs()
+          local conflicts = {}
+
+          for _, bufnr in ipairs(buffers) do
+            if vim.api.nvim_buf_is_loaded(bufnr) then
+              local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+              for lnum, line in ipairs(lines) do
+                if line:match(conflict_pattern) then
+                  table.insert(conflicts, { bufnr = bufnr, lnum = lnum - 1 })
+                end
+              end
+            end
+          end
+
+          if #conflicts == 0 then
+            vim.notify("No merge conflicts found", vim.log.levels.INFO)
+            return
+          end
+
+          -- Sort by buffer and line number
+          table.sort(conflicts, function(a, b)
+            if a.bufnr == b.bufnr then
+              return a.lnum < b.lnum
+            end
+            return a.bufnr < b.bufnr
+          end)
+
+          -- Find previous conflict before current position
+          local prev_conflict = nil
+          local current_idx = nil
+          for i = #conflicts, 1, -1 do
+            local conflict = conflicts[i]
+            if conflict.bufnr == current_buf and conflict.lnum < current_line then
+              prev_conflict = conflict
+              current_idx = i
+              break
+            elseif conflict.bufnr < current_buf or (conflict.bufnr == current_buf and conflict.lnum < current_line) then
+              prev_conflict = conflict
+              current_idx = i
+              break
+            end
+          end
+
+          -- If no previous conflict found, wrap to last
+          if not prev_conflict then
+            prev_conflict = conflicts[#conflicts]
+            current_idx = #conflicts
+          end
+
+          vim.api.nvim_set_current_buf(prev_conflict.bufnr)
+          vim.api.nvim_win_set_cursor(0, { prev_conflict.lnum + 1, 0 })
+          vim.cmd("normal! zz")
+          vim.notify(string.format("Conflict %d/%d", current_idx, #conflicts), vim.log.levels.INFO)
+        end,
+        desc = "Previous merge conflict",
+      },
+      -- Merge conflict resolution
+      {
+        "<leader>ch",
+        function()
+          -- Find conflict markers around cursor
+          local cursor_line = vim.api.nvim_win_get_cursor(0)[1]
+          local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+
+          local start_marker = nil
+          local middle_marker = nil
+          local end_marker = nil
+
+          -- Search backwards for start marker
+          for i = cursor_line, 1, -1 do
+            if lines[i] and lines[i]:match("^<<<<<<<") then
+              start_marker = i
+              break
+            end
+          end
+
+          if not start_marker then
+            vim.notify("No merge conflict found", vim.log.levels.WARN)
+            return
+          end
+
+          -- Search forward from start for middle and end markers
+          for i = start_marker + 1, #lines do
+            if lines[i] and lines[i]:match("^=======") and not middle_marker then
+              middle_marker = i
+            elseif lines[i] and lines[i]:match("^>>>>>>>") then
+              end_marker = i
+              break
+            end
+          end
+
+          if not middle_marker or not end_marker then
+            vim.notify("Incomplete merge conflict markers", vim.log.levels.WARN)
+            return
+          end
+
+          -- Delete incoming changes and markers, keep HEAD
+          -- Delete from middle marker to end marker (inclusive)
+          vim.api.nvim_buf_set_lines(0, middle_marker - 1, end_marker, false, {})
+          -- Delete start marker
+          vim.api.nvim_buf_set_lines(0, start_marker - 1, start_marker, false, {})
+
+          vim.notify("Kept HEAD (ours), removed incoming", vim.log.levels.INFO)
+        end,
+        desc = "Keep HEAD section (ours)",
+      },
+      {
+        "<leader>ci",
+        function()
+          -- Find conflict markers around cursor
+          local cursor_line = vim.api.nvim_win_get_cursor(0)[1]
+          local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+
+          local start_marker = nil
+          local middle_marker = nil
+          local end_marker = nil
+
+          -- Search backwards for start marker
+          for i = cursor_line, 1, -1 do
+            if lines[i] and lines[i]:match("^<<<<<<<") then
+              start_marker = i
+              break
+            end
+          end
+
+          if not start_marker then
+            vim.notify("No merge conflict found", vim.log.levels.WARN)
+            return
+          end
+
+          -- Search forward from start for middle and end markers
+          for i = start_marker + 1, #lines do
+            if lines[i] and lines[i]:match("^=======") and not middle_marker then
+              middle_marker = i
+            elseif lines[i] and lines[i]:match("^>>>>>>>") then
+              end_marker = i
+              break
+            end
+          end
+
+          if not middle_marker or not end_marker then
+            vim.notify("Incomplete merge conflict markers", vim.log.levels.WARN)
+            return
+          end
+
+          -- Delete HEAD section and markers, keep incoming
+          -- Delete from start marker to middle marker (inclusive)
+          vim.api.nvim_buf_set_lines(0, start_marker - 1, middle_marker, false, {})
+          -- Delete end marker (now at position start_marker - 1 due to previous deletion)
+          vim.api.nvim_buf_set_lines(0, start_marker - 1 + (end_marker - middle_marker - 1),
+            start_marker + (end_marker - middle_marker - 1), false, {})
+
+          vim.notify("Kept incoming (theirs), removed HEAD", vim.log.levels.INFO)
+        end,
+        desc = "Keep incoming section (theirs)",
+      },
+      {
+        "<leader>vh",
+        function()
+          -- Find conflict markers and visually select HEAD section
+          local cursor_line = vim.api.nvim_win_get_cursor(0)[1]
+          local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+
+          local start_marker = nil
+          local middle_marker = nil
+
+          -- Search backwards for start marker
+          for i = cursor_line, 1, -1 do
+            if lines[i] and lines[i]:match("^<<<<<<<") then
+              start_marker = i
+              break
+            end
+          end
+
+          if not start_marker then
+            vim.notify("No merge conflict found", vim.log.levels.WARN)
+            return
+          end
+
+          -- Search forward for middle marker
+          for i = start_marker + 1, #lines do
+            if lines[i] and lines[i]:match("^=======") then
+              middle_marker = i
+              break
+            end
+          end
+
+          if not middle_marker then
+            vim.notify("Incomplete merge conflict markers", vim.log.levels.WARN)
+            return
+          end
+
+          -- Visually select from line after start marker to line before middle marker
+          vim.api.nvim_win_set_cursor(0, { start_marker + 1, 0 })
+          vim.cmd("normal! V")
+          vim.api.nvim_win_set_cursor(0, { middle_marker - 1, 999 })
+        end,
+        desc = "Visually select HEAD section",
+      },
+      {
+        "<leader>vi",
+        function()
+          -- Find conflict markers and visually select incoming section
+          local cursor_line = vim.api.nvim_win_get_cursor(0)[1]
+          local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+
+          local start_marker = nil
+          local middle_marker = nil
+          local end_marker = nil
+
+          -- Search backwards for start marker
+          for i = cursor_line, 1, -1 do
+            if lines[i] and lines[i]:match("^<<<<<<<") then
+              start_marker = i
+              break
+            end
+          end
+
+          if not start_marker then
+            vim.notify("No merge conflict found", vim.log.levels.WARN)
+            return
+          end
+
+          -- Search forward for middle and end markers
+          for i = start_marker + 1, #lines do
+            if lines[i] and lines[i]:match("^=======") and not middle_marker then
+              middle_marker = i
+            elseif lines[i] and lines[i]:match("^>>>>>>>") then
+              end_marker = i
+              break
+            end
+          end
+
+          if not middle_marker or not end_marker then
+            vim.notify("Incomplete merge conflict markers", vim.log.levels.WARN)
+            return
+          end
+
+          -- Visually select from line after middle marker to line before end marker
+          vim.api.nvim_win_set_cursor(0, { middle_marker + 1, 0 })
+          vim.cmd("normal! V")
+          vim.api.nvim_win_set_cursor(0, { end_marker - 1, 999 })
+        end,
+        desc = "Visually select incoming section",
+      },
       -- Other
-      { "<leader>z",  function() Snacks.zen() end,                                            desc = "Toggle Zen Mode" },
-      { "<leader>Z",  function() Snacks.zen.zoom() end,                                       desc = "Toggle Zoom" },
-      { "<leader>.",  function() Snacks.scratch() end,                                        desc = "Toggle Scratch Buffer" },
-      { "<leader>S",  function() Snacks.scratch.select() end,                                 desc = "Select Scratch Buffer" },
-      { "<leader>n",  function() Snacks.notifier.show_history() end,                          desc = "Notification History" },
-      { "<leader>bd", function() Snacks.bufdelete() end,                                      desc = "Delete Buffer" },
-      { "<leader>cR", function() Snacks.rename.rename_file() end,                             desc = "Rename File" },
-      { "<leader>gB", function() Snacks.gitbrowse() end,                                      desc = "Git Browse",               mode = { "n", "v" } },
-      { "<leader>gg", function() Snacks.lazygit() end,                                        desc = "Lazygit" },
-      { "<leader>un", function() Snacks.notifier.hide() end,                                  desc = "Dismiss All Notifications" },
-      { "<c-/>",      function() Snacks.terminal() end,                                       desc = "Toggle Terminal" },
-      { "<c-_>",      function() Snacks.terminal() end,                                       desc = "which_key_ignore" },
-      { "]]",         function() Snacks.words.jump(vim.v.count1) end,                         desc = "Next Reference",           mode = { "n", "t" } },
-      { "[[",         function() Snacks.words.jump(-vim.v.count1) end,                        desc = "Prev Reference",           mode = { "n", "t" } },
+      { "<leader>z",  function() Snacks.zen() end,                     desc = "Toggle Zen Mode" },
+      { "<leader>Z",  function() Snacks.zen.zoom() end,                desc = "Toggle Zoom" },
+      { "<leader>.",  function() Snacks.scratch() end,                 desc = "Toggle Scratch Buffer" },
+      { "<leader>S",  function() Snacks.scratch.select() end,          desc = "Select Scratch Buffer" },
+      { "<leader>n",  function() Snacks.notifier.show_history() end,   desc = "Notification History" },
+      { "<leader>bd", function() Snacks.bufdelete() end,               desc = "Delete Buffer" },
+      { "<leader>cR", function() Snacks.rename.rename_file() end,      desc = "Rename File" },
+      { "<leader>gB", function() Snacks.gitbrowse() end,               desc = "Git Browse",               mode = { "n", "v" } },
+      { "<leader>gg", function() Snacks.lazygit() end,                 desc = "Lazygit" },
+      { "<leader>un", function() Snacks.notifier.hide() end,           desc = "Dismiss All Notifications" },
+      { "<c-/>",      function() Snacks.terminal() end,                desc = "Toggle Terminal" },
+      { "<c-_>",      function() Snacks.terminal() end,                desc = "which_key_ignore" },
+      { "]]",         function() Snacks.words.jump(vim.v.count1) end,  desc = "Next Reference",           mode = { "n", "t" } },
+      { "[[",         function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference",           mode = { "n", "t" } },
       {
         "<leader>N",
         desc = "Neovim News",
@@ -204,7 +574,30 @@ return {
             },
           })
         end,
+      },
+      {
+        "<leader>?",
+        desc = "Keybindings Cheat Sheet",
+        function()
+          local config_path = vim.fn.stdpath("config")
+          local cheatsheet_path = config_path .. "/doc/keybindings.md"
+
+          Snacks.win({
+            file = cheatsheet_path,
+            width = 0.8,
+            height = 0.8,
+            wo = {
+              spell = false,
+              wrap = true,
+              signcolumn = "yes",
+              statuscolumn = " ",
+              conceallevel = 0,
+            },
+            ft = "markdown",
+          })
+        end,
       }
+
     },
     init = function()
       vim.api.nvim_create_autocmd("User", {

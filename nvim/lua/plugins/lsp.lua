@@ -27,6 +27,49 @@ vim.lsp.config.ts_ls = {
       description = "Organize Imports",
     },
   },
+  settings = {
+    typescript = {
+      inlayHints = {
+        includeInlayParameterNameHints = "all",
+        includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+        includeInlayFunctionParameterTypeHints = true,
+        includeInlayVariableTypeHints = true,
+        includeInlayPropertyDeclarationTypeHints = true,
+        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayEnumMemberValueHints = true,
+      },
+      preferences = {
+        importModuleSpecifier = "relative",
+        importModuleSpecifierEnding = "auto",
+      },
+      suggest = {
+        completeFunctionCalls = true,
+      },
+      -- Performance optimizations
+      maxTsServerMemory = 8192,
+      tsserver = {
+        maxTsServerMemory = 8192,
+      },
+    },
+    javascript = {
+      inlayHints = {
+        includeInlayParameterNameHints = "all",
+        includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+        includeInlayFunctionParameterTypeHints = true,
+        includeInlayVariableTypeHints = true,
+        includeInlayPropertyDeclarationTypeHints = true,
+        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayEnumMemberValueHints = true,
+      },
+    },
+  },
+  init_options = {
+    preferences = {
+      -- Faster completion
+      includeCompletionsWithSnippetText = true,
+      includeCompletionsForImportStatements = true,
+    },
+  },
 }
 
 vim.lsp.config.gopls = { capabilities = capabilities }
