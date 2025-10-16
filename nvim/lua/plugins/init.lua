@@ -173,11 +173,150 @@ return {
       { "<leader>ss", function() Snacks.picker.lsp_symbols() end,                             desc = "LSP Symbols" },
       { "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end,                   desc = "LSP Workspace Symbols" },
 
+      -- TS shortcuts
+      {
+        "<leader>e",
+        function()
+          Snacks.picker.diagnostics({ severity = vim.diagnostic.severity.ERROR })
+        end,
+        desc = "Show only errors (picker)",
+      },
+      {
+        "<leader>fe",
+        function()
+          local diagnostics = vim.diagnostic.get(nil, { severity = vim.diagnostic.severity.ERROR })
+          if #diagnostics == 0 then
+            vim.notify("No errors found", vim.log.levels.INFO)
+            return
+          end
+          table.sort(diagnostics, function(a, b)
+            if a.bufnr == b.bufnr then
+              return a.lnum < b.lnum
+            end
+            return a.bufnr < b.bufnr
+          end)
+          vim.api.nvim_set_current_buf(diagnostics[1].bufnr)
+          vim.api.nvim_win_set_cursor(0, { diagnostics[1].lnum + 1, diagnostics[1].col })
+        end,
+        desc = "Go to first error",
+      },
+      -- Cycle through TypeScript errors
+      {
+        "]e",
+        function()
+          local current_buf = vim.api.nvim_get_current_buf()
+          local current_pos = vim.api.nvim_win_get_cursor(0)
+          local current_line = current_pos[1] - 1
+          local current_col = current_pos[2]
+
+          -- Get all errors from all buffers
+          local diagnostics = vim.diagnostic.get(nil, { severity = vim.diagnostic.severity.ERROR })
+
+          if #diagnostics == 0 then
+            vim.notify("No errors found", vim.log.levels.INFO)
+            return
+          end
+
+          -- Sort by buffer and line number
+          table.sort(diagnostics, function(a, b)
+            if a.bufnr == b.bufnr then
+              if a.lnum == b.lnum then
+                return a.col < b.col
+              end
+              return a.lnum < b.lnum
+            end
+            return a.bufnr < b.bufnr
+          end)
+
+          -- Find next error after current position
+          local next_error = nil
+          local current_idx = nil
+          for i, diagnostic in ipairs(diagnostics) do
+            if diagnostic.bufnr == current_buf and (diagnostic.lnum > current_line or (diagnostic.lnum == current_line and diagnostic.col > current_col)) then
+              next_error = diagnostic
+              current_idx = i
+              break
+            elseif diagnostic.bufnr > current_buf then
+              next_error = diagnostic
+              current_idx = i
+              break
+            end
+          end
+
+          -- If no next error found, wrap to first
+          if not next_error then
+            next_error = diagnostics[1]
+            current_idx = 1
+          end
+
+          vim.api.nvim_set_current_buf(next_error.bufnr)
+          vim.api.nvim_win_set_cursor(0, { next_error.lnum + 1, next_error.col })
+          vim.cmd("normal! zz")
+          vim.notify(string.format("Error %d/%d", current_idx, #diagnostics), vim.log.levels.INFO)
+        end,
+        desc = "Next error",
+      },
+      {
+        "[e",
+        function()
+          local current_buf = vim.api.nvim_get_current_buf()
+          local current_pos = vim.api.nvim_win_get_cursor(0)
+          local current_line = current_pos[1] - 1
+          local current_col = current_pos[2]
+
+          -- Get all errors from all buffers
+          local diagnostics = vim.diagnostic.get(nil, { severity = vim.diagnostic.severity.ERROR })
+
+          if #diagnostics == 0 then
+            vim.notify("No errors found", vim.log.levels.INFO)
+            return
+          end
+
+          -- Sort by buffer and line number
+          table.sort(diagnostics, function(a, b)
+            if a.bufnr == b.bufnr then
+              if a.lnum == b.lnum then
+                return a.col < b.col
+              end
+              return a.lnum < b.lnum
+            end
+            return a.bufnr < b.bufnr
+          end)
+
+          -- Find previous error before current position
+          local prev_error = nil
+          local current_idx = nil
+          for i = #diagnostics, 1, -1 do
+            local diagnostic = diagnostics[i]
+            if diagnostic.bufnr == current_buf and (diagnostic.lnum < current_line or (diagnostic.lnum == current_line and diagnostic.col < current_col)) then
+              prev_error = diagnostic
+              current_idx = i
+              break
+            elseif diagnostic.bufnr < current_buf then
+              prev_error = diagnostic
+              current_idx = i
+              break
+            end
+          end
+
+          -- If no previous error found, wrap to last
+          if not prev_error then
+            prev_error = diagnostics[#diagnostics]
+            current_idx = #diagnostics
+          end
+
+          vim.api.nvim_set_current_buf(prev_error.bufnr)
+          vim.api.nvim_win_set_cursor(0, { prev_error.lnum + 1, prev_error.col })
+          vim.cmd("normal! zz")
+          vim.notify(string.format("Error %d/%d", current_idx, #diagnostics), vim.log.levels.INFO)
+        end,
+        desc = "Previous error",
+      },
       -- Merge conflict navigation
       {
         "<leader>fc",
         function()
-          Snacks.picker.grep({ search = "^<<<<<<< " })
+          Snacks.picker.grep({ search = "^<<<<<<<" })
         end,
         desc = "Find merge conflicts (picker)",
       },
@@ -185,7 +324,7 @@ return {
         "<leader>mc",
         function()
           -- Search for merge conflict markers in all buffers
-          local conflict_pattern = "^<<<<<<<"
+          local conflict_pattern = "^<<<<<<<" -- Fixed: removed space for consistency
           local found = false
 
           -- Get all loaded buffers
@@ -227,7 +366,7 @@ return {
       {
         "]c",
         function()
-          local conflict_pattern = "^<<<<<<<"
+          local conflict_pattern = "^<<<<<<<" -- Fixed: consistent pattern
           local current_buf = vim.api.nvim_get_current_buf()
           local current_pos = vim.api.nvim_win_get_cursor(0)
           local current_line = current_pos[1] - 1
@@ -261,14 +400,13 @@ return {
           end)
 
           -- Find next conflict after current position
+          -- Fixed: Simplified logic to avoid redundant checks
           local next_conflict = nil
           local current_idx = nil
           for i, conflict in ipairs(conflicts) do
-            if conflict.bufnr == current_buf and conflict.lnum > current_line then
-              next_conflict = conflict
-              current_idx = i
-              break
-            elseif conflict.bufnr > current_buf or (conflict.bufnr == current_buf and conflict.lnum > current_line) then
+            -- Check if this conflict is after our current position
+            if conflict.bufnr > current_buf or
+                (conflict.bufnr == current_buf and conflict.lnum > current_line) then
               next_conflict = conflict
               current_idx = i
               break
@@ -291,7 +429,7 @@ return {
       {
         "[c",
         function()
-          local conflict_pattern = "^<<<<<<<"
+          local conflict_pattern = "^<<<<<<<" -- Fixed: consistent pattern
           local current_buf = vim.api.nvim_get_current_buf()
           local current_pos = vim.api.nvim_win_get_cursor(0)
           local current_line = current_pos[1] - 1
@@ -325,15 +463,14 @@ return {
           end)
 
           -- Find previous conflict before current position
+          -- Fixed: Simplified logic to avoid redundant checks
           local prev_conflict = nil
           local current_idx = nil
           for i = #conflicts, 1, -1 do
             local conflict = conflicts[i]
-            if conflict.bufnr == current_buf and conflict.lnum < current_line then
-              prev_conflict = conflict
-              current_idx = i
-              break
-            elseif conflict.bufnr < current_buf or (conflict.bufnr == current_buf and conflict.lnum < current_line) then
+            -- Check if this conflict is before our current position
+            if conflict.bufnr < current_buf or
+                (conflict.bufnr == current_buf and conflict.lnum < current_line) then
               prev_conflict = conflict
               current_idx = i
               break
@@ -541,6 +678,103 @@ return {
           vim.api.nvim_win_set_cursor(0, { end_marker - 1, 999 })
         end,
         desc = "Visually select incoming section",
+      },
+      {
+        "<leader>cb",
+        function()
+          -- Find conflict markers and keep both sections (remove only markers)
+          local cursor_line = vim.api.nvim_win_get_cursor(0)[1]
+          local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+
+          local start_marker = nil
+          local middle_marker = nil
+          local end_marker = nil
+
+          -- Search backwards for start marker
+          for i = cursor_line, 1, -1 do
+            if lines[i] and lines[i]:match("^<<<<<<<") then
+              start_marker = i
+              break
+            end
+          end
+
+          if not start_marker then
+            vim.notify("No merge conflict found", vim.log.levels.WARN)
+            return
+          end
+
+          -- Search forward from start for middle and end markers
+          for i = start_marker + 1, #lines do
+            if lines[i] and lines[i]:match("^=======") and not middle_marker then
+              middle_marker = i
+            elseif lines[i] and lines[i]:match("^>>>>>>>") then
+              end_marker = i
+              break
+            end
+          end
+
+          if not middle_marker or not end_marker then
+            vim.notify("Incomplete merge conflict markers", vim.log.levels.WARN)
+            return
+          end
+
+          -- Delete markers in reverse order to maintain line numbers
+          -- Delete end marker
+          vim.api.nvim_buf_set_lines(0, end_marker - 1, end_marker, false, {})
+          -- Delete middle marker
+          vim.api.nvim_buf_set_lines(0, middle_marker - 1, middle_marker, false, {})
+          -- Delete start marker
+          vim.api.nvim_buf_set_lines(0, start_marker - 1, start_marker, false, {})
+
+          vim.notify("Kept both sections, removed markers", vim.log.levels.INFO)
+        end,
+        desc = "Keep both sections (remove markers only)",
+      },
+      {
+        "<leader>cn",
+        function()
+          -- Find conflict markers and delete entire conflict block
+          local cursor_line = vim.api.nvim_win_get_cursor(0)[1]
+          local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+
+          local start_marker = nil
+          local middle_marker = nil
+          local end_marker = nil
+
+          -- Search backwards for start marker
+          for i = cursor_line, 1, -1 do
+            if lines[i] and lines[i]:match("^<<<<<<<") then
+              start_marker = i
+              break
+            end
+          end
+
+          if not start_marker then
+            vim.notify("No merge conflict found", vim.log.levels.WARN)
+            return
+          end
+
+          -- Search forward from start for middle and end markers
+          for i = start_marker + 1, #lines do
+            if lines[i] and lines[i]:match("^=======") and not middle_marker then
+              middle_marker = i
+            elseif lines[i] and lines[i]:match("^>>>>>>>") then
+              end_marker = i
+              break
+            end
+          end
+
+          if not middle_marker or not end_marker then
+            vim.notify("Incomplete merge conflict markers", vim.log.levels.WARN)
+            return
+          end
+
+          -- Delete entire conflict block from start to end marker (inclusive)
+          vim.api.nvim_buf_set_lines(0, start_marker - 1, end_marker, false, {})
+
+          vim.notify("Deleted entire conflict block", vim.log.levels.INFO)
+        end,
+        desc = "Delete entire conflict (keep neither)",
       },
       -- Other
       { "<leader>z",  function() Snacks.zen() end,                     desc = "Toggle Zen Mode" },
