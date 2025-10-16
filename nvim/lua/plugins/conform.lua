@@ -117,7 +117,7 @@ require("conform").setup({
     javascriptreact = { "biome-check", "prettier" },
     typescript = { "biome-check", "prettier" },
     typescriptreact = { "biome-check", "prettier" },
-    markdown = { "biome-check", "prettier" },
+    markdown = { "markdownlint", "prettier" },
     mdx = { "biome-check", "prettier" },
     json = { "biome-check", "prettier" },
     jsonc = { "biome-check", "prettier" },
@@ -137,6 +137,7 @@ require("conform").setup({
 vim.api.nvim_create_user_command("Format", function()
   local formatters = get_closest_formatter({
     ["biome-check"] = { "biome.json" },
+    markdownlint = { ".markdownlint.json", ".markdownlintrc", ".markdownlint.yaml", ".markdownlint.yml" },
     gofmt = { "goimports", "go.mod" },
     goimports = { "go.mod" },
     prettier = { ".prettierrc", "prettier.config.js" },
@@ -175,6 +176,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     -- Use get_closest_formatter to determine the formatter
     local formatters = get_closest_formatter({
       ["biome-check"] = { "biome.json" },
+      markdownlint = { ".markdownlint.json", ".markdownlintrc", ".markdownlint.yaml" },
       gofmt = { "goimports", "go.mod" },
       goimports = { "go.mod" },
       prettier = { ".prettierrc", "prettier.config.js" },
@@ -201,17 +203,3 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 --   pattern = "*",
 --   callback = function(args)
 --     require("conform").format({ bufnr = args.buf })
---   end,
--- })
-
--- vim.api.nvim_create_user_command("Format", function(args)
---   local range = nil
---   if args.count ~= -1 then
---     local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
---     range = {
---       start = { args.line1, 0 },
---       ["end"] = { args.line2, end_line:len() },
---     }
---   end
---   require("conform").format({ async = true, lsp_fallback = true, range = range })
--- end, { range = true })
