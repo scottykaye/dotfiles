@@ -11,15 +11,15 @@ config.window_decorations = "RESIZE"
 
 
 local scottykayeTheme = {
-  foreground = "#CBE0F0",
-  background = "#011423",
+  foreground = "#ebe4f2",
+  background = "#241b2e",
   cursor_bg = "#FFBD16",
   cursor_border = "#FFBD16",
   cursor_fg = "#011423",
   selection_bg = "#FFBD16",
   selection_fg = "#333333",
-  ansi = { "#111423", "#ff5555", "#50fa7b", "#f1fa8c", "#bd93f9", "#ff79c6", "#8be9fd", "#CBE0F0" },
-  brights = { "#214963", "#ff5555", "#50fa7b", "#f1fa8c", "#bd93f9", "#ff79c6", "#8be9fd", "#CBE0F0" },
+  ansi = { "#111423", "#ff5555", "#2ff54c", "#FFBD16", "#bd93f9", "#ff79c6", "#8be9fd", "#CBE0F0" },
+  brights = { "#214963", "#ff5555", "#2ff54c", "#FFBD16", "#bd93f9", "#ff79c6", "#8be9fd", "#CBE0F0" },
 }
 
 config.colors = scottykayeTheme
