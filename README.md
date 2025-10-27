@@ -104,7 +104,7 @@ cp -R ~/<PATH_TO_DOTFILES>/dotfiles/fonts/DroidSansMono.otf ~/Library/Fonts/Droi
 ### Adding Wezterm
 
 ```sh
-cp -R ~/<PATH_TO_DOTFILES>/dotfiles/wezterm/.wezterm.lua ~/.wezterm.lua
+ln -S ~/<PATH_TO_DOTFILES>/dotfiles/wezterm/.wezterm.lua ~/.wezterm.lua
 ```
 
 ### Let's go!!! 😤😵

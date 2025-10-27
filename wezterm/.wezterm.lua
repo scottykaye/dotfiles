@@ -9,53 +9,25 @@ config.enable_tab_bar = false
 
 config.window_decorations = "RESIZE"
 
--- config.colors = {
---   foreground = "#CBE0F0",
---   background = "#011423",
---   cursor_bg = "#47FF9C",
---   cursor_border = "#47FF9C",
---   cursor_fg = "#011423",
---   selection_bg = "#47FF9C",
---   selection_fg = "#CBE0F0",
---   ansi = { "#111423", "#ff5555", "#50fa7b", "#f1fa8c", "#bd93f9", "#ff79c6", "#8be9fd", "#CBE0F0" },
---   brights = { "#214963", "#ff5555", "#50fa7b", "#f1fa8c", "#bd93f9", "#ff79c6", "#8be9fd", "#CBE0F0" },
--- }
+
+local scottykayeTheme = {
+  foreground = "#CBE0F0",
+  background = "#011423",
+  cursor_bg = "#FFBD16",
+  cursor_border = "#FFBD16",
+  cursor_fg = "#011423",
+  selection_bg = "#FFBD16",
+  selection_fg = "#333333",
+  ansi = { "#111423", "#ff5555", "#50fa7b", "#f1fa8c", "#bd93f9", "#ff79c6", "#8be9fd", "#CBE0F0" },
+  brights = { "#214963", "#ff5555", "#50fa7b", "#f1fa8c", "#bd93f9", "#ff79c6", "#8be9fd", "#CBE0F0" },
+}
+
+config.colors = scottykayeTheme
 
 config.window_background_opacity = 0.9
 config.macos_window_background_blur = 10
 
 
-local neofusion_theme = {
-  foreground = "#e0d9c7",
-  background = "#070f1c",
-  cursor_bg = "#e0d9c7",
-  cursor_border = "#e0d9c7",
-  cursor_fg = "#070f1c",
-  selection_bg = "#ea6847",
-  selection_fg = "#e0d9c7",
-  ansi = {
-    "#070f1c", -- Black (Host)
-    "#ea6847", -- Red (Syntax string)
-    "#ea6847", -- Green (Command)
-    "#5db2f8", -- Yellow (Command second)
-    "#2f516c", -- Blue (Path)
-    "#d943a8", -- Magenta (Syntax var)
-    "#86dbf5", -- Cyan (Prompt)
-    "#e0d9c7", -- White
-  },
-  brights = {
-    "#2f516c", -- Bright Black
-    "#d943a8", -- Bright Red (Command error)
-    "#ea6847", -- Bright Green (Exec)
-    "#86dbf5", -- Bright Yellow
-    "#5db2f8", -- Bright Blue (Folder)
-    "#d943a8", -- Bright Magenta
-    "#ea6847", -- Bright Cyan
-    "#e0d9c7", -- Bright White
-  },
-}
-
-config.colors = neofusion_theme
 
 config.set_environment_variables = {
   PATH = os.getenv("PATH"),
@@ -98,7 +70,7 @@ config.macos_window_background_blur = 30
 config.pane_focus_follows_mouse = true
 
 -- Set cursor styles
-config.default_cursor_style = "BlinkingBar"
+config.default_cursor_style = "SteadyBlock"
 
 -- Set visual bell and audio bell
 config.audible_bell = "Disabled"
@@ -107,6 +79,21 @@ config.visual_bell = {
   fade_out_duration_ms = 75,
   target = "CursorColor",
 }
+
+local function get_current_working_dir(tab)
+  local pane = tab.active_pane
+  if not pane or not pane.current_working_dir then
+    return ""
+  end
+
+  local cwd_uri = pane.current_working_dir
+  local cwd = cwd_uri:sub(8) -- remove "file://"
+  local home = os.getenv("HOME")
+  cwd = cwd:gsub(home, "~")  -- shorten home dir
+  return cwd:match("([^/]+)$") or cwd
+end
+
+
 -- set tab-title to current dir if not set explicitly
 wezterm.on("format-tab-title", function(tab)
   local cwd = get_current_working_dir(tab)
@@ -120,7 +107,6 @@ wezterm.on("format-tab-title", function(tab)
   return string.format("  %s %s  ", num, cwd)
 end)
 
--- Keybinds for splitting panes
 config.keys = {
   { key = "d",          mods = "SHIFT|CMD", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
   { key = "d",          mods = "CMD",       action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
@@ -134,6 +120,25 @@ config.keys = {
   { key = "c",          mods = "CMD",       action = act.CopyTo("Clipboard") },
   { key = "n",          mods = "CMD",       action = act.SpawnWindow },
   { key = "v",          mods = "CMD",       action = act.PasteFrom("Clipboard") },
+  { key = 'LeftArrow',  mods = 'CTRL|ALT',  action = wezterm.action.ActivatePaneDirection('Left') },
+  { key = 'RightArrow', mods = 'CTRL|ALT',  action = wezterm.action.ActivatePaneDirection('Right') },
+  { key = 'UpArrow',    mods = 'CTRL|ALT',  action = wezterm.action.ActivatePaneDirection('Up') },
+  { key = 'DownArrow',  mods = 'CTRL|ALT',  action = wezterm.action.ActivatePaneDirection('Down') },
+  {
+    key = "RightArrow",
+    mods = "CMD|CTRL",
+    action = wezterm.action.ActivateTabRelative(1),
+  },
+  {
+    key = "LeftArrow",
+    mods = "CMD|CTRL",
+    action = wezterm.action.ActivateTabRelative(-1),
+  },
+  {
+    key = 'Enter',
+    mods = 'SHIFT|CMD',
+    action = wezterm.action.TogglePaneZoomState,
+  },
   {
     key = ",",
     mods = "LEADER",
@@ -147,6 +152,8 @@ config.keys = {
     }),
   },
 }
+
+
 config.mouse_bindings = {
   -- Ctrl-click will open the link under the mouse cursor
   {
