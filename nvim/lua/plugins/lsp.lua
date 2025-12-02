@@ -123,8 +123,25 @@ vim.lsp.config.emmet_ls = {
   },
 }
 
+vim.lsp.config.jdtls = {
+  capabilities = capabilities,
+  root_markers = { "gradlew", ".git", "mvnw", "pom.xml", "build.gradle" },
+  settings = {
+    java = {
+      signatureHelp = { enabled = true },
+      contentProvider = { preferred = "fernflower" },
+      completion = {
+        favoriteStaticMembers = {
+          "org.junit.jupiter.api.Assertions.*",
+          "org.junit.Assert.*",
+        },
+      },
+    },
+  },
+}
+
 vim.lsp.enable({ "eslint", "rust_analyzer", "solargraph", "ts_ls", "gopls", "tailwindcss", "biome", "html", "lua_ls",
-  "emmet_ls" })
+  "emmet_ls", "jdtls" })
 
 vim.keymap.set("n", "<space>e", vim.diagnostic.open_float)
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)

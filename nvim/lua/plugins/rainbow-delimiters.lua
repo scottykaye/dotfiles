@@ -1,8 +1,8 @@
-vim.cmd([[highlight RainbowBracket1 guifg=#fed62f gui=nocombine]])
-vim.cmd([[highlight RainbowBracket2 guifg=#eb6f92 gui=nocombine]])
-vim.cmd([[highlight RainbowBracket3 guifg=#c4a7e7 gui=nocombine]])
-vim.cmd([[highlight RainbowBracket4 guifg=#3e8fb0 gui=nocombine]])
-
+-- vim.cmd([[highlight RainbowBracket1 guifg=#fed62f gui=nocombine]])
+-- vim.cmd([[highlight RainbowBracket2 guifg=#eb6f92 gui=nocombine]])
+-- vim.cmd([[highlight RainbowBracket3 guifg=#c4a7e7 gui=nocombine]])
+-- vim.cmd([[highlight RainbowBracket4 guifg=#3e8fb0 gui=nocombine]])
+-- Highlights are defined in rose-pine.lua
 -- This module contains a number of default definitions
 local rainbow_delimiters = require 'rainbow-delimiters'
 

@@ -71,6 +71,11 @@ require("rose-pine").setup({
     -- Added
     CursorLineNr = { fg = "base", bg = "iris" },
 
+    -- Rainbow delimiters
+    RainbowBracket1 = { fg = "#fed62f" },
+    RainbowBracket2 = { fg = "#eb6f92" },
+    RainbowBracket3 = { fg = "#c4a7e7" },
+    RainbowBracket4 = { fg = "#3e8fb0" },
 
   },
   --	highlight_groups = {
