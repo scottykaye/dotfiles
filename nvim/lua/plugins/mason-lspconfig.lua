@@ -1,3 +1,12 @@
 require("mason-lspconfig").setup({
-  ensured_installed = { "lua_ls", "solargraph", "ts_ls", "biome", "eslint", "tailwindcss", "phpactor", "php-cs-fixer" },
+  ensure_installed = {
+    "lua_ls",
+    "ts_ls",
+    "emmet_language_server",
+    "eslint",
+    "tailwindcss",
+    "emmet_ls",
+    "grammarly",
+    "jdtls",
+  },
 })

@@ -173,6 +173,7 @@ return {
       { "<leader>ss", function() Snacks.picker.lsp_symbols() end,                             desc = "LSP Symbols" },
       { "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end,                   desc = "LSP Workspace Symbols" },
 
+
       -- TS shortcuts
       {
         "<leader>e",
@@ -364,7 +365,7 @@ return {
         desc = "Go to first merge conflict",
       },
       {
-        "]c",
+        "]n",
         function()
           local conflict_pattern = "^<<<<<<<" -- Fixed: consistent pattern
           local current_buf = vim.api.nvim_get_current_buf()
@@ -427,7 +428,7 @@ return {
         desc = "Next merge conflict",
       },
       {
-        "[c",
+        "[n",
         function()
           local conflict_pattern = "^<<<<<<<" -- Fixed: consistent pattern
           local current_buf = vim.api.nvim_get_current_buf()
@@ -1250,6 +1251,14 @@ return {
         ft = { "markdown", "Avante" },
       },
     },
+  },
+  -- Handles yanking for remote
+  {
+    'ojroques/nvim-osc52',
+    config = function()
+      require('osc52').setup()
+      require("plugins.osc52")
+    end
   }
 
 

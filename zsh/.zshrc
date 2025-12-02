@@ -1,3 +1,5 @@
+# Kiro CLI pre block. Keep at the top of this file.
+[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh"
 # Q pre block. Keep at the top of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
 
@@ -19,6 +21,8 @@ plugins=(git)
 # Source oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
+
+
 # Aliases
 alias vim="nvim"
 alias branches="for-each-ref --sort=-committerdate refs/heads/ --format='%1B[0;31m%(committerdate:relative)%1B[m%09%(refname:short) [%1B[1;34m%(upstream:short)%1B[m]'"
@@ -32,14 +36,21 @@ alias rebaseMaster='git fetch && git rebase origin/master'
 alias rebase='git fetch && git rebase origin/main'
 alias bd='git diff main...$(git symbolic-ref --short HEAD)'
 alias bda='git diff master...$(git symbolic-ref --short HEAD)'
+alias bdat='git diff master...$(git symbolic-ref --short HEAD) -- . ":!*test*" ":!*spec*" ":!**/__tests__/*"'
 alias diff='git diff'
 alias staged='git diff --staged'
 alias gds='git diff --staged'
+alias gdst='git diff --staged . ":!*test*" ":!*spec*" ":!**/__tests__/*"'
 alias gb='git branch'
 alias gbd='git branch -D'
 alias gs='git status'
 alias gsp='git status --porcelain'
 alias gst='git stash'
+alias gsta='git stash apply'
+alias gstp='git stash pop'
+alias gstl='git stash list'
+alias gstd='git stash drop'
+alias gsts='git stash show -p'
 alias gstat='git diff --stat main...HEAD'
 alias gstatma='git diff --stat master...HEAD'
 alias gnstat='git diff --name-status main...HEAD'
@@ -79,9 +90,41 @@ rebaseStackedPR() {
   git fetch && git rebase origin/"$1"
 }
 
+bdaNoTests() {
+  local branch="${1:-master}"
+  git diff "$branch"...$(git symbolic-ref --short HEAD) -- . ':!*test*' ':!*spec*' ':!**/__tests__/*'
+}
+
+gdsNoTests() {
+  local branch="${1:-master}"
+  git diff --staged . ':!*test*' ':!*spec*' ':!**/__tests__/*'
+}
+
+gstpm() {
+  git stash push -m "$1"
+}
+
+
 alias gpu='git push'
 alias gp='git pull'
+alias gf='git fetch'
+alias gfa='git fetch --all'
+alias ga='git add'
+alias gaa='git add --all'
+alias gap='git add -p'
 alias gc='git commit'
+alias gcm='git commit -m'
+alias gca='git commit --amend'
+alias gcan='git commit --amend --no-edit'
+alias gm='git merge'
+alias gcp='git cherry-pick'
+alias grh='git reset HEAD'
+alias grhh='git reset HEAD --hard'
+alias grs='git restore --staged'
+alias gr='git restore'
+alias gbl='git blame'
+alias gsw='git switch'
+alias gswc='git switch -c'
 alias gco='git checkout'
 alias gcom='git checkout main'
 alias gcoom='git checkout origin/main'
@@ -120,13 +163,11 @@ tempStagedDiff() {
   nvim -n ~/temp.diff
 }
 
-# Enable fnm (Node version manager) environment
-eval "$(fnm env --use-on-cd)"
-
 # Repository navigation
 repo() {
   cd ~/code/$1
 }
+
 
 # Source external configurations (envman and bun)
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
@@ -138,3 +179,6 @@ repo() {
 
 
 source <(fzf --zsh)
+
+# Kiro CLI post block. Keep at the bottom of this file.
+[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"
