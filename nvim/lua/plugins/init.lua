@@ -1252,16 +1252,6 @@ return {
       },
     },
   },
-  -- Handles yanking for remote
-  {
-    'ojroques/nvim-osc52',
-    config = function()
-      require('osc52').setup()
-      require("plugins.osc52")
-    end
-  }
-
-
 
   --   {
   --   "Mofiqul/dracula.nvim",
