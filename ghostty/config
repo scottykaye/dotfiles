@@ -1,7 +1,7 @@
 # The syntax is "key = value". The whitespace around the equals doesn't matter.
 # background = 000000
 background = 212023
-background-opacity = 0.9
+background-opacity = 0.95
 background-blur=true
 foreground= ffffff
 theme = Batman
