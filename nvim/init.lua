@@ -23,3 +23,4 @@ require("set")
 
 
 require("lazy").setup("plugins.init")
+require("colorscheme").load()

@@ -93,6 +93,28 @@ return {
             auto_close = true,
             hidden = true,
 
+            toggles = {
+              search_dir = "D",
+            },
+            transform = function(item, ctx)
+              local is_searching = ctx.picker.input.filter.meta.searching
+              if is_searching and ctx.picker.opts.search_dir then
+                return item.dir or false
+              end
+            end,
+            win = {
+              input = {
+                keys = {
+                  ["<M-d>"] = { "toggle_search_dir", mode = { "i", "n" } },
+                },
+              },
+              list = {
+                keys = {
+                  ["<M-d>"] = "toggle_search_dir",
+                },
+              },
+            },
+
             layout = {
               cycle = true,
               preset = function()
@@ -1026,6 +1048,188 @@ return {
       require("plugins.rose-pine")
     end,
   },
+
+  {
+    "scottmckendry/cyberdream.nvim",
+
+
+    config = function()
+      require("cyberdream").setup({
+        -- Set light or dark variant
+        variant = "default", -- use "light" for the light variant. Also accepts "auto" to set dark or light colors based on the current value of `vim.o.background`
+
+        -- Enable transparent background
+        transparent = true,
+
+        -- Reduce the overall saturation of colours for a more muted look
+        saturation = 1, -- accepts a value between 0 and 1. 0 will be fully desaturated (greyscale) and 1 will be the full color (default)
+
+        -- Enable italics comments
+        italic_comments = false,
+
+        -- Replace all fillchars with ' ' for the ultimate clean look
+        hide_fillchars = false,
+
+        -- Apply a modern borderless look to pickers like Telescope, Snacks Picker & Fzf-Lua
+        borderless_pickers = false,
+
+        -- Set terminal colors used in `:terminal`
+        terminal_colors = true,
+
+        -- Improve start up time by caching highlights. Generate cache with :CyberdreamBuildCache and clear with :CyberdreamClearCache
+        cache = false,
+
+        -- Override highlight groups with your own colour values
+        highlights = {
+          -- Highlight groups to override, adding new groups is also possible
+          -- See `:h highlight-groups` for a list of highlight groups or run `:hi` to see all groups and their current values
+
+          -- Example:
+          Comment = { fg = "#696969", bg = "NONE", italic = false },
+
+          -- More examples can be found in `lua/cyberdream/extensions/*.lua`
+        },
+
+        -- Override a highlight group entirely using the built-in colour palette
+        overrides = function(colors) -- NOTE: This function nullifies the `highlights` option
+          -- Example:
+          -- return {
+          --   Comment = { fg = colors.green, bg = "NONE", italic = true },
+          --   ["@property"] = { fg = colors.magenta, bold = true },
+          -- }
+        end,
+
+        -- Override colors
+        colors = {
+          -- For a list of colors see `lua/cyberdream/colours.lua`
+
+          -- Override colors for both light and dark variants
+          bg = "#000000",
+          green = "#00ff00",
+
+          -- If you want to override colors for light or dark variants only, use the following format:
+          dark = {
+            magenta = "#ff00ff",
+            fg = "#eeeeee",
+          },
+          light = {
+            red = "#ff5c57",
+            cyan = "#5ef1ff",
+          },
+        },
+
+        -- Disable or enable colorscheme extensions
+        extensions = {
+          telescope = true,
+          notify = true,
+          mini = true,
+        },
+      })
+
+
+      vim.cmd([[colorscheme cyberdream]])
+    end,
+  },
+  {
+    "nyoom-engineering/oxocarbon.nvim",
+
+    config = function()
+      local function apply_oxocarbon_overrides()
+        if vim.g.colors_name ~= "oxocarbon" then return end
+
+        local c = {
+          bg     = "#0b0f14",
+          bg_alt = "#11151a",
+          gray3  = "#2a2f33",
+          gray6  = "#4a4f55",
+          gray2  = "#7f8b92",
+          blue   = "#3aa7ff",
+          cyan   = "#00cafe",
+          pink   = "#ff66b2",
+          purple = "#9b6bff",
+          black  = "#000000",
+          white  = "#e6eef6",
+        }
+
+        vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+        vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+        vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+        vim.api.nvim_set_hl(0, "FloatBorder", { fg = c.gray3, bg = "none" })
+
+
+
+        -- Make React component names yellow (in imports and usage)
+        local yellow = "#fed62f" -- matches RainbowDelimiterYellow
+        -- @type.tsx links to Type, so set both
+        vim.api.nvim_set_hl(0, "Type", { fg = yellow })
+        vim.api.nvim_set_hl(0, "@type", { fg = yellow })
+        vim.api.nvim_set_hl(0, "@type.tsx", { fg = yellow })
+        vim.api.nvim_set_hl(0, "@type.typescript", { fg = yellow })
+        vim.api.nvim_set_hl(0, "@type.typescriptreact", { fg = yellow })
+
+        -- Picker highlights - make selection more distinct from paths
+        vim.api.nvim_set_hl(0, "SnacksPickerDir", { fg = "#be95ff" }) -- purple, visible on dark bg
+        vim.api.nvim_set_hl(0, "SnacksPickerFile", { fg = "#f2f4f8" })
+        vim.api.nvim_set_hl(0, "SnacksPickerMatch", { fg = yellow, bold = true })
+        vim.api.nvim_set_hl(0, "SnacksPickerRow", { bg = "none" })
+        vim.api.nvim_set_hl(0, "SnacksPickerSelected", { bg = "#525252" })
+        vim.api.nvim_set_hl(0, "CursorLine", { bg = "#393939" })
+
+        -- Explorer highlights - brighter files, distinct hidden files
+        vim.api.nvim_set_hl(0, "SnacksPickerPathHidden", { fg = "#82cfff" })  -- cyan for hidden/dotfiles
+        vim.api.nvim_set_hl(0, "SnacksPickerPathIgnored", { fg = "#6f6f6f" }) -- dim for ignored
+        vim.api.nvim_set_hl(0, "SnacksPickerFile", { fg = "#dde1e6" })        -- brighter files
+        vim.api.nvim_set_hl(0, "SnacksPickerDir", { fg = "#be95ff" })         -- purple dirs
+        vim.api.nvim_set_hl(0, "SnacksPicker", { bg = "none" })
+        vim.api.nvim_set_hl(0, "SnacksPickerTitle", { fg = "#78a9ff", bold = true })
+
+        -- Common oxocarbon colors you can use:
+        -- #f2f4f8 (white), #dde1e6 (light gray), #be95ff (purple)
+        -- #78a9ff (blue), #82cfff (cyan), #33b1ff (bright blue)
+        -- #ee5396 (magenta), #ff7eb6 (pink), #42be65 (green)
+        -- #393939, #525252, #6f6f6f (grays for backgrounds)
+        --
+
+        --
+        -- -- Main picker window
+        -- vim.api.nvim_set_hl(0, "SnacksPickerBorder", { fg = c.gray6, bg = c.bg_alt })
+        -- vim.api.nvim_set_hl(0, "SnacksPickerTitle", { fg = c.black, bg = c.blue, bold = true })
+        -- vim.api.nvim_set_hl(0, "SnacksPickerPrompt", { fg = c.cyan, bg = c.bg_alt })
+        -- vim.api.nvim_set_hl(0, "SnacksPickerPromptIcon", { fg = c.cyan })
+        -- vim.api.nvim_set_hl(0, "SnacksPickerSelection", { bg = c.gray3 })
+        -- vim.api.nvim_set_hl(0, "SnacksPickerMatch", { fg = c.pink })
+        --
+        -- -- Files / directories list
+        -- vim.api.nvim_set_hl(0, "SnacksPickerDirectory", { fg = c.blue })
+        -- vim.api.nvim_set_hl(0, "SnacksPickerFile", { fg = c.white })
+        --
+        -- -- Preview window
+        -- vim.api.nvim_set_hl(0, "SnacksPickerPreviewTitle", { fg = c.black, bg = c.purple })
+        -- vim.api.nvim_set_hl(0, "SnacksPickerPreviewBorder", { fg = c.gray6 })
+        --
+        -- -- Explorer
+        -- vim.api.nvim_set_hl(0, "SnacksTreeIndent", { fg = c.gray6 })
+        -- vim.api.nvim_set_hl(0, "SnacksTreeFolder", { fg = c.blue })
+        -- vim.api.nvim_set_hl(0, "SnacksTreeFile", { fg = c.white })
+        -- vim.api.nvim_set_hl(0, "SnacksTreeSelection", { bg = c.gray3 })
+        --
+        -- -- Generic floats (helps match the screenshot)
+        -- vim.api.nvim_set_hl(0, "NormalFloat", { bg = c.bg_alt })
+        -- vim.api.nvim_set_hl(0, "FloatBorder", { fg = c.gray6, bg = c.bg_alt })
+      end
+
+      -- Apply on colorscheme change
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        pattern = "oxocarbon",
+        callback = apply_oxocarbon_overrides,
+      })
+
+      vim.opt.background = "dark"
+      vim.cmd("colorscheme oxocarbon")
+    end,
+
+  },
+
   { "nvim-tree/nvim-web-devicons", opt = true },
   {
     "akinsho/bufferline.nvim",
@@ -1162,7 +1366,6 @@ return {
   "iamcco/markdown-preview.nvim",
   {
     "davidmh/mdx.nvim",
-    config = true,
     dependencies = { "nvim-treesitter/nvim-treesitter" }
   },
 
