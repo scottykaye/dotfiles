@@ -1,11 +1,10 @@
 # The syntax is "key = value". The whitespace around the equals doesn't matter.
 # background = 000000
-background = 0C0A0D
-background-opacity = 0.93
+background = 212023
+background-opacity = 0.95
 background-blur=true
 foreground= ffffff
 theme = Batman
-font-size=14
 # background-blur-radius = 20
 shell-integration-features = no-cursor,sudo,no-title
 
@@ -39,12 +38,6 @@ window-padding-y=5
 # Comments start with a `#` and are only valid on their own line.
 # Blank lines are ignored!
 
-unfocused-split-opacity=0.6
-unfocused-split-fill=333333
-# split-divider-color=be95ff
-split-divider-color=333333
-
-
 keybind = ctrl+z=close_surface
 # keybind = ctrl+d=new_split:right
 keybind = ctrl+super+left=unbind
@@ -67,6 +60,7 @@ keybind = cmd+s>9=goto_tab:9
 # split
 keybind = cmd+s>\=new_split:right
 keybind = cmd+s>-=new_split:down
+
 
 keybind = cmd+s>j=goto_split:bottom
 keybind = cmd+s>k=goto_split:top

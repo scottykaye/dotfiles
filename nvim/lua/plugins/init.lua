@@ -1175,6 +1175,9 @@ return {
         vim.api.nvim_set_hl(0, "SnacksPickerSelected", { bg = "#525252" })
         vim.api.nvim_set_hl(0, "CursorLine", { bg = "#393939" })
 
+        -- Split borders (WinSeparator)
+        vim.api.nvim_set_hl(0, "WinSeparator", { fg = c.pink })
+
         -- Explorer highlights - brighter files, distinct hidden files
         vim.api.nvim_set_hl(0, "SnacksPickerPathHidden", { fg = "#82cfff" })  -- cyan for hidden/dotfiles
         vim.api.nvim_set_hl(0, "SnacksPickerPathIgnored", { fg = "#6f6f6f" }) -- dim for ignored
@@ -1230,7 +1233,7 @@ return {
 
   },
 
-  { "nvim-tree/nvim-web-devicons", opt = true },
+  { "nvim-tree/nvim-web-devicons",  opt = true },
   {
     "akinsho/bufferline.nvim",
     version = "*",
@@ -1402,6 +1405,7 @@ return {
     end,
   },
 
+  { 'editorconfig/editorconfig-vim' },
   {
     "norcalli/nvim-colorizer.lua",
     config = function()
@@ -1414,8 +1418,17 @@ return {
     lazy = false,
     version = false, -- set this if you want to always pull the latest change
     opts = {
-      -- add any opts here
-      provider = "copilot",
+      provider = "claude",
+      claude = {
+        endpoint = "https://api.anthropic.com",
+        model = "claude-sonnet-4-20250514",
+        max_tokens = 8096,
+      },
+      -- Enable extended thinking (ultrathink)
+      mode = "agentic", -- agentic mode uses extended thinking when available
+      behaviour = {
+        enable_claude_text_editor_tool_mode = true,
+      },
     },
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
     build = "make",
