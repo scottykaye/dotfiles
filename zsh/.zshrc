@@ -44,17 +44,23 @@ alias gdst='git diff --staged . ":!*test*" ":!*spec*" ":!**/__tests__/*"'
 alias gb='git branch'
 alias gbd='git branch -D'
 alias gs='git status'
+alias gr='git reset'
 alias gsp='git status --porcelain'
 alias gst='git stash'
 alias gsta='git stash apply'
 alias gstp='git stash pop'
 alias gstl='git stash list'
 alias gstd='git stash drop'
+alias gspush='git stash push'
 alias gsts='git stash show -p'
 alias gstat='git diff --stat main...HEAD'
 alias gstatma='git diff --stat master...HEAD'
 alias gnstat='git diff --name-status main...HEAD'
 alias gnstatma='git diff --name-status master...HEAD'
+alias fp='git push --force-with-lease'
+alias fpo='git push --force-with-lease origin'
+alias gre='git rebase'
+alias grec="git rebase --continue"
 
 
 stackedDiff() {
@@ -102,6 +108,10 @@ gdsNoTests() {
 
 gstpm() {
   git stash push -m "$1"
+}
+
+rebase_origin () {
+	git fetch origin master && git rebase origin/master && git update-ref refs/heads/master origin/master
 }
 
 
@@ -168,6 +178,7 @@ repo() {
   cd ~/code/$1
 }
 
+eval "$(fnm env --use-on-cd)"
 
 # Source external configurations (envman and bun)
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
