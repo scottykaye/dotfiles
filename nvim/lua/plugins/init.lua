@@ -979,7 +979,23 @@ return {
       require("noice").setup({
         presets = {
           bottom_search = false,
-          command_palette = true
+          command_palette = true,
+          lsp_doc_border = true,
+        },
+        lsp = {
+          override = {
+            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+            ["vim.lsp.util.stylize_markdown"] = true,
+            ["cmp.entry.get_documentation"] = true,
+          },
+          progress = {
+            enabled = false,
+          },
+        },
+        routes = {
+          { filter = { event = "msg_show", kind = "", find = "written" }, opts = { skip = true } },
+          { filter = { event = "msg_show", kind = "search_count" },       opts = { skip = true } },
+          { filter = { event = "msg_show", min_height = 10 },             view = "split" },
         },
         views = {
           cmdline_popup = {
@@ -1012,8 +1028,7 @@ return {
           },
         },
       })
-    end,
-  },
+    end, },
 
 
   {
@@ -1033,12 +1048,12 @@ return {
       require("plugins.treesitter")
     end,
   },
-  "nvim-treesitter/playground",
-  "nvim-treesitter/nvim-treesitter-context",
+  { "nvim-treesitter/playground",                  cmd = "TSPlaygroundToggle" },
+  { "nvim-treesitter/nvim-treesitter-context",     event = "BufReadPre" },
 
   --   -- Comments
-  'numToStr/Comment.nvim',
-  'JoosepAlviste/nvim-ts-context-commentstring',
+  { 'numToStr/Comment.nvim',                       event = "BufReadPre" },
+  { 'JoosepAlviste/nvim-ts-context-commentstring', lazy = true },
 
   -- Colorschemes and UI enhancements
   {
@@ -1127,7 +1142,7 @@ return {
       })
 
 
-      vim.cmd([[colorscheme cyberdream]])
+      -- vim.cmd([[colorscheme cyberdream]]) -- let colorscheme.lua handle it
     end,
   },
   {
@@ -1228,12 +1243,12 @@ return {
       })
 
       vim.opt.background = "dark"
-      vim.cmd("colorscheme oxocarbon")
+      -- vim.cmd("colorscheme oxocarbon") -- let colorscheme.lua handle it
     end,
 
   },
 
-  { "nvim-tree/nvim-web-devicons",  opt = true },
+  { "nvim-tree/nvim-web-devicons", opt = true },
   {
     "akinsho/bufferline.nvim",
     version = "*",
@@ -1247,8 +1262,6 @@ return {
     end,
   },
 
-
-  "rcarriga/nvim-notify",
   {
     "HiPhish/rainbow-delimiters.nvim",
     config = function()
@@ -1315,9 +1328,9 @@ return {
       require("plugins.lsp")
     end,
   },
-  "hrsh7th/nvim-cmp",
-  "hrsh7th/cmp-nvim-lsp",
-  "onsails/lspkind-nvim",
+  { "hrsh7th/nvim-cmp",            event = "InsertEnter" },
+  { "hrsh7th/cmp-nvim-lsp",        lazy = true },
+  { "onsails/lspkind-nvim",        lazy = true },
   {
     "L3MON4D3/LuaSnip",
     dependencies = { "saadparwaiz1/cmp_luasnip", "rafamadriz/friendly-snippets" },
@@ -1325,7 +1338,6 @@ return {
       require("plugins.completions")
     end,
   },
-  "kshenoy/vim-signature",
   -- Utilities
   {
     "mbbill/undotree",
@@ -1335,10 +1347,10 @@ return {
   },
 
   --   Database
-  "tpope/vim-surround",
-  "tpope/vim-dadbod",
-  "kristijanhusak/vim-dadbod-completion",
-  "kristijanhusak/vim-dadbod-ui",
+  { "tpope/vim-surround",                   event = "BufReadPre" },
+  { "tpope/vim-dadbod",                     cmd = "DB" },
+  { "kristijanhusak/vim-dadbod-completion", ft = "sql" },
+  { "kristijanhusak/vim-dadbod-ui",         cmd = "DBUI" },
 
   {
     "stevearc/conform.nvim",
@@ -1354,21 +1366,16 @@ return {
     end,
   },
 
-  {
-    "MunifTanjim/prettier.nvim",
-    config = function()
-      require("plugins.prettier")
-    end,
-  },
-  --
   --   allows me to do make it rain so unnecessary so cool
-  "eandrju/cellular-automaton.nvim",
+  { "eandrju/cellular-automaton.nvim", cmd = "CellularAutomaton" },
 
 
   -- markdown formatting
-  "iamcco/markdown-preview.nvim",
+  { "iamcco/markdown-preview.nvim",    ft = "markdown" },
   {
     "davidmh/mdx.nvim",
+    { "iamcco/markdown-preview.nvim", ft = "markdown" },
+
     dependencies = { "nvim-treesitter/nvim-treesitter" }
   },
 
@@ -1405,7 +1412,6 @@ return {
     end,
   },
 
-  { 'editorconfig/editorconfig-vim' },
   {
     "norcalli/nvim-colorizer.lua",
     config = function()

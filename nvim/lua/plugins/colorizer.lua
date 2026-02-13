@@ -4,17 +4,12 @@ require('colorizer').setup({
     'javascript',
     'tsx',
     'ts',
-    'html'
+    'html',
+    'lua',
   },
   user_default_options = {
     mode = 'background', -- Default mode for all filetypes
     rgb_fn = true,       -- Enable parsing rgb(...) functions
     names = false,       -- Disable parsing color names like "red"
   },
-})
-
-vim.api.nvim_create_autocmd("BufEnter", {
-  callback = function()
-    require("colorizer").attach_to_buffer(0)
-  end,
 })

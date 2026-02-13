@@ -24,7 +24,7 @@ vim.opt.termguicolors = true
 vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 
-vim.opt.updatetime = 50
+vim.opt.updatetime = 250
 
 vim.opt.foldmethod = "indent"
 vim.opt.foldenable = false
@@ -36,6 +36,7 @@ vim.opt.laststatus = 2 -- Or 3 for global statusline
 -- vim.opt.statusline = " %f %m %= %l:%c ♥ "
 vim.opt.showmode = true
 vim.opt.showcmd = true
+
 -- vim.opt.guicursor="n-v-c:block-Cursor,i-ci-ve:ver25-Cursor,r-cr-o:hor20-Cursor"
 vim.opt.guicursor = 'n-v-c:block-Cursor/lCursor'
 vim.opt.cursorline = true
@@ -49,8 +50,3 @@ vim.o.hlsearch = true
 -- vim.api.nvim_command([[
 --  autocmd BufWritePre *.lua :lua require("my_module").strip_trailing_whitespace()
 -- ]])
-
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-  pattern = { "*" },
-  command = [[%s/\s\+$//e]],
-})

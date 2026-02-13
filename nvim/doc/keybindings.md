@@ -25,12 +25,20 @@ Leader key: `<Space>`
 | `<leader>fp`              | Projects (Snacks)          |
 | `<leader>sm`              | Smart find files (Snacks)  |
 
-## Buffers & Windows
+## Buffers & Tabs
 
-| Key          | Description            |
-| ------------ | ---------------------- |
-| `<leader>b`  | List buffers (Snacks)  |
-| `<leader>bd` | Delete buffer (Snacks) |
+| Key               | Description            |
+| ----------------- | ---------------------- |
+| `<leader>b`       | List buffers (Snacks)  |
+| `<leader>bd`      | Delete buffer (Snacks) |
+| `<leader>tn`      | Next tab               |
+| `<leader>tp`      | Previous tab           |
+| `<leader>tct`     | Pick a tab to close    |
+| `<leader>tco`     | Close all other tabs   |
+| `<leader>to`      | Open a new tab         |
+| `<leader>ts`      | Sort tabs by directory |
+| `<leader>t1`-`t9` | Go to tab 1-9          |
+| `<leader>t10`     | Go to tab 10           |
 
 ## Navigation
 
