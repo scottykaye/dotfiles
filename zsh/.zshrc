@@ -185,11 +185,35 @@ eval "$(fnm env --use-on-cd)"
 [ -s "/Users/scottkaye/.bun/_bun" ] && source "/Users/scottkaye/.bun/_bun"
 [[ -f "$HOME/fig-export/dotfiles/dotfile.zsh" ]] && source "$HOME/fig-export/dotfiles/dotfile.zsh"
 
-# Q post block. Keep at the bottom of this file.
-[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
-
 
 source <(fzf --zsh)
 
-# Kiro CLI post block. Keep at the bottom of this file.
-[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"
+
+# ===========================
+# zsh-autosuggestions
+# ===========================
+# Suggest commands from history as you type
+# Install: https://github.com/zsh-users/zsh-autosuggestions
+if [ -f ~/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+  source ~/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
+
+# Optional: make autosuggestions lighter or dim
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
+
+# ===========================
+# zsh-autocomplete
+# ===========================
+# Fish-style autocomplete for commands, options, and arguments
+# Install: https://github.com/marlonrichert/zsh-autocomplete
+# Must be sourced last
+# Optional tweak for Ghostty rendering
+zstyle ':autocomplete:*' floating-menu false
+
+if [ -f ~/zsh-autocomplete/zsh-autocomplete.plugin.zsh ]; then
+  source ~/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+fi
+
+# Restore fzf Ctrl+R (zsh-autocomplete overrides it)
+zle -A {.,}history-incremental-search-backward
+bindkey '^R' fzf-history-widget

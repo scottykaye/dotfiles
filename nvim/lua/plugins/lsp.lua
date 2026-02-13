@@ -109,8 +109,6 @@ vim.lsp.config.emmet_ls = {
     "scss",
     "svelte",
     "pug",
-    "typescriptreact",
-    "typescript",
     "vue",
   },
   init_options = {
