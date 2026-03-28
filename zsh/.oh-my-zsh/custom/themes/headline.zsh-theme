@@ -1,1 +1,0 @@
-headline/headline.zsh-theme
