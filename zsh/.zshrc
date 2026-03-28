@@ -13,6 +13,7 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$(brew --prefix)/opt/python@3/libexec/bin:/opt/homebrew/opt/libpq/bin:$HOME/go/bin:$HOME/bin:$HOME/.rvm/bin:/usr/local/opt/php@7.4/bin:$BUN_INSTALL/bin:$PROTO_HOME/shims:$PROTO_HOME/bin:$PATH"
 
 # Set theme for oh-my-zsh
+ZSH_CUSTOM="$HOME/code/dotfiles/zsh/custom"
 ZSH_THEME="headline"
 
 # Plugins for oh-my-zsh
