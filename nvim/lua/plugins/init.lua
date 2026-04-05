@@ -1028,7 +1028,8 @@ return {
           },
         },
       })
-    end, },
+    end,
+  },
 
 
   {
@@ -1424,16 +1425,19 @@ return {
     lazy = false,
     version = false, -- set this if you want to always pull the latest change
     opts = {
-      provider = "claude",
-      claude = {
-        endpoint = "https://api.anthropic.com",
-        model = "claude-sonnet-4-20250514",
-        max_tokens = 8096,
-      },
-      -- Enable extended thinking (ultrathink)
-      mode = "agentic", -- agentic mode uses extended thinking when available
-      behaviour = {
-        enable_claude_text_editor_tool_mode = true,
+      providers = {
+        claude = {
+          endpoint = "https://api.anthropic.com",
+          model = "claude-sonnet-4-20250514",
+          extra_request_body = {
+            max_tokens = 8096,
+          },
+        },
+        -- Enable extended thinking (ultrathink)
+        mode = "agentic", -- agentic mode uses extended thinking when available
+        behaviour = {
+          enable_claude_text_editor_tool_mode = true,
+        },
       },
     },
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
