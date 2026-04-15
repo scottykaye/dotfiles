@@ -104,7 +104,6 @@ vim.keymap.set("n", "<leader>S", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
 vim.keymap.set("n", "<leader>ok", [[:%s/\(.*\)/bar\1/g<Left><Left><Left><Left>]])
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
-vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>");
 
 vim.keymap.set("n", "<leader><leader>", function()
   vim.cmd("so")
@@ -120,9 +119,11 @@ end)
 -- )
 
 
+
 vim.api.nvim_create_user_command("Cpath", function()
   local path = vim.fn.expand("%:.")
   vim.fn.setreg("+", path)
+  require('osc52').copy(path)
   vim.notify('Copied relative path "' .. path .. '" to the clipboard!')
 end, {})
 
@@ -130,6 +131,7 @@ end, {})
 vim.api.nvim_create_user_command("Capath", function()
   local path = vim.fn.expand("%:p")
   vim.fn.setreg("+", path)
+  require('osc52').copy(path)
   vim.notify('Copied absolute path "' .. path .. '" to the clipboard!')
 end, {})
 
@@ -142,6 +144,7 @@ vim.api.nvim_create_user_command("Gpath", function()
   if vim.v.shell_error ~= 0 or git_root == nil or git_root == "" then
     -- Not in a Git repo, copy absolute path instead
     vim.fn.setreg("+", file)
+    require('osc52').copy(file)
     vim.notify('Copied full path (not in Git repo): "' .. file .. '"')
     return
   end
@@ -151,5 +154,6 @@ vim.api.nvim_create_user_command("Gpath", function()
 
   -- Copy to clipboard
   vim.fn.setreg("+", relative_path)
+  require('osc52').copy(relative_path)
   vim.notify('Copied Git-relative path "' .. relative_path .. '" to the clipboard!')
 end, {})
