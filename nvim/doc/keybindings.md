@@ -272,6 +272,34 @@ Leader key: `<Space>`
 | `<C-c>`            | Escape insert mode                |
 | `Q`                | Disabled (noop)                   |
 
+## Debugging (DAP)
+
+| Key          | Mode | Description            |
+| ------------ | ---- | ---------------------- |
+| `<leader>db` | n    | Toggle breakpoint      |
+| `<leader>dB` | n    | Conditional breakpoint |
+| `<leader>dc` | n    | Continue               |
+| `<leader>di` | n    | Step into              |
+| `<leader>do` | n    | Step over              |
+| `<leader>dO` | n    | Step out               |
+| `<leader>dr` | n    | Open REPL              |
+| `<leader>dl` | n    | Run last               |
+| `<leader>dt` | n    | Terminate              |
+| `<leader>du` | n    | Toggle DAP UI          |
+| `<leader>de` | n, v | Eval expression        |
+
+## Java (nvim-jdtls)
+
+| Key          | Mode | Description           |
+| ------------ | ---- | --------------------- |
+| `<leader>jo` | n    | Organize imports      |
+| `<leader>jv` | n, v | Extract variable      |
+| `<leader>jc` | n, v | Extract constant      |
+| `<leader>jm` | v    | Extract method        |
+| `<leader>jt` | n    | Test nearest method   |
+| `<leader>jT` | n    | Test class            |
+| `<leader>ju` | n    | Update project config |
+
 ## Copilot (AI Suggestions)
 
 | Key         | Mode | Description         |

@@ -79,11 +79,17 @@ ln -s ~/<PATH_TO_DOTFILES>/dotfiles/zsh/.oh-my-zsh ~/
 
 ```sh
 ln -s ~/<PATH_TO_DOTFILES>/dotfiles/nvim ~/.config/nvim
-ln -s ~/<PATH_TO_DOTFILES>/dotfiles/ghostty ~/.config/ghostty
+ln -s ~/<PATH_TO_DOTFILES>/dotfiles/zsh/ghostty ~/.config
 ```
 
 > [!NOTE]
 > Once you've created all these 4 paths, you'll need to either source all these folders and files (.zshrc, .zprofile, .oh-my-zsh, .config/nvim) or just shut the terminal and reopen!
+
+4. Symlink the `skills/` folder to `~/.claude/skills`
+
+```sh
+ln -s ~/<PATH_TO_DOTFILES>/dotfiles/skills ~/.claude/skills
+```
 
 5. Open vim and Lazy should auto install! If not run lazy
 
@@ -99,12 +105,6 @@ The `plugin` folder should now compile in `~/<PATH_TO_DOTFILES>/dotfiles/nvim/pl
 
 ```sh
 cp -R ~/<PATH_TO_DOTFILES>/dotfiles/fonts/DroidSansMono.otf ~/Library/Fonts/DroidSansMono.otf
-```
-
-### Adding Wezterm
-
-```sh
-ln -S ~/<PATH_TO_DOTFILES>/dotfiles/wezterm/.wezterm.lua ~/.wezterm.lua
 ```
 
 ### Let's go!!! 😤😵

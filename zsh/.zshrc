@@ -20,8 +20,6 @@ plugins=(git)
 # Source oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
-
-
 # Aliases
 alias vim="nvim"
 alias branches="for-each-ref --sort=-committerdate refs/heads/ --format='%1B[0;31m%(committerdate:relative)%1B[m%09%(refname:short) [%1B[1;34m%(upstream:short)%1B[m]'"
@@ -61,6 +59,10 @@ alias fpo='git push --force-with-lease origin'
 alias gre='git rebase'
 alias grec="git rebase --continue"
 
+airchat() {
+  local effort="${1:-max}"
+  claude --model claude-opus-4-6 --effort "$effort"
+}
 
 stackedDiff() {
   local branch="${1:-main}"
@@ -151,6 +153,17 @@ alias gchr="open -a Google\ Chrome"
 alias arc="open -a 'Arc'"
 alias codeDir="cd ~/code"
 
+
+dropStashes() {
+  local start=$1
+  local end=$2
+
+  # Delete from highest to lowest to avoid reindex issues
+  for i in $(seq $end -1 $start); do
+    git stash drop stash@{$i}
+  done
+}
+
 # Git diff functions
 codeDiff() {
   git diff --full-index $1 $2 $3 $4 $5 > ~/temp.diff
@@ -178,15 +191,17 @@ repo() {
 }
 
 eval "$(fnm env --use-on-cd)"
+fnm use --silent-if-unchanged 2>/dev/null || true
 
-# Source external configurations (envman and bun)
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 [ -s "/Users/scottkaye/.bun/_bun" ] && source "/Users/scottkaye/.bun/_bun"
-[[ -f "$HOME/fig-export/dotfiles/dotfile.zsh" ]] && source "$HOME/fig-export/dotfiles/dotfile.zsh"
 
 
 source <(fzf --zsh)
 
+if [ -f $HOME/code/dotfiles/.env ]; then
+  source $HOME/code/dotfiles/.env
+fi
 
 # ===========================
 # zsh-autosuggestions
@@ -214,5 +229,4 @@ if [ -f ~/zsh-autocomplete/zsh-autocomplete.plugin.zsh ]; then
 fi
 
 # Restore fzf Ctrl+R (zsh-autocomplete overrides it)
-zle -A {.,}history-incremental-search-backward
 bindkey '^R' fzf-history-widget

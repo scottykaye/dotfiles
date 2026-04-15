@@ -1478,6 +1478,39 @@ return {
       },
     },
   },
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    config = function()
+      require("copilot").setup({
+
+        suggestion = {
+          enabled = true,
+          auto_trigger = true,
+          keymap = {
+            accept = "<C-f>",
+            accept_word = "<C-Right>",
+            accept_line = "<C-Down>",
+            next = "<M-]>",
+            prev = "<M-[>",
+            dismiss = "<C-]>",
+          },
+        }
+
+      })
+    end,
+  },
+  -- Handles yanking for remote
+  {
+    'ojroques/nvim-osc52',
+    config = function()
+      require('osc52').setup()
+      require("plugins.osc52")
+    end
+  }
+
+
 
   --   {
   --   "Mofiqul/dracula.nvim",

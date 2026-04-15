@@ -48,6 +48,100 @@ local get_distance_to = function(path_one, current_buffer)
   return distance
 end
 
+---@param glob string The glob pattern to convert (e.g., "**/*.js")
+---@return string The equivalent Lua pattern
+local glob_to_lua_pattern = function(glob)
+  local pattern = glob
+  -- Escape Lua magic characters (except * and ?)
+  pattern = pattern:gsub("([%.%+%-%^%$%(%)%[%]%%])", "%%%1")
+  -- Use placeholder for ** to avoid double-conversion
+  pattern = pattern:gsub("%*%*", "\001DOUBLESTAR\001")
+  -- Convert single * to match anything except /
+  pattern = pattern:gsub("%*", "[^/]*")
+  -- Convert ** placeholder back to match anything including /
+  pattern = pattern:gsub("\001DOUBLESTAR\001", ".*")
+  -- Convert ? to match single character except /
+  pattern = pattern:gsub("%?", "[^/]")
+  return "^" .. pattern .. "$"
+end
+
+-- Cache for parsed biome configs
+---@type table<string, { includes: string[]|nil }>
+local biome_config_cache = {}
+
+---@param biome_json_path string Absolute path to biome.json
+---@return { includes: string[]|nil }|nil
+local parse_biome_config = function(biome_json_path)
+  -- Check cache first
+  if biome_config_cache[biome_json_path] then
+    return biome_config_cache[biome_json_path]
+  end
+
+  -- Read and parse the file
+  local file = io.open(biome_json_path, "r")
+  if not file then
+    return nil
+  end
+
+  local content = file:read("*a")
+  file:close()
+
+  local ok, data = pcall(vim.json.decode, content)
+  if not ok or not data then
+    return nil
+  end
+
+  -- Extract includes array
+  local result = {
+    includes = data.files and data.files.includes or nil,
+  }
+
+  -- Cache the result
+  biome_config_cache[biome_json_path] = result
+  return result
+end
+
+---@param biome_json_path string Absolute path to biome.json
+---@param file_path string Absolute path to the file being formatted
+---@return boolean True if biome will format this file
+local biome_supports_file = function(biome_json_path, file_path)
+  local config = parse_biome_config(biome_json_path)
+
+  -- If no config or no includes specified, assume all files are supported
+  if not config or not config.includes then
+    return true
+  end
+
+  -- Get file path relative to biome.json directory
+  local biome_dir = vim.fn.fnamemodify(biome_json_path, ":h")
+  local relative_path = file_path
+  if file_path:sub(1, #biome_dir) == biome_dir then
+    relative_path = file_path:sub(#biome_dir + 2) -- +2 to skip the /
+  end
+
+  -- Check negative patterns (exclusions) first
+  for _, pattern in ipairs(config.includes) do
+    if pattern:sub(1, 1) == "!" then
+      local exclude_pattern = pattern:sub(2)
+      if relative_path:match(glob_to_lua_pattern(exclude_pattern)) then
+        return false
+      end
+    end
+  end
+
+  -- Check if file matches any positive include pattern
+  for _, pattern in ipairs(config.includes) do
+    if pattern:sub(1, 1) ~= "!" then
+      if relative_path:match(glob_to_lua_pattern(pattern)) then
+        return true
+      end
+    end
+  end
+
+  -- No pattern matched
+  return false
+end
+
 ---@param _formatters table<string, string[]>
 ---@return string[] | nil
 local get_closest_formatter = function(_formatters)
@@ -62,8 +156,8 @@ local get_closest_formatter = function(_formatters)
   ---@type table<string, string[]>
   _formatters = filter_table(_formatters, keys_to_include)
 
-  ---@type table<string, number>
-  local distance = {}
+  ---@type table<string, { distance: number, config_path: string }>
+  local formatter_info = {}
 
   for formatter_name, formatter_configs in pairs(_formatters) do
     local formatter_config_path = nil
@@ -75,33 +169,46 @@ local get_closest_formatter = function(_formatters)
       })
 
       if found[1] ~= nil then
-        formatter_config_path = found
+        formatter_config_path = found[1]
         break
       end
     end
 
-    if formatter_config_path and formatter_config_path[1] ~= nil then
-      distance[formatter_name] = get_distance_to(formatter_config_path[1], current_buffer_path)
+    if formatter_config_path then
+      formatter_info[formatter_name] = {
+        distance = get_distance_to(formatter_config_path, current_buffer_path),
+        config_path = formatter_config_path,
+      }
     end
   end
 
-  ---@type string|nil
-  local shortest_path_key = nil
-  ---@type number
-  local shortest_path_val = math.huge
+  -- Sort formatters by distance (closest first)
+  local sorted_formatters = {}
+  for name, info in pairs(formatter_info) do
+    table.insert(sorted_formatters, { name = name, distance = info.distance, config_path = info.config_path })
+  end
+  table.sort(sorted_formatters, function(a, b)
+    return a.distance < b.distance
+  end)
 
-  for formatter_name, formatter_distance in pairs(distance) do
-    if formatter_distance < shortest_path_val then
-      shortest_path_key = formatter_name
-      shortest_path_val = formatter_distance
+  -- Find the first formatter that supports the current file
+  for _, formatter in ipairs(sorted_formatters) do
+    local should_use = true
+
+    -- Validate biome-check supports the file type
+    if formatter.name == "biome-check" then
+      if not biome_supports_file(formatter.config_path, current_buffer_path) then
+        -- Skip biome-check, try next formatter
+        should_use = false
+      end
+    end
+
+    if should_use then
+      return { formatter.name }
     end
   end
 
-  if shortest_path_key == nil then
-    return nil
-  end
-
-  return { shortest_path_key }
+  return nil
 end
 
 require("conform").setup({
@@ -110,6 +217,8 @@ require("conform").setup({
     lua = {},
     python = { "black" },
     go = { "gofmt", "goimports", "gofumpt", "goimports-reviser" },
+    java = { "google-java-format" },
+    kotlin = { "ktlint" },
     css = { "biome-check", "prettier" },
     scss = { "biome-check", "prettier" },
     html = { "biome-check", "prettier" },
@@ -123,7 +232,7 @@ require("conform").setup({
     jsonc = { "biome-check", "prettier" },
     bash = { "shfmt" },
     yaml = { "prettier" },
-    graphql = { "prettier" },
+    graphql = { "biome-check", "prettier" },
     handlebars = { "prettier" },
     zsh = { "beautysh" },
     sh = { "beautysh" },
@@ -140,10 +249,20 @@ vim.api.nvim_create_user_command("Format", function()
     markdownlint = { ".markdownlint.json", ".markdownlintrc", ".markdownlint.yaml", ".markdownlint.yml" },
     gofmt = { "goimports", "go.mod" },
     goimports = { "go.mod" },
+    ["google-java-format"] = { "BUILD.bazel", "WORKSPACE.bazel", "build.gradle", "pom.xml" },
+    ktlint = { ".editorconfig" },
     prettier = { ".prettierrc", "prettier.config.js" },
   })
 
   if not formatters then
+    -- For YAML files, skip formatting if no prettier config found
+    -- (treehouse uses editorconfig for YAML, frontend repos have .prettierrc)
+    local filetype = vim.bo.filetype
+    if filetype == "yaml" then
+      print("No formatter config found for YAML - using editorconfig only")
+      return
+    end
+
     print("formatter not found, using lsp")
     require("conform").format({ async = true, lsp_fallback = true })
   else
@@ -179,10 +298,21 @@ vim.api.nvim_create_autocmd("BufWritePre", {
       markdownlint = { ".markdownlint.json", ".markdownlintrc", ".markdownlint.yaml" },
       gofmt = { "goimports", "go.mod" },
       goimports = { "go.mod" },
+      ["google-java-format"] = { "BUILD.bazel", "WORKSPACE.bazel", "build.gradle", "pom.xml" },
+      ktlint = { ".editorconfig" },
       prettier = { ".prettierrc", "prettier.config.js" },
     })
 
     if not formatters then
+      -- Skip formatting if no config found for these types:
+      -- YAML: treehouse uses editorconfig, frontend repos have .prettierrc
+      -- JSON/JSONC: pineapple excludes JSON from biome and has no .prettierrc,
+      --             so lsp_fallback would invoke biome LSP which ignores files.includes
+      local filetype = vim.bo.filetype
+      if filetype == "yaml" or filetype == "json" or filetype == "jsonc" then
+        return
+      end
+
       -- If no formatter is found, fallback to LSP formatting
       require("conform").format({
         async = false,
@@ -199,7 +329,29 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
+-- Invalidate biome config cache when biome.json is saved
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = "biome.json",
+  callback = function(args)
+    biome_config_cache[args.file] = nil
+  end,
+})
+
 -- vim.api.nvim_create_autocmd("BufWritePre", {
 --   pattern = "*",
 --   callback = function(args)
 --     require("conform").format({ bufnr = args.buf })
+--   end,
+-- })
+
+-- vim.api.nvim_create_user_command("Format", function(args)
+--   local range = nil
+--   if args.count ~= -1 then
+--     local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
+--     range = {
+--       start = { args.line1, 0 },
+--       ["end"] = { args.line2, end_line:len() },
+--     }
+--   end
+--   require("conform").format({ async = true, lsp_fallback = true, range = range })
+-- end, { range = true })
