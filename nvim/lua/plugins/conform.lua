@@ -218,7 +218,7 @@ require("conform").setup({
     python = { "black" },
     go = { "gofmt", "goimports", "gofumpt", "goimports-reviser" },
     java = { "google-java-format" },
-    kotlin = { "ktlint" },
+    -- kotlin = { "ktlint" },
     css = { "biome-check", "prettier" },
     scss = { "biome-check", "prettier" },
     html = { "biome-check", "prettier" },
@@ -226,7 +226,7 @@ require("conform").setup({
     javascriptreact = { "biome-check", "prettier" },
     typescript = { "biome-check", "prettier" },
     typescriptreact = { "biome-check", "prettier" },
-    markdown = { "markdownlint", "prettier" },
+    markdown = { "markdownlint-cli2", "markdownlint", "prettier" },
     mdx = { "biome-check", "prettier" },
     json = { "biome-check", "prettier" },
     jsonc = { "biome-check", "prettier" },
@@ -246,7 +246,8 @@ require("conform").setup({
 vim.api.nvim_create_user_command("Format", function()
   local formatters = get_closest_formatter({
     ["biome-check"] = { "biome.json" },
-    markdownlint = { ".markdownlint.json", ".markdownlintrc", ".markdownlint.yaml", ".markdownlint.yml" },
+    ["markdownlint-cli2"] = { ".markdownlint-cli2.mjs" },
+    markdownlint = { ".markdownlint.jsonc" },
     gofmt = { "goimports", "go.mod" },
     goimports = { "go.mod" },
     ["google-java-format"] = { "BUILD.bazel", "WORKSPACE.bazel", "build.gradle", "pom.xml" },
@@ -295,7 +296,8 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     -- Use get_closest_formatter to determine the formatter
     local formatters = get_closest_formatter({
       ["biome-check"] = { "biome.json" },
-      markdownlint = { ".markdownlint.json", ".markdownlintrc", ".markdownlint.yaml" },
+      ["markdownlint-cli2"] = { ".markdownlint-cli2.mjs" },
+      markdownlint = { ".markdownlint.jsonc" },
       gofmt = { "goimports", "go.mod" },
       goimports = { "go.mod" },
       ["google-java-format"] = { "BUILD.bazel", "WORKSPACE.bazel", "build.gradle", "pom.xml" },

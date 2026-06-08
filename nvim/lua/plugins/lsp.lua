@@ -104,6 +104,8 @@ vim.lsp.config.emmet_ls = {
     "html",
     "javascript",
     "javascriptreact",
+    "typescript",
+    "typescriptreact",
     "less",
     "sass",
     "scss",
@@ -121,25 +123,8 @@ vim.lsp.config.emmet_ls = {
   },
 }
 
-vim.lsp.config.jdtls = {
-  capabilities = capabilities,
-  root_markers = { "gradlew", ".git", "mvnw", "pom.xml", "build.gradle" },
-  settings = {
-    java = {
-      signatureHelp = { enabled = true },
-      contentProvider = { preferred = "fernflower" },
-      completion = {
-        favoriteStaticMembers = {
-          "org.junit.jupiter.api.Assertions.*",
-          "org.junit.Assert.*",
-        },
-      },
-    },
-  },
-}
-
 vim.lsp.enable({ "eslint", "rust_analyzer", "solargraph", "ts_ls", "gopls", "tailwindcss", "biome", "html", "lua_ls",
-  "emmet_ls", "jdtls" })
+  "emmet_ls" })
 
 vim.keymap.set("n", "<space>e", vim.diagnostic.open_float)
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
@@ -182,8 +167,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set("n", "gi", function()
       vim.lsp.buf.implementations()
     end, {})
-    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
     vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
     vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
     vim.keymap.set("n", "<C-h>", vim.lsp.buf.signature_help, opts)

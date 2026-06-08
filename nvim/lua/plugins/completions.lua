@@ -4,7 +4,6 @@ local luasnip = require('luasnip')
 require("luasnip.loaders.from_vscode").lazy_load()
 require("luasnip.loaders.from_lua").lazy_load({ paths = { vim.fn.stdpath("config") .. "/luasnippets" } })
 
-
 cmp.setup({
   snippet = {
     expand = function(args)
@@ -71,20 +70,17 @@ cmp.setup({
   end, { 'i', 's' }),
 })
 
+vim.diagnostic.config({
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "✘",
+      [vim.diagnostic.severity.WARN]  = "▲",
+      [vim.diagnostic.severity.INFO]  = "",
+      [vim.diagnostic.severity.HINT]  = "",
+    },
+  },
+})
 
---    
-local sign = function(opts)
-  vim.fn.sign_define(opts.name, {
-    texthl = opts.name,
-    text = opts.text,
-    numhl = ''
-  })
-end
-
-sign({ name = 'DiagnosticSignError', text = '✘' })
-sign({ name = 'DiagnosticSignWarn', text = '▲' })
-sign({ name = 'DiagnosticSignHint', text = '' })
-sign({ name = 'DiagnosticSignInfo', text = '' })
 
 vim.diagnostic.config({
   virtual_text = false,
