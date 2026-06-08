@@ -32,16 +32,16 @@ require("dracula").setup({
     white = "#ABB2BF",
     black = "#191A21",
   },
-  show_end_of_buffer = true,          -- default false
-  transparent_bg = true,              -- default false
-  lualine_bg_color = "#44475a",       -- default nil
-  italic_comment = true,              -- default false
+  show_end_of_buffer = true,    -- default false
+  transparent_bg = true,        -- default false
+  lualine_bg_color = "#44475a", -- default nil
+  italic_comment = true,        -- default false
 
   overrides = function(colors)
     return {
 
       FloatBorder = { fg = colors.orange_yellow, },
-      NonText = { fg = colors.white },       -- set NonText fg to white of theme
+      NonText = { fg = colors.white }, -- set NonText fg to white of theme
       DiffAdd = { bg = colors.bright_green },
       DiffDelete = { fg = colors.bright_red },
       DiffChange = { bg = colors.comment },
@@ -117,6 +117,9 @@ require("dracula").setup({
       markdownOrderedListMarker = { fg = colors.red, },
       markdownRule = { fg = colors.comment, },
 
+      SnacksInputNormal = { fg = colors.fg, bg = colors.menu },
+      SnacksInputBorder = { fg = colors.orange_yellow, bg = colors.menu },
+      SnacksInputTitle = { fg = colors.orange_yellow, bg = colors.menu },
 
     }
   end

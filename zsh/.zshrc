@@ -6,6 +6,13 @@ export ZSH="$HOME/.oh-my-zsh"
 export SSH_KEY_PATH="~/.ssh/rsa_id"
 export PROTO_HOME="$HOME/.proto"
 export BUN_INSTALL="$HOME/.bun"
+export TERMINFO="$(infocmp -D)"
+if [ -x /usr/libexec/java_home ]; then
+  export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
+  export PATH=$JAVA_HOME/bin:$PATH
+fi
+
+
 
 # Modify PATH with important directories
 export PATH="$(brew --prefix)/opt/python@3/libexec/bin:/opt/homebrew/opt/libpq/bin:$HOME/go/bin:$HOME/bin:$HOME/.rvm/bin:/usr/local/opt/php@7.4/bin:$BUN_INSTALL/bin:$PROTO_HOME/shims:$PROTO_HOME/bin:$PATH"
@@ -58,10 +65,14 @@ alias fp='git push --force-with-lease'
 alias fpo='git push --force-with-lease origin'
 alias gre='git rebase'
 alias grec="git rebase --continue"
+alias gagrec="git add . && git rebase --continue"
 
-airchat() {
-  local effort="${1:-max}"
-  claude --model claude-opus-4-6 --effort "$effort"
+airchatV() {
+    if [[ $# -eq 0 ]]; then
+      claude --model claude-opus-4-7 --effort xhigh
+    else
+      claude --model claude-opus-4-7 --effort "$@"
+    fi
 }
 
 stackedDiff() {
@@ -153,6 +164,12 @@ alias gchr="open -a Google\ Chrome"
 alias arc="open -a 'Arc'"
 alias codeDir="cd ~/code"
 
+blameurl() {
+  local file="$1"
+  local line="$2"
+  local hash=$(git blame -L "$line,$line" "$file" | awk '{print $1}')
+  gh browse "$hash"
+}
 
 dropStashes() {
   local start=$1
@@ -190,14 +207,26 @@ repo() {
   cd ~/code/$1
 }
 
-eval "$(fnm env --use-on-cd)"
-fnm use --silent-if-unchanged 2>/dev/null || true
+if command -v fnm >/dev/null 2>&1; then
+  eval "$(fnm env --use-on-cd)"
+  fnm use --silent-if-unchanged 2>/dev/null || true
+fi
 
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 [ -s "/Users/scottkaye/.bun/_bun" ] && source "/Users/scottkaye/.bun/_bun"
 
 
-source <(fzf --zsh)
+# --- fzf: use fd, skip the giant directories ---
+if command -v fd >/dev/null 2>&1; then
+  _FD_OPTS='--hidden --follow --exclude .git --exclude node_modules'
+  export FZF_DEFAULT_COMMAND="fd --type f $_FD_OPTS"
+  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+  export FZF_ALT_C_COMMAND="fd --type d $_FD_OPTS"
+fi
+# Sensible default UI + previews
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+
+command -v fzf >/dev/null 2>&1 && source <(fzf --zsh)
 
 if [ -f $HOME/code/dotfiles/.env ]; then
   source $HOME/code/dotfiles/.env
@@ -223,6 +252,12 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 # Must be sourced last
 # Optional tweak for Ghostty rendering
 zstyle ':autocomplete:*' floating-menu false
+
+# --- zsh-autocomplete: stop racing on every keystroke ---
+zstyle ':autocomplete:*' delay 0.2          # wait before triggering
+zstyle ':autocomplete:*' min-input 2        # need ≥2 chars before completing
+zstyle ':autocomplete:*' recent-dirs no     # skip slow dir history scans
+zstyle ':autocomplete:*' list-lines 8       # cap menu render cost
 
 if [ -f ~/zsh-autocomplete/zsh-autocomplete.plugin.zsh ]; then
   source ~/zsh-autocomplete/zsh-autocomplete.plugin.zsh
