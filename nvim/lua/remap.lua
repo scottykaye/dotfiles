@@ -1,10 +1,10 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, { desc = "Open netrw file explorer" })
 
 -- remap vim paste to paste copy
-vim.keymap.set("v", "<leader>pc", "p")
+vim.keymap.set("v", "<leader>pc", "p", { desc = "Paste over selection" })
 -- make pastes actually paste
 vim.keymap.set("v", "p", "pgvy")
 
@@ -19,21 +19,21 @@ vim.keymap.set("n", "N", "Nzzzv")
 
 vim.keymap.set("n", "<leader>vwm", function()
   require("vim-with-me").StartVimWithMe()
-end)
+end, { desc = "Start Vim With Me" })
 vim.keymap.set("n", "<leader>svwm", function()
   require("vim-with-me").StopVimWithMe()
-end)
+end, { desc = "Stop Vim With Me" })
 
 -- greatest remap ever
-vim.keymap.set("x", "<leader>p", [["_dP]])
+vim.keymap.set("x", "<leader>p", [["_dP]], { desc = "Paste without yanking selection" })
 
 -- Remapping for yanking
 -- This remaps <leader>y in normal (n) and visual (v) modes to "+y, which yanks (copies) the selected text to the system clipboard ("+ refers to the system clipboard register in Vim).
-vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Yank to system clipboard" })
 -- This remaps <leader>Y in normal (n) mode to "+Y, which yanks (copies) the entire line to the system clipboard.
-vim.keymap.set("n", "<leader>Y", [["+Y]])
+vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Yank line to system clipboard" })
 -- This remaps <leader>d in normal (n) and visual (v) modes to "_d, which deletes the selected text to the black hole register ("_ refers to the black hole register in Vim).
-vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
+vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]], { desc = "Delete to black hole register" })
 -- Use Ctrl c to close insert mode
 vim.keymap.set("i", "<C-c>", "<Esc>")
 
@@ -43,10 +43,10 @@ vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
-vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
-vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
+vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz", { desc = "Next location list item" })
+vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz", { desc = "Prev location list item" })
 
-vim.keymap.set("n", "<leader>c", [[:nohlsearch<CR>]])
+vim.keymap.set("n", "<leader>c", [[:nohlsearch<CR>]], { desc = "Clear search highlight" })
 
 -- vim.keymap.set("n", "<S-M-Up>", "Vypk")
 -- vim.keymap.set("n", "<S-M-Down>", "Vyp")
@@ -95,19 +95,23 @@ vim.keymap.set("v", "<A-K>", ":t'><CR>gv", { noremap = true, silent = true })
 
 
 
-vim.keymap.set("n", "<leader>w", [[:w<CR>]])
-vim.keymap.set("n", "<leader>W", [[:w<CR>]])
-vim.keymap.set("n", "<leader>h", [[:/<C-r><C-w><CR>]])
-vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
-vim.keymap.set("n", "<leader>S", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+vim.keymap.set("n", "<leader>w", [[:w<CR>]], { desc = "Write file" })
+vim.keymap.set("n", "<leader>W", [[:w<CR>]], { desc = "Write file" })
 
-vim.keymap.set("n", "<leader>ok", [[:%s/\(.*\)/bar\1/g<Left><Left><Left><Left>]])
-vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
+-- Window splits (timing-independent alternatives to <C-w>v / <C-w>s)
+vim.keymap.set("n", "<leader>|", "<cmd>vsplit<CR>", { desc = "Vertical split" })
+vim.keymap.set("n", "<leader>-", "<cmd>split<CR>", { desc = "Horizontal split" })
+vim.keymap.set("n", "<leader>h", [[:/<C-r><C-w><CR>]], { desc = "Search word under cursor" })
+vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Substitute word under cursor" })
+vim.keymap.set("n", "<leader>S", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Substitute word under cursor" })
+
+vim.keymap.set("n", "<leader>ok", [[:%s/\(.*\)/bar\1/g<Left><Left><Left><Left>]], { desc = "Prefix lines with bar" })
+vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true, desc = "chmod +x current file" })
 
 
 vim.keymap.set("n", "<leader><leader>", function()
   vim.cmd("so")
-end)
+end, { desc = "Source current file" })
 
 
 -- open file_browser with the path of the current buffer
@@ -123,37 +127,25 @@ end)
 vim.api.nvim_create_user_command("Cpath", function()
   local path = vim.fn.expand("%:.")
   vim.fn.setreg("+", path)
-  require('osc52').copy(path)
   vim.notify('Copied relative path "' .. path .. '" to the clipboard!')
 end, {})
-
 
 vim.api.nvim_create_user_command("Capath", function()
   local path = vim.fn.expand("%:p")
   vim.fn.setreg("+", path)
-  require('osc52').copy(path)
   vim.notify('Copied absolute path "' .. path .. '" to the clipboard!')
 end, {})
 
 vim.api.nvim_create_user_command("Gpath", function()
-  -- Get absolute file path
   local file = vim.fn.expand("%:p")
-
-  -- Get Git root
   local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
   if vim.v.shell_error ~= 0 or git_root == nil or git_root == "" then
-    -- Not in a Git repo, copy absolute path instead
     vim.fn.setreg("+", file)
-    require('osc52').copy(file)
     vim.notify('Copied full path (not in Git repo): "' .. file .. '"')
     return
   end
 
-  -- Make path relative to Git root
   local relative_path = file:gsub("^" .. vim.pesc(git_root .. "/"), "")
-
-  -- Copy to clipboard
   vim.fn.setreg("+", relative_path)
-  require('osc52').copy(relative_path)
   vim.notify('Copied Git-relative path "' .. relative_path .. '" to the clipboard!')
 end, {})

@@ -117,6 +117,9 @@ require("dracula").setup({
       markdownOrderedListMarker = { fg = colors.red, },
       markdownRule = { fg = colors.comment, },
 
+      SnacksInputNormal = { fg = colors.fg, bg = colors.menu },
+      SnacksInputBorder = { fg = colors.orange_yellow, bg = colors.menu },
+      SnacksInputTitle = { fg = colors.orange_yellow, bg = colors.menu },
 
     }
   end

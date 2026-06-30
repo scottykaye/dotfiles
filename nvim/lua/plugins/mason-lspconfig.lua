@@ -7,6 +7,5 @@ require("mason-lspconfig").setup({
     "tailwindcss",
     "emmet_ls",
     "grammarly",
-    "jdtls",
   },
 })

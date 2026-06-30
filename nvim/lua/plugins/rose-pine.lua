@@ -70,13 +70,6 @@ require("rose-pine").setup({
     TelescopeSelectionCaret = { fg = "rose", bg = "rose" },
     -- Added
     CursorLineNr = { fg = "base", bg = "iris" },
-
-    -- Rainbow delimiters
-    -- RainbowBracket1 = { fg = "#fed62f" },
-    -- RainbowBracket2 = { fg = "#eb6f92" },
-    -- RainbowBracket3 = { fg = "#c4a7e7" },
-    -- RainbowBracket4 = { fg = "#3e8fb0" },
-
   },
   --	highlight_groups = {
   --		TelescopeBorder = { fg = "overlay", bg = "overlay" },
@@ -94,7 +87,7 @@ require("rose-pine").setup({
   --	},
 })
 
--- vim.cmd([[colorscheme rose-pine]])
+-- Colorscheme is now loaded by lua/colorscheme.lua for persistence
 
 local highlights = require("rose-pine.plugins.bufferline")
 require("bufferline").setup({
