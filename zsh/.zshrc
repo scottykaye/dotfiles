@@ -216,6 +216,12 @@ alias gchr="open -a Google\ Chrome"
 alias arc="open -a 'Arc'"
 alias codeDir="cd ~/code"
 
+blameurl() {
+  local file="$1"
+  local line="$2"
+  local hash=$(git blame -L "$line,$line" "$file" | awk '{print $1}')
+  gh browse "$hash"
+}
 
 blameurl() {
   local file="$1"

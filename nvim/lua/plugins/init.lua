@@ -1484,7 +1484,6 @@ return {
   --   allows me to do make it rain so unnecessary so cool
   { "eandrju/cellular-automaton.nvim", cmd = "CellularAutomaton" },
 
-
   -- markdown formatting
   {
     "iamcco/markdown-preview.nvim",
