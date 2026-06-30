@@ -1,3 +1,10 @@
+-- Disable unused language providers (silences :checkhealth provider warnings).
+-- Re-enable any of these if you start writing plugins in that language.
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_node_provider = 0
+
 -- vim.opt.guicursor = ""
 vim.opt.number = true
 -- vim.opt.relativenumber = true
@@ -43,6 +50,12 @@ vim.opt.cursorline = true
 --  vim.opt.guicursor = ""
 vim.o.hlsearch = true
 
+-- Auto-reload files changed externally (e.g. by pi)
+vim.o.autoread = true
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
+  command = "checktime",
+})
+
 
 
 -- vim.opt.colorcolumn = "80"
@@ -50,3 +63,4 @@ vim.o.hlsearch = true
 -- vim.api.nvim_command([[
 --  autocmd BufWritePre *.lua :lua require("my_module").strip_trailing_whitespace()
 -- ]])
+

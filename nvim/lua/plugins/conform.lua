@@ -308,7 +308,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     if not formatters then
       -- Skip formatting if no config found for these types:
       -- YAML: treehouse uses editorconfig, frontend repos have .prettierrc
-      -- JSON/JSONC: pineapple excludes JSON from biome and has no .prettierrc,
+      -- JSON/JSONC: the monorepo excludes JSON from biome and has no .prettierrc,
       --             so lsp_fallback would invoke biome LSP which ignores files.includes
       local filetype = vim.bo.filetype
       if filetype == "yaml" or filetype == "json" or filetype == "jsonc" then

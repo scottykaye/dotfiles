@@ -39,7 +39,9 @@ vim.lsp.config.ts_ls = {
         includeInlayEnumMemberValueHints = true,
       },
       preferences = {
-        importModuleSpecifier = "relative",
+        -- the monorepo rule: relative within the same package/tsconfig project,
+        -- :alias (absolute) for anything outside the current package.
+        importModuleSpecifier = "project-relative",
         importModuleSpecifierEnding = "auto",
       },
       suggest = {
@@ -60,6 +62,14 @@ vim.lsp.config.ts_ls = {
         includeInlayPropertyDeclarationTypeHints = true,
         includeInlayFunctionLikeReturnTypeHints = true,
         includeInlayEnumMemberValueHints = true,
+      },
+      preferences = {
+        -- Mirror the TS preference so .js/.jsx behave identically.
+        importModuleSpecifier = "project-relative",
+        importModuleSpecifierEnding = "auto",
+      },
+      suggest = {
+        completeFunctionCalls = true,
       },
     },
   },
@@ -130,6 +140,8 @@ vim.keymap.set("n", "<space>e", vim.diagnostic.open_float)
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
 vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist)
+vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP code actions" })
+
 
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -144,6 +156,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set("n", "K", function()
       vim.lsp.buf.hover()
     end, opts)
+    -- Go to definition / declaration
+    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
     -- vim.keymap.set("n", "<leader>gr", require("telescope.builtin").lsp_references, opts)
     vim.keymap.set("n", "<leader>vws", function()
       vim.lsp.buf.workspace_symbol()
@@ -184,5 +199,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
     -- vim.keymap.set('n', '<space>f', function()
     --   vim.lsp.buf.format { async = true }
     -- end, opts)
+
+    -- Imports are added on first use via completion: when you accept an
+    -- auto-importable symbol from the cmp menu (<CR>), ts_ls inserts the
+    -- import for the exact symbol you picked (additionalTextEdits). For
+    -- anything already typed without completion, use <leader>vca to pick the
+    -- import via a code action. We intentionally do NOT bulk-add imports on
+    -- save, since that guesses at every missing identifier.
   end,
 })

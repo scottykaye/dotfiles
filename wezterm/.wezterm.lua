@@ -4,7 +4,7 @@ local act = wezterm.action
 
 -- config.font = wezterm.font("DroidSansMono Nerd Font")
 config.font = wezterm.font("DroidSansMono Nerd Font")
-config.font_size = 14
+config.font_size = 13
 
 local scottykayeTheme = {
   foreground = "#ebe4f2",

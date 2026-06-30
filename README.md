@@ -72,7 +72,7 @@ ln -s ~/<PATH_TO_DOTFILES>/dotfiles/zsh/.zprofile  ~/.zprofile
 ln -s ~/<PATH_TO_DOTFILES>/dotfiles/zsh/.oh-my-zsh ~/
 ```
 
-3. Symlink the `nvim/` folder at `.config/nvim/` and `.config/ghostty`
+3. Symlink the `nvim/` folder at `.config/nvim/` and  `.config/ghostty`
 
 > [!TIP]
 > It's possible if you're on a new machine you don't yet have a hidden `~/.config` folder path and you'll need to create it to store the `~/.config/nvim` folder
@@ -85,11 +85,51 @@ ln -s ~/<PATH_TO_DOTFILES>/dotfiles/zsh/ghostty ~/.config
 > [!NOTE]
 > Once you've created all these 4 paths, you'll need to either source all these folders and files (.zshrc, .zprofile, .oh-my-zsh, .config/nvim) or just shut the terminal and reopen!
 
-4. Symlink the `skills/` folder to `~/.claude/skills`
+## Ghostty terminfo (fixes "terminal is not fully functional")
+
+If you use [Ghostty](https://ghostty.org) and see this when running `git diff`, `man`, or
+anything that opens a pager:
+
+```
+WARNING: terminal is not fully functional
+Press RETURN to continue
+```
+
+…it means this machine doesn't have the `xterm-ghostty` terminfo entry installed. Ghostty
+sets `TERM=xterm-ghostty`, but programs like `less` can't find a matching terminfo database,
+so they fall back to dumb mode.
+
+> [!IMPORTANT]
+> Terminfo is a **compiled, machine-local database** — it does **not** travel with a file
+> copy or a `git clone`. Every new machine needs the one-time `tic` step below. This is also
+> why `~/.ghostty.terminfo` is a real copied file (consumed once by `tic`), not a symlink like
+> the other dotfiles.
+
+### Fix (run once per machine)
 
 ```sh
-ln -s ~/<PATH_TO_DOTFILES>/dotfiles/skills ~/.claude/skills
+# 1. Put the terminfo source in your home dir (symlink or copy — both work)
+ln -sf ~/<PATH_TO_DOTFILES>/dotfiles/.ghostty.terminfo ~/.ghostty.terminfo
+
+# 2. Compile/install it into the terminfo database (this is the step that actually matters)
+tic -x ~/.ghostty.terminfo
+
+# 3. Reload your shell
+exec zsh
 ```
+
+Verify it worked:
+
+```sh
+infocmp xterm-ghostty >/dev/null 2>&1 && echo "installed ✅" || echo "still missing ❌"
+```
+
+### Alternatives
+
+- **No terminfo file handy?** Set a universally-known `TERM` on that machine instead:
+  `echo 'export TERM=xterm-256color' >> ~/.zshrc` (loses a few Ghostty-specific niceties).
+- **Over SSH?** Add `shell-integration-features = ssh-terminfo` to `ghostty/config` so Ghostty
+  auto-installs its terminfo on remote hosts you connect to.
 
 5. Open vim and Lazy should auto install! If not run lazy
 
@@ -98,6 +138,43 @@ ln -s ~/<PATH_TO_DOTFILES>/dotfiles/skills ~/.claude/skills
 ```
 
 The `plugin` folder should now compile in `~/<PATH_TO_DOTFILES>/dotfiles/nvim/plugin` and you should now see Neovim as expected.
+
+## Headline ZSH Theme
+
+The [headline](https://github.com/Moarram/headline) theme is vendored directly into this repo at `zsh/.oh-my-zsh/custom/themes/headline/` — no submodule, no extra clone step on new machines.
+
+### Setup
+
+The theme files are already committed in this repo. You just need the symlink so oh-my-zsh can discover it as `ZSH_THEME="headline"`:
+
+```sh
+ln -s ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/headline/headline.zsh-theme ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/headline.zsh-theme
+```
+
+> [!NOTE]
+> If you used the symlink in step 2 (`ln -s ~/<PATH_TO_DOTFILES>/dotfiles/zsh/.oh-my-zsh ~/`) this symlink is already included and no extra step is needed.
+
+### How it works
+
+1. The full theme source is committed as regular files (the `.git` directory from the clone is removed)
+2. The symlink above makes oh-my-zsh find it as `ZSH_THEME="headline"`:
+   ```
+   zsh/.oh-my-zsh/custom/themes/headline.zsh-theme -> headline/headline.zsh-theme
+   ```
+3. Customizations (like the git status caching/throttling) live in `.zshrc`, not in the theme file itself
+
+### How to update headline
+
+To pull in a newer version from upstream:
+
+```sh
+git clone --depth 1 https://github.com/Moarram/headline.git /tmp/headline
+rm -rf /tmp/headline/.git
+rm -rf zsh/.oh-my-zsh/custom/themes/headline
+mv /tmp/headline zsh/.oh-my-zsh/custom/themes/headline
+git add zsh/.oh-my-zsh/custom/themes/headline
+git commit -m "update headline theme"
+```
 
 ## Add font support
 

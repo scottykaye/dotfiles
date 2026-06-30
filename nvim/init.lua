@@ -1,3 +1,8 @@
+-- Enable Neovim's built-in Lua module/bytecode cache (faster require()). Safe, no visual impact.
+if vim.loader and vim.loader.enable then
+  vim.loader.enable()
+end
+
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
@@ -23,4 +28,6 @@ require("set")
 
 
 require("lazy").setup("plugins.init")
+
+-- Load saved colorscheme (or fallback to rose-pine)
 require("colorscheme").load()

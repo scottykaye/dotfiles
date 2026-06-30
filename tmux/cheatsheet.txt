@@ -1,0 +1,33 @@
+ tmux cheat sheet   (prefix = Ctrl-a — press it, release, then the key)
+
+ ── WINDOWS (tabs) ─────────────────────────────────────────
+   prefix c        new tab (plain shell)
+   prefix P        new "pi" tab (auto-runs pi)
+   prefix n / p    next / previous tab
+   Alt+1..5        jump to tab 1–5
+   Shift+←/→       previous / next tab
+   prefix ,        rename current tab
+   prefix &        close current tab
+
+ ── PANES (splits within a tab) ────────────────────────────
+   prefix |        split left/right
+   prefix -        split top/bottom
+   Alt+arrows      move between panes
+   prefix h/j/k/l  move between panes (vim style)
+   prefix H/J/K/L  resize pane
+   prefix z        zoom pane (toggle fullscreen)
+   prefix x        close pane
+
+ ── SESSIONS (workspaces) ──────────────────────────────────
+   prefix d        detach (everything keeps running)
+   tmux ls / tls   list sessions          (run in a shell)
+   ta <name>       reattach to a session  (run in a shell)
+   agents [name]   launch/attach a session
+
+ ── MISC ───────────────────────────────────────────────────
+   prefix [        scroll / copy mode  (q to exit)
+   prefix r        reload config
+   prefix ?        show THIS cheat sheet
+   mouse           click tabs/panes, scroll, drag to resize
+
+   Close this popup:  press  q  or  Esc

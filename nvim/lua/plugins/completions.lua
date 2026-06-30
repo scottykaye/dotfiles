@@ -15,8 +15,8 @@ cmp.setup({
     documentation = cmp.config.window.bordered(),
   },
   mapping = cmp.mapping.preset.insert({
-    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-d>'] = cmp.mapping.scroll_docs(4),
     ['<C-o>'] = cmp.mapping.complete(),
     ['<C-i>'] = cmp.mapping.abort(),
     ['<CR>'] = cmp.mapping.confirm({ select = true }),
@@ -54,9 +54,12 @@ cmp.setup({
 
     if cmp.visible() then
       cmp.select_next_item(select_opts)
-    elseif col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+    elseif col == 0 then
+      -- Start of line: let Tab do normal indentation.
       fallback()
     else
+      -- Anywhere else (including right after a space, e.g. inside
+      -- `import { | }`), open/trigger the completion menu.
       cmp.complete()
     end
   end, { 'i', 's' }),

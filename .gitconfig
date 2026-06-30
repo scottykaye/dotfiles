@@ -1,0 +1,90 @@
+[user]
+ name = Scott Kaye
+  email = REPLACE_WITH_YOUR_PUBLIC_EMAIL
+[color]
+  ui = true
+[hub]
+	user = scott_kaye
+[color "branch"]
+  current = white reverse
+  local = cyan
+  remote = green
+[color "diff"]
+  meta = yellow
+  frag = magenta
+  old = red
+  new = green
+[color "status"]
+  added = yellow
+  changed = green
+  untracked = cyan
+[pull]
+  rebase = false
+[push]
+  default = current
+[fetch]
+  prune = true
+[core]
+  whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
+  autocrlf = false
+  excludesfile = /Users/scottkaye/.gitignore_global
+  symlinks = true
+	fsmonitor = true
+[apply]
+  whitespace = nowarn
+[log]
+  date = short
+  decorate = short
+[alias]
+  rbMain = "!MERGE_BASE=$(git merge-base origin/main HEAD); git diff -M --full-index $MERGE_BASE HEAD"
+  cssMain = "!MERGE_BASE=$(git merge-base origin/main HEAD); git diff -M --full-index $MERGE_BASE HEAD -- *.scss *.css"
+  statMain = "!MERGE_BASE=$(git merge-base origin/main HEAD); git diff -M --full-index $MERGE_BASE HEAD --stat"
+  css = "!MERGE_BASE=$(git merge-base origin/master HEAD); git diff -M --full-index $MERGE_BASE HEAD -- *.scss *.css"
+  stat = "!MERGE_BASE=$(git merge-base origin/master HEAD); git diff -M --full-index $MERGE_BASE HEAD --stat"
+  rb = "!MERGE_BASE=$(git merge-base origin/master HEAD); git diff -M --full-index $MERGE_BASE HEAD"
+  detrain = ! git branch --list | grep deploy_ | xargs -r git branch –d
+  st = status -sb
+  ci = commit
+  co = checkout
+  graph = log --graph --oneline --decorate=short --branches='*'
+  br = branch
+  df = diff --color-words='[^[:space:]]'
+  sh = show --color-words='[^[:space:]]'
+  lg = log -p
+  # Do this for now until you fix your .zshrc issues
+  mergeCodeDiff = !git fetch && git merge origin/main && printf '\n----DIFFSTATS----\n' && git diff --stat origin/main && codediff origin/main
+  mergeDiff = !git fetch && git merge origin/main && printf '\n----DIFFSTATS----\n' && git diff --stat origin/main && tempDiff origin/main
+  mergeDiffMaster = !git fetch && git merge origin/master && printf '\n----DIFFSTATS----\n' && git diff --stat origin/master && tempDiff origin/master
+  merge = !git fetch && git merge origin/main
+  mergeMaster = !git fetch && git merge origin/master
+  bd = !git diff main...$(git symbolic-ref --short HEAD)
+  bda = !git diff master...$(git symbolic-ref --short HEAD)
+  diff = !git diff
+  staged = !git diff --staged
+  gb = !git branch
+  gbd = !git branch -D
+  gs = !git status
+  gsp = !git status --porcelain
+  gst = !git stash
+  gstat = !git diff --stat main...HEAD
+  gstatma = !git diff --stat master...HEAD
+  gnstat = !git diff --name-status main...HEAD
+  gnstatma = !git diff --name-status master...HEAD
+  gpu = !git push
+  gp = !git pull
+  gc = !git commit
+  gco = !git checkout
+  gcom = !git checkout main
+  gcoma = !git checkout master
+  gcooma = !git checkout origin/master
+  mwmb = !git commit -am 'merge with main branch'
+  gpo = !git push origin
+  gpom = !git pull origin/main
+  gl = !git log --oneline
+  tags = !git tag --list
+[http]
+	postBuffer = 524288000
+[feature]
+	manyFiles = true
+[checkout]
+	workers = 4

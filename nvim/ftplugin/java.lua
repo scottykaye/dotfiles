@@ -96,23 +96,15 @@ local config = {
     local opts = { buffer = bufnr }
 
     -- Java-specific keybindings (<leader>j prefix)
-    vim.keymap.set("n", "<leader>jo", jdtls.organize_imports,
-      vim.tbl_extend("force", opts, { desc = "Organize Imports" }))
-    vim.keymap.set("n", "<leader>jv", jdtls.extract_variable,
-      vim.tbl_extend("force", opts, { desc = "Extract Variable" }))
-    vim.keymap.set("v", "<leader>jv", function() jdtls.extract_variable(true) end,
-      vim.tbl_extend("force", opts, { desc = "Extract Variable" }))
-    vim.keymap.set("n", "<leader>jc", jdtls.extract_constant,
-      vim.tbl_extend("force", opts, { desc = "Extract Constant" }))
-    vim.keymap.set("v", "<leader>jc", function() jdtls.extract_constant(true) end,
-      vim.tbl_extend("force", opts, { desc = "Extract Constant" }))
-    vim.keymap.set("v", "<leader>jm", function() jdtls.extract_method(true) end,
-      vim.tbl_extend("force", opts, { desc = "Extract Method" }))
-    vim.keymap.set("n", "<leader>jt", jdtls.test_nearest_method,
-      vim.tbl_extend("force", opts, { desc = "Test Nearest Method" }))
+    vim.keymap.set("n", "<leader>jo", jdtls.organize_imports, vim.tbl_extend("force", opts, { desc = "Organize Imports" }))
+    vim.keymap.set("n", "<leader>jv", jdtls.extract_variable, vim.tbl_extend("force", opts, { desc = "Extract Variable" }))
+    vim.keymap.set("v", "<leader>jv", function() jdtls.extract_variable(true) end, vim.tbl_extend("force", opts, { desc = "Extract Variable" }))
+    vim.keymap.set("n", "<leader>jc", jdtls.extract_constant, vim.tbl_extend("force", opts, { desc = "Extract Constant" }))
+    vim.keymap.set("v", "<leader>jc", function() jdtls.extract_constant(true) end, vim.tbl_extend("force", opts, { desc = "Extract Constant" }))
+    vim.keymap.set("v", "<leader>jm", function() jdtls.extract_method(true) end, vim.tbl_extend("force", opts, { desc = "Extract Method" }))
+    vim.keymap.set("n", "<leader>jt", jdtls.test_nearest_method, vim.tbl_extend("force", opts, { desc = "Test Nearest Method" }))
     vim.keymap.set("n", "<leader>jT", jdtls.test_class, vim.tbl_extend("force", opts, { desc = "Test Class" }))
-    vim.keymap.set("n", "<leader>ju", "<cmd>JdtUpdateConfig<cr>",
-      vim.tbl_extend("force", opts, { desc = "Update Project Config" }))
+    vim.keymap.set("n", "<leader>ju", "<cmd>JdtUpdateConfig<cr>", vim.tbl_extend("force", opts, { desc = "Update Project Config" }))
   end,
 }
 

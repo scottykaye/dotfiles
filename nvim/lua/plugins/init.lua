@@ -1,3 +1,5 @@
+local apiKey = os.getenv("DEV_AI_API_KEY")
+
 return {
 
   -- Folke Plugins
@@ -7,7 +9,10 @@ return {
     lazy = false,
     ---@type snacks.Config
     opts = {
-      bigfile = { enabled = true },
+      bigfile = {
+        enabled = true,
+        line_length = 100000, -- only treat truly enormous lines as minified
+      },
       dashboard = {
         enabled = true,
         sections = {
@@ -41,13 +46,22 @@ return {
       },
       indent = {
         enabled = true,
-
         priority = 1,
-        char = "│",
-        only_scope = false,   -- only show indent guides of the scope
-        only_current = false, -- only show indent guides in the current window
 
-
+        -- guide settings live under an inner `indent` table
+        -- (sibling to `scope`/`chunk`), per snacks defaults
+        indent = {
+          char = "│",
+          only_scope = false,   -- only show indent guides of the scope
+          only_current = false, -- only show indent guides in the current window
+          -- Cycle through my Rose Pine rainbow colors per indent level
+          hl = {
+            "RainbowDelimiterRed",
+            "RainbowDelimiterYellow",
+            "RainbowDelimiterBlue",
+            "RainbowDelimiterViolet",
+          },
+        },
       },
       input = { enabled = true },
       notifier = {
@@ -61,8 +75,36 @@ return {
 
       picker = {
         enabled = true,
-        debug = { scores = false, leaks = false, explorer = true, files = true },
+        win = {
+          input = {
+            border = "rounded",
+          },
+          list = {
+            border = "rounded",
+          },
+          preview = {
+            border = "rounded",
+          },
+        },
+        -- debug = { scores = false, leaks = false, explorer = false, files = false },
+        -- win = {
+        --   input = {
+        --     keys = {
+        --       -- Disable live preview updates to reduce flicker
+        --       ["<C-p>"] = false,
+        --     },
+        --   },
+        -- },
+        -- -- Reduce visual "pop" by making sorting more stable
+        -- matcher = {
+        --   -- Use fuzzy matching but with more stable scoring
+        --   frecency = true,
+        -- },
+        -- -- Debounce to reduce re-renders during typing
+        -- throttle = 20,
+
         sources = {
+
           files_with_symbols = {
             multi = { "files", "lsp_symbols" },
             filter = {
@@ -92,7 +134,7 @@ return {
             focus = "input",
             auto_close = true,
             hidden = true,
-
+            -- Directory-only search toggle (Alt+d)
             toggles = {
               search_dir = "D",
             },
@@ -114,7 +156,6 @@ return {
                 },
               },
             },
-
             layout = {
               cycle = true,
               preset = function()
@@ -194,8 +235,6 @@ return {
       { "gy",         function() Snacks.picker.lsp_type_definitions() end,                    desc = "Goto T[y]pe Definition" },
       { "<leader>ss", function() Snacks.picker.lsp_symbols() end,                             desc = "LSP Symbols" },
       { "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end,                   desc = "LSP Workspace Symbols" },
-
-
       -- TS shortcuts
       {
         "<leader>e",
@@ -854,7 +893,6 @@ return {
           })
         end,
       }
-
     },
     init = function()
       vim.api.nvim_create_autocmd("User", {
@@ -915,7 +953,7 @@ return {
     keys = {
       {
         "s",
-        mode = { "n", "x", "o" },
+        mode = { "n", "x" },
         function()
           require("flash").jump()
         end,
@@ -923,7 +961,7 @@ return {
       },
       {
         "S",
-        mode = { "n", "x", "o" },
+        mode = { "n", "x" },
         function()
           require("flash").treesitter()
         end,
@@ -1148,7 +1186,6 @@ return {
   },
   {
     "nyoom-engineering/oxocarbon.nvim",
-
     config = function()
       local function apply_oxocarbon_overrides()
         if vim.g.colors_name ~= "oxocarbon" then return end
@@ -1170,7 +1207,7 @@ return {
         vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
         vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
         vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
-        vim.api.nvim_set_hl(0, "FloatBorder", { fg = c.gray3, bg = "none" })
+        vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none", fg = "#0c0a0d" })
 
 
 
@@ -1182,6 +1219,12 @@ return {
         vim.api.nvim_set_hl(0, "@type.tsx", { fg = yellow })
         vim.api.nvim_set_hl(0, "@type.typescript", { fg = yellow })
         vim.api.nvim_set_hl(0, "@type.typescriptreact", { fg = yellow })
+
+        -- Rose Pine rainbow colors for snacks indent guides (cycled per level)
+        vim.api.nvim_set_hl(0, "RainbowDelimiterRed", { fg = "#eb6f92" })
+        vim.api.nvim_set_hl(0, "RainbowDelimiterYellow", { fg = "#fed62f" })
+        vim.api.nvim_set_hl(0, "RainbowDelimiterBlue", { fg = "#3e8fb0" })
+        vim.api.nvim_set_hl(0, "RainbowDelimiterViolet", { fg = "#c4a7e7" })
 
         -- Picker highlights - make selection more distinct from paths
         vim.api.nvim_set_hl(0, "SnacksPickerDir", { fg = "#be95ff" }) -- purple, visible on dark bg
@@ -1246,9 +1289,7 @@ return {
       vim.opt.background = "dark"
       -- vim.cmd("colorscheme oxocarbon") -- let colorscheme.lua handle it
     end,
-
   },
-
   { "nvim-tree/nvim-web-devicons", opt = true },
   {
     "akinsho/bufferline.nvim",
@@ -1265,6 +1306,7 @@ return {
 
   {
     "HiPhish/rainbow-delimiters.nvim",
+    event = { "BufReadPost", "BufNewFile" },
     config = function()
       require("plugins.rainbow-delimiters")
     end,
@@ -1303,6 +1345,7 @@ return {
   },
   {
     "NeogitOrg/neogit",
+    cmd = "Neogit",
     dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim", "nvim-telescope/telescope.nvim" },
     config = function()
       require("plugins.neogit")
@@ -1313,18 +1356,21 @@ return {
   -- LSP and completion
   {
     "williamboman/mason.nvim",
+    cmd = { "Mason", "MasonInstall", "MasonUpdate", "MasonUninstall", "MasonLog" },
     config = function()
       require("plugins.mason")
     end,
   },
   {
     "williamboman/mason-lspconfig.nvim",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       require("plugins.mason-lspconfig")
     end,
   },
   {
     "neovim/nvim-lspconfig",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       require("plugins.lsp")
     end,
@@ -1334,6 +1380,7 @@ return {
   { "onsails/lspkind-nvim",        lazy = true },
   {
     "L3MON4D3/LuaSnip",
+    event = "InsertEnter",
     dependencies = { "saadparwaiz1/cmp_luasnip", "rafamadriz/friendly-snippets" },
     config = function()
       require("plugins.completions")
@@ -1341,11 +1388,15 @@ return {
   },
   {
     "ankushbhagats/match.nvim",
+    keys = {
+      { "<leader>ma", desc = "Match: Search and Replace" },
+      { "<leader>mw", desc = "Match: Word under cursor" },
+      { "<leader>ml", desc = "Match: Current line" },
+    },
     config = function()
       require("plugins.match")
     end,
   },
-
 
   -- Java LSP extensions (organize imports, extract variable/method, test runner, debug)
   {
@@ -1401,7 +1452,6 @@ return {
     end,
   },
 
-
   -- Utilities
   {
     "mbbill/undotree",
@@ -1430,6 +1480,7 @@ return {
     end,
   },
 
+  --
   --   allows me to do make it rain so unnecessary so cool
   { "eandrju/cellular-automaton.nvim", cmd = "CellularAutomaton" },
 
@@ -1445,8 +1496,7 @@ return {
   },
   {
     "davidmh/mdx.nvim",
-    { "iamcco/markdown-preview.nvim", ft = "markdown" },
-
+    ft = "mdx",
     dependencies = { "nvim-treesitter/nvim-treesitter" }
   },
 
@@ -1473,16 +1523,15 @@ return {
   },
   --
 
-  --
   ---- -- Experimental
-  {
-    "monkoose/neocodeium",
-    event = "VeryLazy",
-    config = function()
-      require("plugins.neocodeium")
-    end,
-  },
-
+  -- Can't use this here
+  -- {
+  --   "monkoose/neocodeium",
+  --   event = "VeryLazy",
+  --   config = function()
+  --     require("plugins.neocodeium")
+  --   end,
+  -- },
   {
     "norcalli/nvim-colorizer.lua",
     config = function()
@@ -1492,29 +1541,41 @@ return {
   {
     "yetone/avante.nvim",
     event = "VeryLazy",
-    lazy = false,
     version = false, -- set this if you want to always pull the latest change
     opts = {
+      provider = "openai",
       providers = {
-        claude = {
-          endpoint = "https://api.anthropic.com",
-          model = "claude-sonnet-4-20250514",
-          extra_request_body = {
-            max_tokens = 8096,
-          },
-        },
-        -- Enable extended thinking (ultrathink)
-        mode = "agentic", -- agentic mode uses extended thinking when available
-        behaviour = {
-          enable_claude_text_editor_tool_mode = true,
+        ["openai"] = {
+          __inherited_from = "openai",
+          endpoint = "https://api.openai.com/v1",
+          api_key_name = 'DEV_AI_API_KEY',
+          model = "best_coding",
         },
       },
     },
+    windows = {
+      input = {
+        border = "rounded",
+        width = 100,
+        height = 20,
+      },
+      output = {
+        border = "rounded",
+        width = 100,
+        height = 20,
+      },
+      ask = {
+        floating = true,
+        border = "rounded",
+        start_insert = true,
+      },
+    },
+
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
     build = "make",
     -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
     dependencies = {
-      "stevearc/dressing.nvim",
+      { "stevearc/dressing.nvim", opts = { input = { enabled = false } } },
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
       --- The below dependencies are optional,
@@ -1543,10 +1604,63 @@ return {
         "MeanderingProgrammer/render-markdown.nvim",
         opts = {
           file_types = { "markdown", "Avante" },
+          latex = { enabled = false }, -- not used; silences latex/utftex healthcheck warnings
         },
         ft = { "markdown", "Avante" },
       },
     },
+  },
+  {
+    "olimorris/codecompanion.nvim",
+    version = "v17.33.0", -- pin to avoid breaking changes, see PR #2439
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "ravitemer/mcphub.nvim", -- this needs to be a dependency so MCP support is loaded first
+    },
+    opts = function()
+      ---@class PluginLspOpts
+      local ret = {
+        adapters = {
+          http = {
+            airbnb = function()
+              return require("codecompanion.adapters").extend("openai_compatible", {
+                env = {
+                  url = "https://api.openai.com/v1",
+                  api_key = apiKey,
+                },
+                schema = {
+                  model = {
+                    default = "best_coding",
+                  },
+                },
+              })
+            end,
+          },
+        },
+        strategies = {
+          chat = {
+            adapter = "airbnb",
+            tools = {
+              ["mcp"] = {
+                -- calling it in a function would prevent mcphub from being loaded before it's needed
+                callback = function()
+                  return require("mcphub.extensions.codecompanion")
+                end,
+                description = "Call tools and resources from the MCP Servers",
+                opts = {
+                  requires_approval = true,
+                },
+              },
+            },
+          },
+          inline = {
+            adapter = "airbnb",
+          },
+        },
+      }
+      return ret
+    end,
   },
   {
     "zbirenbaum/copilot.lua",
@@ -1563,8 +1677,8 @@ return {
             accept = "<C-f>",
             accept_word = "<C-Right>",
             accept_line = "<C-Down>",
-            next = "<M-]>",
-            prev = "<M-[>",
+            next = "<M-n>",
+            prev = "<M-p>",
             dismiss = "<C-]>",
           },
         },
@@ -1584,99 +1698,11 @@ return {
       })
     end,
   },
+  -- Neovim Pi
   {
     "pablopunk/pi.nvim",
     config = function()
       require("plugins.pi")
-    end,
-  }
-
-
-  --   {
-  --   "Mofiqul/dracula.nvim",
-  --   config = function()
-  --     require("plugins.dracula")
-  --   end,
-  -- },
-
-  --   {
-  --     "ggandor/leap.nvim",
-  --     config = function()
-  --       require("plugins.leap")
-  --     end,
-  --   },
-
-
-  --   {
-  --     "tpope/vim-fugitive",
-  --     config = function()
-  --       require("plugins.fugitive")
-  --     end,
-  --   },
-  --
-
-  --   "laytan/cloak.nvim",
-  --   {
-  --     "dnlhc/glance.nvim",
-  --     config = function()
-  --       require("plugins.glance")
-  --     end,
-  --   },
-
-  --
-  --   -- Telescope and dependencies
-  --   {
-  --     "nvim-telescope/telescope.nvim",
-  --     dependencies = { "nvim-lua/plenary.nvim" },
-  --     tag = "0.1.4",
-  --     config = function()
-  --       require("plugins.telescope")
-  --     end,
-  --   },
-  --   "nvim-telescope/telescope-fzy-native.nvim",
-  --   {
-  --     "nvim-telescope/telescope-file-browser.nvim",
-  --     config = function()
-  --       require("plugins.telescope-file-browser")
-  --     end,
-  --   },
-
-
-
-  --   {
-  --     "lukas-reineke/indent-blankline.nvim",
-  --     main = "ibl",
-  --     opts = {},
-  --     config = function()
-  --       local highlight = {
-  --         "RainbowRed",
-  --         "RainbowYellow",
-  --         "RainbowBlue",
-  --         "RainbowOrange",
-  --         "RainbowGreen",
-  --         "RainbowViolet",
-  --         "RainbowCyan",
-  --       }
-  --       local hooks = require "ibl.hooks"
-  --       -- create the highlight groups in the highlight setup hook, so they are reset
-  --       -- every time the colorscheme changes
-  --       hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
-  --         vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
-  --         vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
-  --         vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
-  --         vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
-  --         vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
-  --         vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
-  --         vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
-  --       end)
-  --
-  --       vim.g.rainbow_delimiters = { highlight = highlight }
-  --       require("ibl").setup { scope = { highlight = highlight } }
-  --
-  --       hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
-  --     end,
-  --   },
-
-
-
+    end
+  },
 }
