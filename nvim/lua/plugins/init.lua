@@ -9,7 +9,10 @@ return {
     lazy = false,
     ---@type snacks.Config
     opts = {
-      bigfile = { enabled = true },
+      bigfile = {
+        enabled = true,
+        line_length = 100000, -- only treat truly enormous lines as minified
+      },
       dashboard = {
         enabled = true,
         sections = {
